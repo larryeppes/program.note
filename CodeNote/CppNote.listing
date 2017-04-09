@@ -1,0 +1,2 @@
+ gcc -g -o helloworld helloworld.c // 编译并连接程序, 使之包含可被调试信息
+ gdb helloworld // 使用GDB调试器打开 helloworld 可执行文件

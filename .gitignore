@@ -1,0 +1,7 @@
+CV/
+tmp/
+.pygtex
+.pygstyle
+.out
+.log
+.gz

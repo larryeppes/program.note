@@ -1,0 +1,1 @@
+sudo dnf install graphviz-guile graphviz-lua graphviz-ocaml graphviz-perl graphviz-php graphviz-python graphviz-ruby graphviz-tcl

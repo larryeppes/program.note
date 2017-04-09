@@ -1,0 +1,40 @@
+\chapter{C++}
+\section{使用CodeViz生成C/C++函数调用关系图}
+首先安装 graphviz: 
+\cmd*{sudo dnf install graphviz graphviz-devel graphviz-doc}
+
+\begin{shell}
+ graphviz : rich set of graph drawing tools
+ graphviz-devel : transitional package for graphviz-devel rename
+ graphviz-doc : additional documentation for graphviz
+\end{shell}
+然后安装相关库
+\begin{shell}
+sudo dnf install graphviz-guile graphviz-lua graphviz-ocaml graphviz-perl graphviz-php graphviz-python graphviz-ruby graphviz-tcl
+\end{shell}
+最后安装CodeViz: \cmd*{sudo dnf install codeviz}. 下载git项目: \cmd*{git clone https://github.com/petersenna/codeviz.git}, 
+然后编译
+\begin{shell}
+ ./configure
+ make
+ sudo make install
+\end{shell}
+
+
+\newpage
+\section{C++画图}
+Linux下编译
+\inputcode[C]{code/plot0001.c}
+报错\cmd{undefined reference to `sqrt'}, 
+编译时添加参数\cmd*{gcc -lm src.cpp -o obj}.
+
+\newpage
+\section{cuckoo}
+Cuckoo算法
+\inputcode[C]{code/cuckoo/nvromTest.c}
+\inputcode[C]{code/cuckoo/cuckooFilter.h}
+\inputcode[C]{code/cuckoo/cuckooFilter.c}
+\inputcode[C]{code/cuckoo/mozilla-sha1/sha1.h}
+\inputcode[C]{code/cuckoo/mozilla-sha1/sha1.c}
+
+\newpage

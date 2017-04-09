@@ -1,0 +1,214 @@
+\chapter{Linux基础命令}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+在终端用管理员权限添加用户的命令\cmd*{sudo adduser [username]}, 
+创建用户名之后用命令\cmd*{sudo passwd [username]}来分配用户密码.
+
+\section{Linux C}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{linux GCC/G++编译器与调试器}
+GCC是GNU的一个子项目, 最初作为C语言的编译器. 现在GCC能编译C, 
+C++, Ada, Object C和Java等语言, 同时还可执行跨硬件平台的交叉编译.
+
+安装GCC和G++的命令如下:
+\begin{shell}
+ yum install make gcc gcc-c++
+\end{shell}
+
+GCC/G++编译选项
+\begin{table}[H]
+\small % fontsize
+\sffamily % font family = sans serif
+\centering % alignment of tabular
+\renewcommand{\arraystretch}{1.4} % larger cell height
+\caption{常用GCC/G++编译选项}
+\begin{tabular}{*{2}{l|l}}
+ \hline
+ \bfseries 编译选项 & \bfseries 说明 \\
+ \hline
+ -c & 只进行预处理, 编译和汇编, 生成.o文件\\
+ \hline
+ -S & 只进行预处理和编译, 生成.s文件\\
+ \hline
+ -E & 只进行预处理, 产生预处理后的结果到标准输出\\
+ \hline
+ -C & 预处理时不删除注释信息, 常与-E同时使用\\
+ \hline
+ -o & 指定目标名称, 常与-c, -S同时使用, 默认是.out\\
+ \hline
+ -include file & 插入一个文件, 功能等同源代码中的\#include\\
+ \hline
+ -Dmacro[=defval] & 定义一个宏, 功能等同源代码中的\#define macro [defval]\\
+ \hline
+ -Umacro & 取消宏定义, 功能等同源代码中的\#undef macro\\
+ \hline
+ -Idir & 优先在选项后的目录中查找包含的头文件\\
+ \hline
+ -lname & 链接后缀为.so的动态链接库来编译程序\\
+ \hline
+ -Ldir & 指定编译搜索库的路径\\
+ \hline
+ -O[0-3] & 编译器优化, 数值越大优化级别越高, 0没有优化\\
+ \hline
+ -g & 编译器编译时加入编译信息\\
+ \hline
+ -pg & 编译器加入信息给gprof\\
+ \hline
+ -share & 使用动态库\\
+ \hline
+ -static & 禁止使用动态库\\
+ \hline
+\end{tabular}
+\end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{程序和进程}
+
+程序\index{程序}是指一组指示计算机或其他具有信息处理能力设备每一步动作的指令.
+进程\index{进程}是一个具有独立功能的程序关于某个数据集合的一次可以并发执行的运行活动, 
+是处于活动状态的程序. 
+在Linux系统中, 用户创建进程时会先在系统的进程表中为进程创建独一无二的编码,
+即PID\index{PID}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{GDB调试器}
+用\cmd*{sudo yum install gdb}安装GDB调试器.
+GDB调试器调试的对象是可执行文件, 使用GCC或G++编译器编译源代码时, 
+必须加上选项-g才能使目标可执行文件包含被调试的信息. 如
+\begin{shell}
+ gcc -g -o helloworld helloworld.c // 编译并连接程序, 使之包含可被调试信息
+ gdb helloworld // 使用GDB调试器打开 helloworld 可执行文件
+\end{shell}
+
+\begin{table}[H]
+ \small % fontsize
+\sffamily % font family = sans serif
+\centering % alignment of tabular
+\renewcommand{\arraystretch}{1.4} % larger cell height
+\caption{常用GDB命令及解释}
+\begin{tabular}{*{2}{l|l}}
+ \hline
+ \bfseries 命令 & \bfseries 解释\\ \hline
+ file [文件名] & 在GDB中打开执行文件\\ \hline
+ break & 设置断点, 支持的形式由break 行号, break 函数名, break 行号/函数名 if 条件\\ \hline
+ info & 查看和可执行文件相关的各种信息\\ \hline
+ kill & 终止正在调试的程序\\ \hline
+ print & 显示变量或表达式的值\\ \hline
+ set args & 设置调试程序的运行参数\\ \hline
+ delete & 删除设置的断点或观测点\\ \hline
+ clear & 删除设置在指定行号或函数上的断点\\ \hline
+ continue & 从断点处继续执行程序\\ \hline
+ list & 列出GDB中打开的可执行文件代码\\ \hline
+ watch & 在程序中设置观测点\\ \hline
+ run & 运行打开的可执行文件\\ \hline
+ next & 单步执行程序\\ \hline
+ step & 进入所调用的函数内部, 查看执行情况\\ \hline
+ whatis & 查看变量或函数类型, 调用格式为``whatis 变量名/函数名"\\ \hline
+ ptype & 显示数据结构定义情况\\ \hline
+ make & 编译程序\\ \hline
+ quit & 退出GDB\\ \hline
+\end{tabular}
+\end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Linux开发环境}
+\subsubsection{VIM}
+要使用C语言源代码语法高亮, 需要配置文件 /etc/vim/vimrc, 加入代码 syntax on.
+另外, 源代码文件的后缀名必须为 ``.c".
+
+\subsubsection{Emacs}
+\begin{shell}
+ emacs helloworld.c // 启动Emacs, 并新建了文件helloworld.c
+\end{shell}
+在 Emacs 中编辑 helloworld 程序代码, 按组合键 \cmd{Alt+X}, 然后键入 compile 后按 Enter,
+这时出现提示输入编译命令. 删除原有编译命令, 输入 \cmd{gcc -g -o helloworld helloworld.c}
+后按 Enter 键, 完成编译. 按组合键 \cmd{Alt+X}, 然后输入 shell 后按 Enter 键, 
+系统会弹出一个终端窗口, 在该窗口运行程序.
+
+\subsubsection{集成开发环境}
+集成开发环境\index{集成开发环境}是将一些开发工具集合到同一个操作界面的工具软件.
+最初 Eclipse 用于开发 Java 语言程序, 但加入 CDT 插件后就能进行 C 和 C++ 语言程序开发.
+Kdevelop 是一个支持多种程序设计语言的集成开发环境.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{C 语言编程基础}
+程序设计语言是用来描写计算机程序的逻辑语法结构. 高级语言的下一个发展目标是面向应用, 
+自动生成算法. C 语言通常称为中级语言, 具有直接访问计算机底层资源的能力. 
+
+从本质上来说, 数据类型是告诉编译器如何为数据分配内存, 内存的读取和写入方式却是相同的.
+
+C 语言的另一个重要特点是它仅有32个关键字.
+
+C 语言是结构化语言, 结构化语言所使用的设计方法为模块化设计方法, 每个子问题求解的步骤被定义为模块.
+
+C 语言是程序员的语言, Linux 内核和大多数硬件的驱动程序是使用 C 语言设计的.
+
+C 语言预处理命令以 ``\#" 开始.
+
+从技术上讲, 主函数不是 C 语言的一个成分, 但它仍被看作是其中的一部分, 因此, main 不能用作变量名.
+
+stdio.h 头文件存放的是输入输出相关的函数.
+
+函数的集合称之为函数库, 遵守 ANSI C 标准的编译器所提供函数组成的函数库称之为 ANSI C 标准函数库.
+
+编译器编译源代码时以函数为单位进行编译, 并记忆函数的名字.
+
+通用建模语言(UML)?
+
+C 语言程序中的变量在习惯上使用小写英文字母, 常量和其他用途的符号可用大写字母.
+C 语言对大小写字母是敏感的, 关键字必须小写.
+
+程序测试经常出现的问题有逻辑错误, 目标错误, 语法错误和编写错误.
+
+\begin{table}[H]
+\small % fontsize
+\sffamily % font family = sans serif
+\centering % alignment of tabular
+\renewcommand{\arraystretch}{1.4} % larger cell height
+\caption{C 语言关键字表}
+\begin{tabular}{*{2}{c|c|c|c|c|c|c|c}}
+ \hline
+ auto & break & case & char & const & continue & default & do\\ \hline
+ double & else & enum & extern & float & for & goto & if\\ \hline
+ int & long & register & short & signed & sizeof & static & return\\ \hline
+ struct & switch & typedef & union & unsigned & void & volatile & while\\ \hline
+\end{tabular}
+\end{table}
+
+计算机程序的定义, 程序等于数据结构加算法. 数据结构是将事物抽象成为可运算的数据形式输入到计算机中,
+算法是对这些数据计算的方法.
+
+汇编语言等非结构化程序使用 goto 命令, 该命令能够使程序以行为单位跳转到任何位置. 代码中大量的 goto
+命令使流程过于混乱, 源代码的维护难度极高.
+
+C 语言3种基本的程序结构: 顺序结构, 选择结构和循环结构.
+
+N-S 图描述算法, 适合于设计系统程序, 特别是分支间相互独立的程序.
+
+PAD 图(Problem Analysis Diagram)是国际上专业的程序员广泛使用的一种程序流程表示法.
+
+软件是程序与文档的总和. 程序设计只包含了程序设计和编码的反复迭代过程.
+
+\subsection{终止编译命令}
+
+\subsection{条件编译命令}
+
+\subsection{修改行号命令}
+
+\subsection{编译指示命令}
+
+\subsection{预定义的宏名}

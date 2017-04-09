@@ -1,0 +1,97 @@
+\chapter{BPNN}
+输入向量为$(x_1, x_2, \cdots, x_m)$, $m\to innode$为输入神经节点数. 
+训练数据为$X_1, X_2, \cdots, X_M$, 
+对于每个$X_i=(x_1^{(i)}, x_2^{(i)}, \cdots, x_m^{(i)})$是一个输入训练向量. 
+
+现设输入数据为$X=(x_1, x_2, \cdots, x_m)^{T}$, 
+隐藏层有$N=1\to hidelayer$层, 
+隐藏层的神经元数为$q\to hidenode$个. 
+设节点$i(1\le i\le m)$和节点$j(1\le j\le q)$之间的权值为$v_{ij}$, 
+$v_{j}=(v_{1j}, v_{2j}, \cdots, v_{mj})$, 
+$V=(v_1, v_2, \cdots, v_q)^{T}$, 
+节点$j$的阙值$b_j$, $b=(b_1, b_2, \cdots, b_q)$, 
+则隐藏层的第$j$个节点的纯输入值为
+\bee
+z'_{j} = \sum_{i=1}^{m}v_{ij}x_i + b_j = v_j X + b_j,
+\eee
+其实, 若设$Z'=(z'_1, z'_2, \cdots, z'_q)^{T}$, 则上式可简写为$Z'=V X + b$. 
+而使用爱森斯坦因记号(作为张量分析的基本工具), 上式可简化为$z'_j=v_{ij} x_i+b_j$.
+有时, 为方便表达, 可令$x_0=1$, $v_{0j}=b_j$, 而使上式简化为$z'_j=\sum_{i=0}^{m}v_{ij}x_i$. 
+从而$Z'=V X$.
+
+激活函数用于将$z'_j$转化为隐藏层的输入数据$z_j=f_{1}(z'_j)$, 记$Z=(z_1, z_2, \cdots, z_q)^{T}$, 
+并经过隐藏层到输出层的权矩阵得出隐藏层的正向纯输出$y'_k=w_{jk}z_{j}+c_{k}$, $(1\le k\le n)$. 
+最后再用一个激活函数$f_2(\cdot)$将$y'_k$转化为输出数据
+\bee
+\hat{y}_k=f_2(y'_k)=f_2\left(\sum_{j=1}^{q}w_{jk}z_{j}+c_{k}\right)=f_2(w_k Z + c_k).
+\eee
+最后根据输出数据$\hat{Y}=(\hat{y}_1, \hat{y}_2, \cdots, \hat{y}_n)^{T}$和训练数据的真实输出$Y=(y_{1}, y_{2}, \cdots, y_{n})^{T}$比较误差, 
+使用平方误差
+\bee
+E=\frac12\|\hat{Y}-Y\|_{2}^2=\frac12\sum_{k=1}^{n}(\hat{y}_{k}-y_{k})^2.
+\eee
+
+现在假设输入的训练数据有$P$个, 分别为$X^{(1)}, X^{(2)}, \cdots, X^{(P)}$, 
+输入$X^{(p)}$对应输出$Y^{(p)}$, 神经网络的正向输出
+\bee
+\hat{Y}^{(p)}=f_2(W Z^{(p)} + c)=f_2(W f_1(V X^{(p)} + b) + c).
+\eee
+根据$V, b$的定义可类似的定义$W$和$c$, 记第$p$个样本的误差为$E_p$,
+\bee
+E_p=\frac12\|Y^{(p)}-\hat{Y}^{(p)}\|_2^2=\frac12\sum_{k=1}^{n}\left(y_{k}^{(p)}-\hat{y}_{k}^{(p)}\right)^2.
+\eee
+
+于是对于每个给定的四元组$(V, W, b, c)$, 都有一个对应的样本误差, $E_{p}=E_{p}(V, W, b, c)$, 
+BPNN的主要思想是找出 $(V_0, W_0, b_0, c_0)$, 使
+\begin{align*}
+E(V_0, W_0, b_0, c_0) 
+  & = \min_{(V, W, b, c)}E(V, W, b, c) 
+  = \min_{(V, W, b, c)}\sum_{p=1}^{P}E_{p}(V, W, b, c)\\
+  & = \frac12\min_{(V, W, b, c)}\sum_{p=1}^{P}\sum_{k=1}^{n}\left(y_{k}^{(p)}-\hat{y}_{k}^{(p)}\right)^2
+  = \frac12\min_{(V, W, b, c)}\sum_{p=1}^{P}\sum_{k=1}^{n}\left(y_{k}^{(p)}-f_2(w_k f_1(V X^{(p)} + b) + c_k)\right)^2.
+\end{align*}
+由于$E(V, W, b, c)$为多维函数, 多元函数总是沿着负梯度方向递减, 所以可取$(V, W, b, c)$的修正项$\Delta (V, W, b, c)$为:
+\bee
+\Delta (V, W, b, c)
+  = -\eta\frac{\nabla E}{\nabla (V, W, b, c)},
+\eee
+其中$\eta\to learningRate$, 为学习速率. 所以
+\begin{align*}
+\Delta v_{ij}
+  & = \eta \sum_{p=1}^{P} \sum_{k=1}^{n} ({y_k}^{(p)}-{\hat{y}_k}^{(p)})f'_2({y'_{k}}^{(p)}) w_{jk}\cdot f'_1({z'_{j}}^{(p)}) \cdot {x_{i}}^{(p)}\\
+\Delta w_{jk}
+  & = \eta\sum_{p=1}^{P}({y_{k}}^{(p)}-{\hat{y}_{k}}^{(p)}) \cdot f'_{2}({y'_k}^{(p)}){z_{j}}^{(p)}
+\end{align*}
+
+\newpage
+
+\chapter{加密}
+\section{RSA加密}
+先选择两个大素数$p,q$, 并令$n=pq$, 则$\varphi(n)=(p-1)(q-1)$, 并取$e$使$(e, \varphi(n))=1$, 取$d$满足$ed\equiv 1\pmod{\varphi(n)}$, 
+则对于任意的$m$, $m^{ed}\equiv m\pmod{n}$, 加密$m$为密文$c$的过程为
+\begin{itemize}
+ \item[加密] $c\equiv m^e \pmod{n}$;
+ \item[解密] $m\equiv c^d \pmod{n}$.
+\end{itemize}
+
+\section{Okamoto-Uchiyama加密}
+取两个素数$p,q$, 让$n=p^2q$, 取$g\in\mathbb{Z}_{n}^{*}$, 使得$g^{p-1}\not\equiv 1\pmod{p^2}$, 让$h\equiv g^n \pmod{n}$, 则$(n,h,g)$为公钥, $(p,q)$为私钥. 则
+\begin{itemize}
+ \item[加密] 加密$m$为$c$, 任取$r\in\mathbb{Z}_n$, $c\equiv g^mh^r\pmod{n}$;
+ \item[解密] 定义$L(x)=\frac{x-1}{p}$, 其中$x\equiv 1\pmod{p}$, 则$m=\frac{L(c^{p-1}\pmod{p^2})}{L(g^{p-1}\pmod{p^2})}\pmod{p}$.
+\end{itemize}
+\ba
+证明解密正确.
+$\mathbb{Z}_{n}^{*}\simeq\mathbb{Z}_{p^2}^{*}\times\mathbb{Z}_{q}^{*}$, $\mathbb{Z}_{p^2}^{*}$有唯一非平凡正规子群$H=\{x: x^p\equiv1\pmod{p}\}$, 
+然后证明
+\bee
+\{x^{p-1}\pmod{p^2}: x\in\mathbb{Z}_{p^2}^{*}\}=H,
+\eee
+$L: \textlangle H, \cdot\textrangle\to\textlangle\mathbb{Z}_{p}, +\textrangle$是同态映射, 
+由$c\equiv g^mh^r\pmod{n}$, 所以
+\bee
+c^{p-1}\equiv (g^{p-1})^mg^{p(p-1)rpq}\equiv(g^{p-1})^m\pmod{p^2}
+\eee
+所以$L((g^{p-1})^m)\equiv mL(g^{p-1})\pmod{p}$, 所以$m=\frac{L(c^{p-1})}{L(g^{p-1})}\pmod{p}$.
+\ea
+这是一个同态加密算法, 即若记$\varepsilon(m)$为明文$m$的密文, 则$\varepsilon(m_1)\varepsilon(m_2)=\varepsilon(m_1+m_2)$.
