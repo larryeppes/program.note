@@ -1,0 +1,475 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+\PYG{c+cm}{/*}
+\PYG{c+cm}{ * cuckoo\PYGZus{}filter.c}
+\PYG{c+cm}{ *}
+\PYG{c+cm}{ *  Created on: Dec 10, 2016}
+\PYG{c+cm}{ *      Author: math}
+\PYG{c+cm}{ */}
+
+\PYG{c+cm}{/*}
+\PYG{c+cm}{ * Copyright (C) 2015, Leo Ma \PYGZlt{}begeekmyfriend@gmail.com\PYGZgt{}}
+\PYG{c+cm}{ */}
+
+\PYG{c+cp}{\PYGZsh{}}\PYG{c+cp}{include} \PYG{c+cpf}{\PYGZlt{}stdio.h\PYGZgt{}}
+\PYG{c+cp}{\PYGZsh{}}\PYG{c+cp}{include} \PYG{c+cpf}{\PYGZlt{}stdlib.h\PYGZgt{}}
+\PYG{c+cp}{\PYGZsh{}}\PYG{c+cp}{include} \PYG{c+cpf}{\PYGZlt{}stdint.h\PYGZgt{}}
+\PYG{c+cp}{\PYGZsh{}}\PYG{c+cp}{include} \PYG{c+cpf}{\PYGZlt{}string.h\PYGZgt{}}
+\PYG{c+cp}{\PYGZsh{}}\PYG{c+cp}{include} \PYG{c+cpf}{\PYGZlt{}assert.h\PYGZgt{}}
+
+\PYG{c+cp}{\PYGZsh{}}\PYG{c+cp}{include} \PYG{c+cpf}{\PYGZdq{}cuckoo\PYGZus{}filter.h\PYGZdq{}}
+
+\PYG{k}{struct} \PYG{n}{hash\PYGZus{}table} \PYG{p}{\PYGZob{}}
+        \PYG{k}{struct} \PYG{n}{hash\PYGZus{}slot\PYGZus{}cache} \PYG{o}{*}\PYG{o}{*}\PYG{n}{buckets}\PYG{p}{;}
+        \PYG{k}{struct} \PYG{n}{hash\PYGZus{}slot\PYGZus{}cache} \PYG{o}{*}\PYG{n}{slots}\PYG{p}{;}
+        \PYG{k+kt}{uint32\PYGZus{}t} \PYG{n}{slot\PYGZus{}num}\PYG{p}{;}
+        \PYG{k+kt}{uint32\PYGZus{}t} \PYG{n}{bucket\PYGZus{}num}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}\PYG{p}{;}
+
+\PYG{k}{static} \PYG{k+kt}{uint8\PYGZus{}t} \PYG{o}{*}\PYG{n}{nvrom\PYGZus{}base\PYGZus{}addr}\PYG{p}{;}
+\PYG{k}{static} \PYG{k+kt}{uint32\PYGZus{}t} \PYG{n}{nvrom\PYGZus{}size}\PYG{p}{;}
+\PYG{k}{static} \PYG{k+kt}{uint32\PYGZus{}t} \PYG{n}{log\PYGZus{}entries}\PYG{p}{;}
+\PYG{k}{static} \PYG{k}{struct} \PYG{n}{hash\PYGZus{}table} \PYG{n}{hash\PYGZus{}table}\PYG{p}{;}
+
+\PYG{k}{static} \PYG{k+kt}{void} \PYG{n+nf}{dump\PYGZus{}sha1\PYGZus{}key}\PYG{p}{(}\PYG{k+kt}{uint8\PYGZus{}t} \PYG{o}{*}\PYG{n}{sha1}\PYG{p}{)}
+\PYG{p}{\PYGZob{}}
+\PYG{c+cp}{\PYGZsh{}}\PYG{c+cp}{ifdef CUCKOO\PYGZus{}DBG}
+        \PYG{k+kt}{int} \PYG{n}{i}\PYG{p}{;}
+        \PYG{k}{static} \PYG{k}{const} \PYG{k+kt}{char} \PYG{n}{str}\PYG{p}{[}\PYG{p}{]} \PYG{o}{=} \PYG{l+s}{\PYGZdq{}}\PYG{l+s}{0123456789abcdef}\PYG{l+s}{\PYGZdq{}}\PYG{p}{;}
+
+        \PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{SHA1: }\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}\PYG{p}{;}
+        \PYG{k}{for} \PYG{p}{(}\PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{19}\PYG{p}{;} \PYG{n}{i} \PYG{o}{\PYGZgt{}}\PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{i}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                \PYG{n}{putchar}\PYG{p}{(}\PYG{n}{str}\PYG{p}{[}\PYG{n}{sha1}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{\PYGZgt{}}\PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{4}\PYG{p}{]}\PYG{p}{)}\PYG{p}{;}
+                \PYG{n}{putchar}\PYG{p}{(}\PYG{n}{str}\PYG{p}{[}\PYG{n}{sha1}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{\PYGZam{}} \PYG{l+m+mh}{0xf}\PYG{p}{]}\PYG{p}{)}\PYG{p}{;}
+        \PYG{p}{\PYGZcb{}}
+        \PYG{n}{putchar}\PYG{p}{(}\PYG{l+s+sc}{\PYGZsq{}\PYGZbs{}n\PYGZsq{}}\PYG{p}{)}\PYG{p}{;}
+\PYG{c+cp}{\PYGZsh{}}\PYG{c+cp}{endif}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k}{static} \PYG{k+kt}{uint32\PYGZus{}t} \PYG{n}{next\PYGZus{}entry\PYGZus{}offset}\PYG{p}{(}\PYG{k+kt}{void}\PYG{p}{)}
+\PYG{p}{\PYGZob{}}
+        \PYG{k+kt}{uint8\PYGZus{}t} \PYG{o}{*}\PYG{n}{append\PYGZus{}addr} \PYG{o}{=} \PYG{n}{nvrom\PYGZus{}base\PYGZus{}addr} \PYG{o}{+} \PYG{n}{log\PYGZus{}entries} \PYG{o}{*} \PYG{k}{sizeof}\PYG{p}{(}\PYG{k}{struct} \PYG{n}{log\PYGZus{}entry}\PYG{p}{)}\PYG{p}{;}
+        \PYG{n}{assert}\PYG{p}{(}\PYG{n}{flash\PYGZus{}align}\PYG{p}{(}\PYG{n}{append\PYGZus{}addr}\PYG{p}{)}\PYG{p}{)}\PYG{p}{;}
+        \PYG{k}{if} \PYG{p}{(}\PYG{p}{(}\PYG{n}{log\PYGZus{}entries} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{)} \PYG{o}{*} \PYG{k}{sizeof}\PYG{p}{(}\PYG{k}{struct} \PYG{n}{log\PYGZus{}entry}\PYG{p}{)} \PYG{o}{\PYGZgt{}}\PYG{o}{=} \PYG{n}{nvrom\PYGZus{}size}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                \PYG{k}{return} \PYG{n}{INVALID\PYGZus{}OFFSET}\PYG{p}{;}
+        \PYG{p}{\PYGZcb{}} \PYG{k}{else} \PYG{p}{\PYGZob{}}
+                \PYG{k}{return} \PYG{p}{(}\PYG{k+kt}{uint32\PYGZus{}t}\PYG{p}{)}\PYG{p}{(}\PYG{n}{append\PYGZus{}addr} \PYG{o}{\PYGZhy{}} \PYG{n}{nvrom\PYGZus{}base\PYGZus{}addr}\PYG{p}{)}\PYG{p}{;}
+        \PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k}{static} \PYG{k+kt}{void} \PYG{n}{show\PYGZus{}hash\PYGZus{}slots}\PYG{p}{(}\PYG{k}{struct} \PYG{n}{hash\PYGZus{}table} \PYG{o}{*}\PYG{n}{table}\PYG{p}{)}
+\PYG{p}{\PYGZob{}}
+\PYG{c+cp}{\PYGZsh{}}\PYG{c+cp}{ifdef CUCKOO\PYGZus{}DBG}
+        \PYG{k+kt}{int} \PYG{n}{i}\PYG{p}{,} \PYG{n}{j}\PYG{p}{;}
+
+        \PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{List all keys in hash table (tag/status/offset):}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}\PYG{p}{;}
+        \PYG{k}{for} \PYG{p}{(}\PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{i} \PYG{o}{\PYGZlt{}} \PYG{n}{table}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZgt{}}\PYG{n}{bucket\PYGZus{}num}\PYG{p}{;} \PYG{n}{i}\PYG{o}{+}\PYG{o}{+}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                \PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{bucket[\PYGZpc{}04x]:}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{i}\PYG{p}{)}\PYG{p}{;}
+                \PYG{k}{struct} \PYG{n}{hash\PYGZus{}slot\PYGZus{}cache} \PYG{o}{*}\PYG{n}{slot} \PYG{o}{=} \PYG{n}{table}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZgt{}}\PYG{n}{buckets}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{p}{;}
+                \PYG{k}{for} \PYG{p}{(}\PYG{n}{j} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{j} \PYG{o}{\PYGZlt{}} \PYG{n}{ASSOC\PYGZus{}WAY}\PYG{p}{;} \PYG{n}{j}\PYG{o}{+}\PYG{o}{+}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                        \PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}t}\PYG{l+s}{\PYGZpc{}04x/\PYGZpc{}x/\PYGZpc{}08x}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{slot}\PYG{p}{[}\PYG{n}{j}\PYG{p}{]}\PYG{p}{.}\PYG{n}{tag}\PYG{p}{,} \PYG{n}{slot}\PYG{p}{[}\PYG{n}{j}\PYG{p}{]}\PYG{p}{.}\PYG{n}{status}\PYG{p}{,} \PYG{n}{slot}\PYG{p}{[}\PYG{n}{j}\PYG{p}{]}\PYG{p}{.}\PYG{n}{offset}\PYG{p}{)}\PYG{p}{;}
+                \PYG{p}{\PYGZcb{}}
+                \PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}\PYG{p}{;}
+        \PYG{p}{\PYGZcb{}}
+\PYG{c+cp}{\PYGZsh{}}\PYG{c+cp}{endif}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k}{static} \PYG{k+kt}{uint8\PYGZus{}t} \PYG{o}{*}\PYG{n}{key\PYGZus{}verify}\PYG{p}{(}\PYG{k+kt}{uint8\PYGZus{}t} \PYG{o}{*}\PYG{n}{key}\PYG{p}{,} \PYG{k+kt}{uint32\PYGZus{}t} \PYG{n}{offset}\PYG{p}{)}
+\PYG{p}{\PYGZob{}}
+        \PYG{k+kt}{int} \PYG{n}{i}\PYG{p}{;}
+        \PYG{k+kt}{uint8\PYGZus{}t} \PYG{o}{*}\PYG{n}{read\PYGZus{}addr} \PYG{o}{=} \PYG{n}{nvrom\PYGZus{}base\PYGZus{}addr} \PYG{o}{+} \PYG{n}{offset}\PYG{p}{;}
+        \PYG{k}{for} \PYG{p}{(}\PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{i} \PYG{o}{\PYGZlt{}} \PYG{l+m+mi}{20}\PYG{p}{;} \PYG{n}{i}\PYG{o}{+}\PYG{o}{+}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                \PYG{k}{if} \PYG{p}{(}\PYG{n}{key}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{!}\PYG{o}{=} \PYG{n}{flash\PYGZus{}read}\PYG{p}{(}\PYG{n}{read\PYGZus{}addr}\PYG{p}{)}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                        \PYG{k}{return} \PYG{n+nb}{NULL}\PYG{p}{;}
+                \PYG{p}{\PYGZcb{}}
+                \PYG{n}{read\PYGZus{}addr}\PYG{o}{+}\PYG{o}{+}\PYG{p}{;}
+        \PYG{p}{\PYGZcb{}}
+        \PYG{k}{return} \PYG{n}{read\PYGZus{}addr}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k}{static} \PYG{k+kt}{int} \PYG{n}{cuckoo\PYGZus{}hash\PYGZus{}collide}\PYG{p}{(}\PYG{k}{struct} \PYG{n}{hash\PYGZus{}table} \PYG{o}{*}\PYG{n}{table}\PYG{p}{,} \PYG{k+kt}{uint32\PYGZus{}t} \PYG{o}{*}\PYG{n}{tag}\PYG{p}{,} \PYG{k+kt}{uint32\PYGZus{}t} \PYG{o}{*}\PYG{n}{p\PYGZus{}offset}\PYG{p}{)}
+\PYG{p}{\PYGZob{}}
+        \PYG{k+kt}{int} \PYG{n}{i}\PYG{p}{,} \PYG{n}{j}\PYG{p}{,} \PYG{n}{k}\PYG{p}{,} \PYG{n}{alt\PYGZus{}cnt}\PYG{p}{;}
+        \PYG{k+kt}{uint32\PYGZus{}t} \PYG{n}{old\PYGZus{}tag}\PYG{p}{[}\PYG{l+m+mi}{2}\PYG{p}{]}\PYG{p}{,} \PYG{n}{offset}\PYG{p}{,} \PYG{n}{old\PYGZus{}offset}\PYG{p}{;}
+        \PYG{k}{struct} \PYG{n}{hash\PYGZus{}slot\PYGZus{}cache} \PYG{o}{*}\PYG{n}{slot}\PYG{p}{;}
+
+        \PYG{c+cm}{/* Kick out the old bucket and move it to the alternative bucket. */}
+        \PYG{n}{offset} \PYG{o}{=} \PYG{o}{*}\PYG{n}{p\PYGZus{}offset}\PYG{p}{;}
+        \PYG{n}{slot} \PYG{o}{=} \PYG{n}{table}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZgt{}}\PYG{n}{buckets}\PYG{p}{[}\PYG{n}{tag}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{p}{]}\PYG{p}{;}
+        \PYG{n}{old\PYGZus{}tag}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{=} \PYG{n}{tag}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{p}{;}
+        \PYG{n}{old\PYGZus{}tag}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{=} \PYG{n}{slot}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{p}{.}\PYG{n}{tag}\PYG{p}{;}
+        \PYG{n}{old\PYGZus{}offset} \PYG{o}{=} \PYG{n}{slot}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{p}{.}\PYG{n}{offset}\PYG{p}{;}
+        \PYG{n}{slot}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{p}{.}\PYG{n}{tag} \PYG{o}{=} \PYG{n}{tag}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{p}{;}
+        \PYG{n}{slot}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{p}{.}\PYG{n}{offset} \PYG{o}{=} \PYG{n}{offset}\PYG{p}{;}
+        \PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{0} \PYG{o}{\PYGZca{}} \PYG{l+m+mi}{1}\PYG{p}{;}
+        \PYG{n}{k} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;}
+        \PYG{n}{alt\PYGZus{}cnt} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;}
+
+\PYG{n+nl}{KICK\PYGZus{}OUT}\PYG{p}{:}
+        \PYG{n}{slot} \PYG{o}{=} \PYG{n}{table}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZgt{}}\PYG{n}{buckets}\PYG{p}{[}\PYG{n}{old\PYGZus{}tag}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{p}{]}\PYG{p}{;}
+        \PYG{k}{for} \PYG{p}{(}\PYG{n}{j} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{j} \PYG{o}{\PYGZlt{}} \PYG{n}{ASSOC\PYGZus{}WAY}\PYG{p}{;} \PYG{n}{j}\PYG{o}{+}\PYG{o}{+}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                \PYG{k}{if} \PYG{p}{(}\PYG{n}{offset} \PYG{o}{=}\PYG{o}{=} \PYG{n}{INVALID\PYGZus{}OFFSET} \PYG{o}{\PYGZam{}}\PYG{o}{\PYGZam{}} \PYG{n}{slot}\PYG{p}{[}\PYG{n}{j}\PYG{p}{]}\PYG{p}{.}\PYG{n}{status} \PYG{o}{=}\PYG{o}{=} \PYG{n}{DELETED}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                        \PYG{n}{slot}\PYG{p}{[}\PYG{n}{j}\PYG{p}{]}\PYG{p}{.}\PYG{n}{status} \PYG{o}{=} \PYG{n}{OCCUPIED}\PYG{p}{;}
+                        \PYG{n}{slot}\PYG{p}{[}\PYG{n}{j}\PYG{p}{]}\PYG{p}{.}\PYG{n}{tag} \PYG{o}{=} \PYG{n}{old\PYGZus{}tag}\PYG{p}{[}\PYG{n}{i} \PYG{o}{\PYGZca{}} \PYG{l+m+mi}{1}\PYG{p}{]}\PYG{p}{;}
+                        \PYG{o}{*}\PYG{n}{p\PYGZus{}offset} \PYG{o}{=} \PYG{n}{offset} \PYG{o}{=} \PYG{n}{slot}\PYG{p}{[}\PYG{n}{j}\PYG{p}{]}\PYG{p}{.}\PYG{n}{offset}\PYG{p}{;}
+                        \PYG{k}{break}\PYG{p}{;}
+                \PYG{p}{\PYGZcb{}} \PYG{k}{else} \PYG{k}{if} \PYG{p}{(}\PYG{n}{slot}\PYG{p}{[}\PYG{n}{j}\PYG{p}{]}\PYG{p}{.}\PYG{n}{status} \PYG{o}{=}\PYG{o}{=} \PYG{n}{AVAILIBLE}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                        \PYG{n}{slot}\PYG{p}{[}\PYG{n}{j}\PYG{p}{]}\PYG{p}{.}\PYG{n}{status} \PYG{o}{=} \PYG{n}{OCCUPIED}\PYG{p}{;}
+                        \PYG{n}{slot}\PYG{p}{[}\PYG{n}{j}\PYG{p}{]}\PYG{p}{.}\PYG{n}{tag} \PYG{o}{=} \PYG{n}{old\PYGZus{}tag}\PYG{p}{[}\PYG{n}{i} \PYG{o}{\PYGZca{}} \PYG{l+m+mi}{1}\PYG{p}{]}\PYG{p}{;}
+                        \PYG{n}{slot}\PYG{p}{[}\PYG{n}{j}\PYG{p}{]}\PYG{p}{.}\PYG{n}{offset} \PYG{o}{=} \PYG{n}{old\PYGZus{}offset}\PYG{p}{;}
+                        \PYG{k}{break}\PYG{p}{;}
+                \PYG{p}{\PYGZcb{}}
+        \PYG{p}{\PYGZcb{}}
+
+        \PYG{k}{if} \PYG{p}{(}\PYG{n}{j} \PYG{o}{=}\PYG{o}{=} \PYG{n}{ASSOC\PYGZus{}WAY}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                \PYG{k}{if} \PYG{p}{(}\PYG{o}{+}\PYG{o}{+}\PYG{n}{alt\PYGZus{}cnt} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{512}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                        \PYG{k}{if} \PYG{p}{(}\PYG{n}{k} \PYG{o}{=}\PYG{o}{=} \PYG{n}{ASSOC\PYGZus{}WAY} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                                \PYG{c+cm}{/* Hash table is almost full and needs to be resized */}
+                                \PYG{k}{return} \PYG{l+m+mi}{1}\PYG{p}{;}
+                        \PYG{p}{\PYGZcb{}} \PYG{k}{else} \PYG{p}{\PYGZob{}}
+                                \PYG{n}{k}\PYG{o}{+}\PYG{o}{+}\PYG{p}{;}
+                        \PYG{p}{\PYGZcb{}}
+                \PYG{p}{\PYGZcb{}}
+                \PYG{k+kt}{uint32\PYGZus{}t} \PYG{n}{tmp\PYGZus{}tag} \PYG{o}{=} \PYG{n}{slot}\PYG{p}{[}\PYG{n}{k}\PYG{p}{]}\PYG{p}{.}\PYG{n}{tag}\PYG{p}{;}
+                \PYG{k+kt}{uint32\PYGZus{}t} \PYG{n}{tmp\PYGZus{}offset} \PYG{o}{=} \PYG{n}{slot}\PYG{p}{[}\PYG{n}{k}\PYG{p}{]}\PYG{p}{.}\PYG{n}{offset}\PYG{p}{;}
+                \PYG{n}{slot}\PYG{p}{[}\PYG{n}{k}\PYG{p}{]}\PYG{p}{.}\PYG{n}{tag} \PYG{o}{=} \PYG{n}{old\PYGZus{}tag}\PYG{p}{[}\PYG{n}{i} \PYG{o}{\PYGZca{}} \PYG{l+m+mi}{1}\PYG{p}{]}\PYG{p}{;}
+                \PYG{n}{slot}\PYG{p}{[}\PYG{n}{k}\PYG{p}{]}\PYG{p}{.}\PYG{n}{offset} \PYG{o}{=} \PYG{n}{old\PYGZus{}offset}\PYG{p}{;}
+                \PYG{n}{old\PYGZus{}tag}\PYG{p}{[}\PYG{n}{i} \PYG{o}{\PYGZca{}} \PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{=} \PYG{n}{tmp\PYGZus{}tag}\PYG{p}{;}
+                \PYG{n}{old\PYGZus{}offset} \PYG{o}{=} \PYG{n}{tmp\PYGZus{}offset}\PYG{p}{;}
+                \PYG{n}{i} \PYG{o}{\PYGZca{}}\PYG{o}{=} \PYG{l+m+mi}{1}\PYG{p}{;}
+                \PYG{k}{goto} \PYG{n}{KICK\PYGZus{}OUT}\PYG{p}{;}
+        \PYG{p}{\PYGZcb{}}
+
+        \PYG{k}{return} \PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k}{static} \PYG{k+kt}{int} \PYG{n}{cuckoo\PYGZus{}hash\PYGZus{}get}\PYG{p}{(}\PYG{k}{struct} \PYG{n}{hash\PYGZus{}table} \PYG{o}{*}\PYG{n}{table}\PYG{p}{,} \PYG{k+kt}{uint8\PYGZus{}t} \PYG{o}{*}\PYG{n}{key}\PYG{p}{,} \PYG{k+kt}{uint8\PYGZus{}t} \PYG{o}{*}\PYG{o}{*}\PYG{n}{read\PYGZus{}addr}\PYG{p}{)}
+\PYG{p}{\PYGZob{}}
+        \PYG{k+kt}{int} \PYG{n}{i}\PYG{p}{,} \PYG{n}{j}\PYG{p}{;}
+        \PYG{k+kt}{uint8\PYGZus{}t} \PYG{o}{*}\PYG{n}{addr}\PYG{p}{;}
+        \PYG{k+kt}{uint32\PYGZus{}t} \PYG{n}{tag}\PYG{p}{[}\PYG{l+m+mi}{2}\PYG{p}{]}\PYG{p}{,} \PYG{n}{offset}\PYG{p}{;}
+        \PYG{k}{struct} \PYG{n}{hash\PYGZus{}slot\PYGZus{}cache} \PYG{o}{*}\PYG{n}{slot}\PYG{p}{;}
+
+        \PYG{n}{tag}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{=} \PYG{n}{cuckoo\PYGZus{}hash\PYGZus{}lsb}\PYG{p}{(}\PYG{n}{key}\PYG{p}{,} \PYG{n}{table}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZgt{}}\PYG{n}{bucket\PYGZus{}num}\PYG{p}{)}\PYG{p}{;}
+        \PYG{n}{tag}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{=} \PYG{n}{cuckoo\PYGZus{}hash\PYGZus{}msb}\PYG{p}{(}\PYG{n}{key}\PYG{p}{,} \PYG{n}{table}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZgt{}}\PYG{n}{bucket\PYGZus{}num}\PYG{p}{)}\PYG{p}{;}
+
+\PYG{c+cp}{\PYGZsh{}}\PYG{c+cp}{ifdef CUCKOO\PYGZus{}DBG}
+        \PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{get t0:\PYGZpc{}x t1:\PYGZpc{}x}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{tag}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{p}{,} \PYG{n}{tag}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{p}{)}\PYG{p}{;}
+\PYG{c+cp}{\PYGZsh{}}\PYG{c+cp}{endif}
+        \PYG{n}{dump\PYGZus{}sha1\PYGZus{}key}\PYG{p}{(}\PYG{n}{key}\PYG{p}{)}\PYG{p}{;}
+
+        \PYG{c+cm}{/* Filter the key and verify if it exists. */}
+        \PYG{n}{slot} \PYG{o}{=} \PYG{n}{table}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZgt{}}\PYG{n}{buckets}\PYG{p}{[}\PYG{n}{tag}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{p}{]}\PYG{p}{;}
+        \PYG{k}{for} \PYG{p}{(}\PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{i} \PYG{o}{\PYGZlt{}} \PYG{n}{ASSOC\PYGZus{}WAY}\PYG{p}{;} \PYG{n}{i}\PYG{o}{+}\PYG{o}{+}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                \PYG{k}{if} \PYG{p}{(}\PYG{n}{cuckoo\PYGZus{}hash\PYGZus{}msb}\PYG{p}{(}\PYG{n}{key}\PYG{p}{,} \PYG{n}{table}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZgt{}}\PYG{n}{bucket\PYGZus{}num}\PYG{p}{)} \PYG{o}{=}\PYG{o}{=} \PYG{n}{slot}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{p}{.}\PYG{n}{tag}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                        \PYG{k}{if} \PYG{p}{(}\PYG{n}{slot}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{p}{.}\PYG{n}{status} \PYG{o}{=}\PYG{o}{=} \PYG{n}{OCCUPIED}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                                \PYG{n}{offset} \PYG{o}{=} \PYG{n}{slot}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{p}{.}\PYG{n}{offset}\PYG{p}{;}
+                                \PYG{n}{addr} \PYG{o}{=} \PYG{n}{key\PYGZus{}verify}\PYG{p}{(}\PYG{n}{key}\PYG{p}{,} \PYG{n}{offset}\PYG{p}{)}\PYG{p}{;}
+                                \PYG{k}{if} \PYG{p}{(}\PYG{n}{addr} \PYG{o}{!}\PYG{o}{=} \PYG{n+nb}{NULL}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                                        \PYG{k}{if} \PYG{p}{(}\PYG{n}{read\PYGZus{}addr} \PYG{o}{!}\PYG{o}{=} \PYG{n+nb}{NULL}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                                                \PYG{o}{*}\PYG{n}{read\PYGZus{}addr} \PYG{o}{=} \PYG{n}{addr}\PYG{p}{;}
+                                        \PYG{p}{\PYGZcb{}}
+                                        \PYG{k}{break}\PYG{p}{;}
+                                \PYG{p}{\PYGZcb{}}
+                        \PYG{p}{\PYGZcb{}} \PYG{k}{else} \PYG{k}{if} \PYG{p}{(}\PYG{n}{slot}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{p}{.}\PYG{n}{status} \PYG{o}{=}\PYG{o}{=} \PYG{n}{DELETED}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+\PYG{c+cp}{\PYGZsh{}}\PYG{c+cp}{ifdef CUCKOO\PYGZus{}DBG}
+                                \PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{Key has been deleted!}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}\PYG{p}{;}
+\PYG{c+cp}{\PYGZsh{}}\PYG{c+cp}{endif}
+                                \PYG{k}{return} \PYG{n}{DELETED}\PYG{p}{;}
+                        \PYG{p}{\PYGZcb{}}
+                \PYG{p}{\PYGZcb{}}
+        \PYG{p}{\PYGZcb{}}
+
+        \PYG{k}{if} \PYG{p}{(}\PYG{n}{i} \PYG{o}{=}\PYG{o}{=} \PYG{n}{ASSOC\PYGZus{}WAY}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                \PYG{n}{slot} \PYG{o}{=} \PYG{n}{table}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZgt{}}\PYG{n}{buckets}\PYG{p}{[}\PYG{n}{tag}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{p}{]}\PYG{p}{;}
+                \PYG{k}{for} \PYG{p}{(}\PYG{n}{j} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{j} \PYG{o}{\PYGZlt{}} \PYG{n}{ASSOC\PYGZus{}WAY}\PYG{p}{;} \PYG{n}{j}\PYG{o}{+}\PYG{o}{+}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                        \PYG{k}{if} \PYG{p}{(}\PYG{n}{cuckoo\PYGZus{}hash\PYGZus{}lsb}\PYG{p}{(}\PYG{n}{key}\PYG{p}{,} \PYG{n}{table}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZgt{}}\PYG{n}{bucket\PYGZus{}num}\PYG{p}{)} \PYG{o}{=}\PYG{o}{=} \PYG{n}{slot}\PYG{p}{[}\PYG{n}{j}\PYG{p}{]}\PYG{p}{.}\PYG{n}{tag}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                                \PYG{k}{if} \PYG{p}{(}\PYG{n}{slot}\PYG{p}{[}\PYG{n}{j}\PYG{p}{]}\PYG{p}{.}\PYG{n}{status} \PYG{o}{=}\PYG{o}{=} \PYG{n}{OCCUPIED}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                                        \PYG{n}{offset} \PYG{o}{=} \PYG{n}{slot}\PYG{p}{[}\PYG{n}{j}\PYG{p}{]}\PYG{p}{.}\PYG{n}{offset}\PYG{p}{;}
+                                        \PYG{n}{addr} \PYG{o}{=} \PYG{n}{key\PYGZus{}verify}\PYG{p}{(}\PYG{n}{key}\PYG{p}{,} \PYG{n}{offset}\PYG{p}{)}\PYG{p}{;}
+                                        \PYG{k}{if} \PYG{p}{(}\PYG{n}{addr} \PYG{o}{!}\PYG{o}{=} \PYG{n+nb}{NULL}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                                                \PYG{k}{if} \PYG{p}{(}\PYG{n}{read\PYGZus{}addr} \PYG{o}{!}\PYG{o}{=} \PYG{n+nb}{NULL}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                                                        \PYG{o}{*}\PYG{n}{read\PYGZus{}addr} \PYG{o}{=} \PYG{n}{addr}\PYG{p}{;}
+                                                \PYG{p}{\PYGZcb{}}
+                                                \PYG{k}{break}\PYG{p}{;}
+                                        \PYG{p}{\PYGZcb{}}
+                                \PYG{p}{\PYGZcb{}} \PYG{k}{else} \PYG{k}{if} \PYG{p}{(}\PYG{n}{slot}\PYG{p}{[}\PYG{n}{j}\PYG{p}{]}\PYG{p}{.}\PYG{n}{status} \PYG{o}{=}\PYG{o}{=} \PYG{n}{DELETED}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+\PYG{c+cp}{\PYGZsh{}}\PYG{c+cp}{ifdef CUCKOO\PYGZus{}DBG}
+                                        \PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{Key has been deleted!}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}\PYG{p}{;}
+\PYG{c+cp}{\PYGZsh{}}\PYG{c+cp}{endif}
+                                        \PYG{k}{return} \PYG{n}{DELETED}\PYG{p}{;}
+                                \PYG{p}{\PYGZcb{}}
+                        \PYG{p}{\PYGZcb{}}
+                \PYG{p}{\PYGZcb{}}
+                \PYG{k}{if} \PYG{p}{(}\PYG{n}{j} \PYG{o}{=}\PYG{o}{=} \PYG{n}{ASSOC\PYGZus{}WAY}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+\PYG{c+cp}{\PYGZsh{}}\PYG{c+cp}{ifdef CUCKOO\PYGZus{}DBG}
+                        \PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{Key not exists!}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}\PYG{p}{;}
+\PYG{c+cp}{\PYGZsh{}}\PYG{c+cp}{endif}
+                        \PYG{k}{return} \PYG{n}{AVAILIBLE}\PYG{p}{;}
+                \PYG{p}{\PYGZcb{}}
+        \PYG{p}{\PYGZcb{}}
+
+        \PYG{k}{return} \PYG{n}{OCCUPIED}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k}{static} \PYG{k+kt}{int} \PYG{n}{cuckoo\PYGZus{}hash\PYGZus{}put}\PYG{p}{(}\PYG{k}{struct} \PYG{n}{hash\PYGZus{}table} \PYG{o}{*}\PYG{n}{table}\PYG{p}{,} \PYG{k+kt}{uint8\PYGZus{}t} \PYG{o}{*}\PYG{n}{key}\PYG{p}{,} \PYG{k+kt}{uint32\PYGZus{}t} \PYG{o}{*}\PYG{n}{p\PYGZus{}offset}\PYG{p}{)}
+\PYG{p}{\PYGZob{}}
+        \PYG{k+kt}{int} \PYG{n}{i}\PYG{p}{,} \PYG{n}{j}\PYG{p}{;}
+        \PYG{k+kt}{uint32\PYGZus{}t} \PYG{n}{tag}\PYG{p}{[}\PYG{l+m+mi}{2}\PYG{p}{]}\PYG{p}{,} \PYG{n}{offset}\PYG{p}{;}
+        \PYG{k}{struct} \PYG{n}{hash\PYGZus{}slot\PYGZus{}cache} \PYG{o}{*}\PYG{n}{slot}\PYG{p}{;}
+
+        \PYG{n}{tag}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{=} \PYG{n}{cuckoo\PYGZus{}hash\PYGZus{}lsb}\PYG{p}{(}\PYG{n}{key}\PYG{p}{,} \PYG{n}{table}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZgt{}}\PYG{n}{bucket\PYGZus{}num}\PYG{p}{)}\PYG{p}{;}
+        \PYG{n}{tag}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{=} \PYG{n}{cuckoo\PYGZus{}hash\PYGZus{}msb}\PYG{p}{(}\PYG{n}{key}\PYG{p}{,} \PYG{n}{table}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZgt{}}\PYG{n}{bucket\PYGZus{}num}\PYG{p}{)}\PYG{p}{;}
+
+\PYG{c+cp}{\PYGZsh{}}\PYG{c+cp}{ifdef CUCKOO\PYGZus{}DBG}
+        \PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{put offset:\PYGZpc{}x t0:\PYGZpc{}x t1:\PYGZpc{}x}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,} \PYG{o}{*}\PYG{n}{p\PYGZus{}offset}\PYG{p}{,} \PYG{n}{tag}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{p}{,} \PYG{n}{tag}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{p}{)}\PYG{p}{;}
+\PYG{c+cp}{\PYGZsh{}}\PYG{c+cp}{endif}
+
+        \PYG{c+cm}{/* Insert new key into hash buckets. */}
+        \PYG{n}{offset} \PYG{o}{=} \PYG{o}{*}\PYG{n}{p\PYGZus{}offset}\PYG{p}{;}
+        \PYG{n}{slot} \PYG{o}{=} \PYG{n}{table}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZgt{}}\PYG{n}{buckets}\PYG{p}{[}\PYG{n}{tag}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{p}{]}\PYG{p}{;}
+        \PYG{k}{for} \PYG{p}{(}\PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{i} \PYG{o}{\PYGZlt{}} \PYG{n}{ASSOC\PYGZus{}WAY}\PYG{p}{;} \PYG{n}{i}\PYG{o}{+}\PYG{o}{+}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                \PYG{k}{if} \PYG{p}{(}\PYG{n}{offset} \PYG{o}{=}\PYG{o}{=} \PYG{n}{INVALID\PYGZus{}OFFSET} \PYG{o}{\PYGZam{}}\PYG{o}{\PYGZam{}} \PYG{n}{slot}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{p}{.}\PYG{n}{status} \PYG{o}{=}\PYG{o}{=} \PYG{n}{DELETED}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                        \PYG{n}{slot}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{p}{.}\PYG{n}{status} \PYG{o}{=} \PYG{n}{OCCUPIED}\PYG{p}{;}
+                        \PYG{n}{slot}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{p}{.}\PYG{n}{tag} \PYG{o}{=} \PYG{n}{cuckoo\PYGZus{}hash\PYGZus{}msb}\PYG{p}{(}\PYG{n}{key}\PYG{p}{,} \PYG{n}{table}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZgt{}}\PYG{n}{bucket\PYGZus{}num}\PYG{p}{)}\PYG{p}{;}
+                        \PYG{o}{*}\PYG{n}{p\PYGZus{}offset} \PYG{o}{=} \PYG{n}{offset} \PYG{o}{=} \PYG{n}{slot}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{p}{.}\PYG{n}{offset}\PYG{p}{;}
+                        \PYG{k}{break}\PYG{p}{;}
+                \PYG{p}{\PYGZcb{}} \PYG{k}{else} \PYG{k}{if} \PYG{p}{(}\PYG{n}{slot}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{p}{.}\PYG{n}{status} \PYG{o}{=}\PYG{o}{=} \PYG{n}{AVAILIBLE}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                        \PYG{n}{slot}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{p}{.}\PYG{n}{status} \PYG{o}{=} \PYG{n}{OCCUPIED}\PYG{p}{;}
+                        \PYG{n}{slot}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{p}{.}\PYG{n}{tag} \PYG{o}{=} \PYG{n}{cuckoo\PYGZus{}hash\PYGZus{}msb}\PYG{p}{(}\PYG{n}{key}\PYG{p}{,} \PYG{n}{table}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZgt{}}\PYG{n}{bucket\PYGZus{}num}\PYG{p}{)}\PYG{p}{;}
+                        \PYG{n}{slot}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{p}{.}\PYG{n}{offset} \PYG{o}{=} \PYG{n}{offset}\PYG{p}{;}
+                        \PYG{k}{break}\PYG{p}{;}
+                \PYG{p}{\PYGZcb{}}
+        \PYG{p}{\PYGZcb{}}
+
+        \PYG{k}{if} \PYG{p}{(}\PYG{n}{i} \PYG{o}{=}\PYG{o}{=} \PYG{n}{ASSOC\PYGZus{}WAY}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                \PYG{n}{slot} \PYG{o}{=} \PYG{n}{table}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZgt{}}\PYG{n}{buckets}\PYG{p}{[}\PYG{n}{tag}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{p}{]}\PYG{p}{;}
+                \PYG{k}{for} \PYG{p}{(}\PYG{n}{j} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{j} \PYG{o}{\PYGZlt{}} \PYG{n}{ASSOC\PYGZus{}WAY}\PYG{p}{;} \PYG{n}{j}\PYG{o}{+}\PYG{o}{+}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                        \PYG{k}{if} \PYG{p}{(}\PYG{n}{offset} \PYG{o}{=}\PYG{o}{=} \PYG{n}{INVALID\PYGZus{}OFFSET} \PYG{o}{\PYGZam{}}\PYG{o}{\PYGZam{}} \PYG{n}{slot}\PYG{p}{[}\PYG{n}{j}\PYG{p}{]}\PYG{p}{.}\PYG{n}{status} \PYG{o}{=}\PYG{o}{=} \PYG{n}{DELETED}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                                \PYG{n}{slot}\PYG{p}{[}\PYG{n}{j}\PYG{p}{]}\PYG{p}{.}\PYG{n}{status} \PYG{o}{=} \PYG{n}{OCCUPIED}\PYG{p}{;}
+                                \PYG{n}{slot}\PYG{p}{[}\PYG{n}{j}\PYG{p}{]}\PYG{p}{.}\PYG{n}{tag} \PYG{o}{=} \PYG{n}{cuckoo\PYGZus{}hash\PYGZus{}lsb}\PYG{p}{(}\PYG{n}{key}\PYG{p}{,} \PYG{n}{table}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZgt{}}\PYG{n}{bucket\PYGZus{}num}\PYG{p}{)}\PYG{p}{;}
+                                \PYG{o}{*}\PYG{n}{p\PYGZus{}offset} \PYG{o}{=} \PYG{n}{offset} \PYG{o}{=} \PYG{n}{slot}\PYG{p}{[}\PYG{n}{j}\PYG{p}{]}\PYG{p}{.}\PYG{n}{offset}\PYG{p}{;}
+                                \PYG{k}{break}\PYG{p}{;}
+                        \PYG{p}{\PYGZcb{}} \PYG{k}{else} \PYG{k}{if} \PYG{p}{(}\PYG{n}{slot}\PYG{p}{[}\PYG{n}{j}\PYG{p}{]}\PYG{p}{.}\PYG{n}{status} \PYG{o}{=}\PYG{o}{=} \PYG{n}{AVAILIBLE}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                                \PYG{n}{slot}\PYG{p}{[}\PYG{n}{j}\PYG{p}{]}\PYG{p}{.}\PYG{n}{status} \PYG{o}{=} \PYG{n}{OCCUPIED}\PYG{p}{;}
+                                \PYG{n}{slot}\PYG{p}{[}\PYG{n}{j}\PYG{p}{]}\PYG{p}{.}\PYG{n}{tag} \PYG{o}{=} \PYG{n}{cuckoo\PYGZus{}hash\PYGZus{}lsb}\PYG{p}{(}\PYG{n}{key}\PYG{p}{,} \PYG{n}{table}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZgt{}}\PYG{n}{bucket\PYGZus{}num}\PYG{p}{)}\PYG{p}{;}
+                                \PYG{n}{slot}\PYG{p}{[}\PYG{n}{j}\PYG{p}{]}\PYG{p}{.}\PYG{n}{offset} \PYG{o}{=} \PYG{n}{offset}\PYG{p}{;}
+                                \PYG{k}{break}\PYG{p}{;}
+                        \PYG{p}{\PYGZcb{}}
+                \PYG{p}{\PYGZcb{}}
+
+                \PYG{k}{if} \PYG{p}{(}\PYG{n}{j} \PYG{o}{=}\PYG{o}{=} \PYG{n}{ASSOC\PYGZus{}WAY}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                        \PYG{k}{if} \PYG{p}{(}\PYG{n}{cuckoo\PYGZus{}hash\PYGZus{}collide}\PYG{p}{(}\PYG{n}{table}\PYG{p}{,} \PYG{n}{tag}\PYG{p}{,} \PYG{n}{p\PYGZus{}offset}\PYG{p}{)}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+\PYG{c+cp}{\PYGZsh{}}\PYG{c+cp}{ifdef CUCKOO\PYGZus{}DBG}
+                                \PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{Hash table collision!}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}\PYG{p}{;}
+\PYG{c+cp}{\PYGZsh{}}\PYG{c+cp}{endif}
+                                \PYG{k}{return} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{;}
+                        \PYG{p}{\PYGZcb{}}
+                \PYG{p}{\PYGZcb{}}
+        \PYG{p}{\PYGZcb{}}
+
+        \PYG{n}{show\PYGZus{}hash\PYGZus{}slots}\PYG{p}{(}\PYG{n}{table}\PYG{p}{)}\PYG{p}{;}
+
+        \PYG{k}{return} \PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k}{static} \PYG{k+kt}{void} \PYG{n}{cuckoo\PYGZus{}hash\PYGZus{}status\PYGZus{}set}\PYG{p}{(}\PYG{k}{struct} \PYG{n}{hash\PYGZus{}table} \PYG{o}{*}\PYG{n}{table}\PYG{p}{,} \PYG{k+kt}{uint8\PYGZus{}t} \PYG{o}{*}\PYG{n}{key}\PYG{p}{,} \PYG{k+kt}{int} \PYG{n}{status}\PYG{p}{)}
+\PYG{p}{\PYGZob{}}
+        \PYG{k+kt}{uint32\PYGZus{}t} \PYG{n}{i}\PYG{p}{,} \PYG{n}{j}\PYG{p}{,} \PYG{n}{tag}\PYG{p}{[}\PYG{l+m+mi}{2}\PYG{p}{]}\PYG{p}{;}
+        \PYG{k}{struct} \PYG{n}{hash\PYGZus{}slot\PYGZus{}cache} \PYG{o}{*}\PYG{n}{slot}\PYG{p}{;}
+
+        \PYG{n}{tag}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{=} \PYG{n}{cuckoo\PYGZus{}hash\PYGZus{}lsb}\PYG{p}{(}\PYG{n}{key}\PYG{p}{,} \PYG{n}{table}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZgt{}}\PYG{n}{bucket\PYGZus{}num}\PYG{p}{)}\PYG{p}{;}
+        \PYG{n}{tag}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{=} \PYG{n}{cuckoo\PYGZus{}hash\PYGZus{}msb}\PYG{p}{(}\PYG{n}{key}\PYG{p}{,} \PYG{n}{table}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZgt{}}\PYG{n}{bucket\PYGZus{}num}\PYG{p}{)}\PYG{p}{;}
+
+\PYG{c+cp}{\PYGZsh{}}\PYG{c+cp}{ifdef CUCKOO\PYGZus{}DBG}
+        \PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{set status:\PYGZpc{}d t0:\PYGZpc{}x t1:\PYGZpc{}x}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{status}\PYG{p}{,} \PYG{n}{tag}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{p}{,} \PYG{n}{tag}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{p}{)}\PYG{p}{;}
+\PYG{c+cp}{\PYGZsh{}}\PYG{c+cp}{endif}
+        \PYG{n}{dump\PYGZus{}sha1\PYGZus{}key}\PYG{p}{(}\PYG{n}{key}\PYG{p}{)}\PYG{p}{;}
+
+        \PYG{c+cm}{/* Insert new key into hash buckets. */}
+        \PYG{n}{slot} \PYG{o}{=} \PYG{n}{table}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZgt{}}\PYG{n}{buckets}\PYG{p}{[}\PYG{n}{tag}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{p}{]}\PYG{p}{;}
+        \PYG{k}{for} \PYG{p}{(}\PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{i} \PYG{o}{\PYGZlt{}} \PYG{n}{ASSOC\PYGZus{}WAY}\PYG{p}{;} \PYG{n}{i}\PYG{o}{+}\PYG{o}{+}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                \PYG{k}{if} \PYG{p}{(}\PYG{n}{cuckoo\PYGZus{}hash\PYGZus{}msb}\PYG{p}{(}\PYG{n}{key}\PYG{p}{,} \PYG{n}{table}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZgt{}}\PYG{n}{bucket\PYGZus{}num}\PYG{p}{)} \PYG{o}{=}\PYG{o}{=} \PYG{n}{slot}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{p}{.}\PYG{n}{tag}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                        \PYG{n}{slot}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{p}{.}\PYG{n}{status} \PYG{o}{=} \PYG{n}{status}\PYG{p}{;}
+                        \PYG{k}{return}\PYG{p}{;}
+                \PYG{p}{\PYGZcb{}}
+        \PYG{p}{\PYGZcb{}}
+
+        \PYG{k}{if} \PYG{p}{(}\PYG{n}{i} \PYG{o}{=}\PYG{o}{=} \PYG{n}{ASSOC\PYGZus{}WAY}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                \PYG{n}{slot} \PYG{o}{=} \PYG{n}{table}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZgt{}}\PYG{n}{buckets}\PYG{p}{[}\PYG{n}{tag}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{p}{]}\PYG{p}{;}
+                \PYG{k}{for} \PYG{p}{(}\PYG{n}{j} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{j} \PYG{o}{\PYGZlt{}} \PYG{n}{ASSOC\PYGZus{}WAY}\PYG{p}{;} \PYG{n}{j}\PYG{o}{+}\PYG{o}{+}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                        \PYG{k}{if} \PYG{p}{(}\PYG{n}{cuckoo\PYGZus{}hash\PYGZus{}lsb}\PYG{p}{(}\PYG{n}{key}\PYG{p}{,} \PYG{n}{table}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZgt{}}\PYG{n}{bucket\PYGZus{}num}\PYG{p}{)} \PYG{o}{=}\PYG{o}{=} \PYG{n}{slot}\PYG{p}{[}\PYG{n}{j}\PYG{p}{]}\PYG{p}{.}\PYG{n}{tag}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                                \PYG{n}{slot}\PYG{p}{[}\PYG{n}{j}\PYG{p}{]}\PYG{p}{.}\PYG{n}{status} \PYG{o}{=} \PYG{n}{status}\PYG{p}{;}
+                                \PYG{k}{return}\PYG{p}{;}
+                        \PYG{p}{\PYGZcb{}}
+                \PYG{p}{\PYGZcb{}}
+
+                \PYG{k}{if} \PYG{p}{(}\PYG{n}{j} \PYG{o}{=}\PYG{o}{=} \PYG{n}{ASSOC\PYGZus{}WAY}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+\PYG{c+cp}{\PYGZsh{}}\PYG{c+cp}{ifdef CUCKOO\PYGZus{}DBG}
+                        \PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{Key not exists!}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}\PYG{p}{;}
+\PYG{c+cp}{\PYGZsh{}}\PYG{c+cp}{endif}
+                \PYG{p}{\PYGZcb{}}
+        \PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k}{static} \PYG{k+kt}{void} \PYG{n}{cuckoo\PYGZus{}hash\PYGZus{}delete}\PYG{p}{(}\PYG{k}{struct} \PYG{n}{hash\PYGZus{}table} \PYG{o}{*}\PYG{n}{table}\PYG{p}{,} \PYG{k+kt}{uint8\PYGZus{}t} \PYG{o}{*}\PYG{n}{key}\PYG{p}{)}
+\PYG{p}{\PYGZob{}}
+        \PYG{n}{cuckoo\PYGZus{}hash\PYGZus{}status\PYGZus{}set}\PYG{p}{(}\PYG{n}{table}\PYG{p}{,} \PYG{n}{key}\PYG{p}{,} \PYG{n}{DELETED}\PYG{p}{)}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k}{static} \PYG{k+kt}{void} \PYG{n}{cuckoo\PYGZus{}hash\PYGZus{}recover}\PYG{p}{(}\PYG{k}{struct} \PYG{n}{hash\PYGZus{}table} \PYG{o}{*}\PYG{n}{table}\PYG{p}{,} \PYG{k+kt}{uint8\PYGZus{}t} \PYG{o}{*}\PYG{n}{key}\PYG{p}{)}
+\PYG{p}{\PYGZob{}}
+        \PYG{n}{cuckoo\PYGZus{}hash\PYGZus{}status\PYGZus{}set}\PYG{p}{(}\PYG{n}{table}\PYG{p}{,} \PYG{n}{key}\PYG{p}{,} \PYG{n}{OCCUPIED}\PYG{p}{)}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k}{static} \PYG{k+kt}{void} \PYG{n}{cuckoo\PYGZus{}rehash}\PYG{p}{(}\PYG{k}{struct} \PYG{n}{hash\PYGZus{}table} \PYG{o}{*}\PYG{n}{table}\PYG{p}{)}
+\PYG{p}{\PYGZob{}}
+        \PYG{k+kt}{int} \PYG{n}{i}\PYG{p}{;}
+        \PYG{k}{struct} \PYG{n}{hash\PYGZus{}table} \PYG{n}{old\PYGZus{}table}\PYG{p}{;}
+
+        \PYG{c+cm}{/* Reallocate hash slots */}
+        \PYG{n}{old\PYGZus{}table}\PYG{p}{.}\PYG{n}{slots} \PYG{o}{=} \PYG{n}{table}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZgt{}}\PYG{n}{slots}\PYG{p}{;}
+        \PYG{n}{old\PYGZus{}table}\PYG{p}{.}\PYG{n}{slot\PYGZus{}num} \PYG{o}{=} \PYG{n}{table}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZgt{}}\PYG{n}{slot\PYGZus{}num}\PYG{p}{;}
+        \PYG{n}{table}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZgt{}}\PYG{n}{slot\PYGZus{}num} \PYG{o}{*}\PYG{o}{=} \PYG{l+m+mi}{2}\PYG{p}{;}
+        \PYG{n}{table}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZgt{}}\PYG{n}{slots} \PYG{o}{=} \PYG{n}{calloc}\PYG{p}{(}\PYG{n}{table}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZgt{}}\PYG{n}{slot\PYGZus{}num}\PYG{p}{,} \PYG{k}{sizeof}\PYG{p}{(}\PYG{k}{struct} \PYG{n}{hash\PYGZus{}slot\PYGZus{}cache}\PYG{p}{)}\PYG{p}{)}\PYG{p}{;}
+        \PYG{k}{if} \PYG{p}{(}\PYG{n}{table}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZgt{}}\PYG{n}{slots} \PYG{o}{=}\PYG{o}{=} \PYG{n+nb}{NULL}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                \PYG{n}{table}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZgt{}}\PYG{n}{slots} \PYG{o}{=} \PYG{n}{old\PYGZus{}table}\PYG{p}{.}\PYG{n}{slots}\PYG{p}{;}
+                \PYG{k}{return}\PYG{p}{;}
+        \PYG{p}{\PYGZcb{}}
+
+        \PYG{c+cm}{/* Reallocate hash buckets associated with slots */}
+        \PYG{n}{old\PYGZus{}table}\PYG{p}{.}\PYG{n}{buckets} \PYG{o}{=} \PYG{n}{table}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZgt{}}\PYG{n}{buckets}\PYG{p}{;}
+        \PYG{n}{old\PYGZus{}table}\PYG{p}{.}\PYG{n}{bucket\PYGZus{}num} \PYG{o}{=} \PYG{n}{table}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZgt{}}\PYG{n}{bucket\PYGZus{}num}\PYG{p}{;}
+        \PYG{n}{table}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZgt{}}\PYG{n}{bucket\PYGZus{}num} \PYG{o}{*}\PYG{o}{=} \PYG{l+m+mi}{2}\PYG{p}{;}
+        \PYG{n}{table}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZgt{}}\PYG{n}{buckets} \PYG{o}{=} \PYG{n}{malloc}\PYG{p}{(}\PYG{n}{table}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZgt{}}\PYG{n}{bucket\PYGZus{}num} \PYG{o}{*} \PYG{k}{sizeof}\PYG{p}{(}\PYG{k}{struct} \PYG{n}{hash\PYGZus{}slot\PYGZus{}cache} \PYG{o}{*}\PYG{p}{)}\PYG{p}{)}\PYG{p}{;}
+        \PYG{k}{if} \PYG{p}{(}\PYG{n}{table}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZgt{}}\PYG{n}{buckets} \PYG{o}{=}\PYG{o}{=} \PYG{n+nb}{NULL}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                \PYG{n}{free}\PYG{p}{(}\PYG{n}{table}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZgt{}}\PYG{n}{slots}\PYG{p}{)}\PYG{p}{;}
+                \PYG{n}{table}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZgt{}}\PYG{n}{slots} \PYG{o}{=} \PYG{n}{old\PYGZus{}table}\PYG{p}{.}\PYG{n}{slots}\PYG{p}{;}
+                \PYG{n}{table}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZgt{}}\PYG{n}{buckets} \PYG{o}{=} \PYG{n}{old\PYGZus{}table}\PYG{p}{.}\PYG{n}{buckets}\PYG{p}{;}
+                \PYG{k}{return}\PYG{p}{;}
+        \PYG{p}{\PYGZcb{}}
+        \PYG{k}{for} \PYG{p}{(}\PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{i} \PYG{o}{\PYGZlt{}} \PYG{n}{table}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZgt{}}\PYG{n}{bucket\PYGZus{}num}\PYG{p}{;} \PYG{n}{i}\PYG{o}{+}\PYG{o}{+}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                \PYG{n}{table}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZgt{}}\PYG{n}{buckets}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{=} \PYG{o}{\PYGZam{}}\PYG{n}{table}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZgt{}}\PYG{n}{slots}\PYG{p}{[}\PYG{n}{i} \PYG{o}{*} \PYG{n}{ASSOC\PYGZus{}WAY}\PYG{p}{]}\PYG{p}{;}
+        \PYG{p}{\PYGZcb{}}
+
+        \PYG{c+cm}{/* Rehash all hash slots */}
+        \PYG{k+kt}{uint8\PYGZus{}t} \PYG{o}{*}\PYG{n}{read\PYGZus{}addr} \PYG{o}{=} \PYG{n}{nvrom\PYGZus{}base\PYGZus{}addr}\PYG{p}{;}
+        \PYG{k+kt}{uint32\PYGZus{}t} \PYG{n}{entries} \PYG{o}{=} \PYG{n}{log\PYGZus{}entries}\PYG{p}{;}
+        \PYG{k}{while} \PYG{p}{(}\PYG{n}{entries}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                \PYG{k+kt}{uint8\PYGZus{}t} \PYG{n}{key}\PYG{p}{[}\PYG{l+m+mi}{20}\PYG{p}{]}\PYG{p}{;}
+                \PYG{k+kt}{uint32\PYGZus{}t} \PYG{n}{offset} \PYG{o}{=} \PYG{n}{read\PYGZus{}addr} \PYG{o}{\PYGZhy{}} \PYG{n}{nvrom\PYGZus{}base\PYGZus{}addr}\PYG{p}{;}
+                \PYG{k}{for} \PYG{p}{(}\PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{i} \PYG{o}{\PYGZlt{}} \PYG{l+m+mi}{20}\PYG{p}{;} \PYG{n}{i}\PYG{o}{+}\PYG{o}{+}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                        \PYG{n}{key}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{=} \PYG{n}{flash\PYGZus{}read}\PYG{p}{(}\PYG{n}{read\PYGZus{}addr}\PYG{p}{)}\PYG{p}{;}
+                        \PYG{n}{read\PYGZus{}addr}\PYG{o}{+}\PYG{o}{+}\PYG{p}{;}
+                \PYG{p}{\PYGZcb{}}
+                \PYG{c+cm}{/* Duplicated keys in hash table which can cause eternal}
+\PYG{c+cm}{                 * hashing collision! Be careful of that!}
+\PYG{c+cm}{                 */}
+                \PYG{n}{assert}\PYG{p}{(}\PYG{o}{!}\PYG{n}{cuckoo\PYGZus{}hash\PYGZus{}put}\PYG{p}{(}\PYG{n}{table}\PYG{p}{,} \PYG{n}{key}\PYG{p}{,} \PYG{o}{\PYGZam{}}\PYG{n}{offset}\PYG{p}{)}\PYG{p}{)}\PYG{p}{;}
+                \PYG{k}{if} \PYG{p}{(}\PYG{n}{cuckoo\PYGZus{}hash\PYGZus{}get}\PYG{p}{(}\PYG{o}{\PYGZam{}}\PYG{n}{old\PYGZus{}table}\PYG{p}{,} \PYG{n}{key}\PYG{p}{,} \PYG{n+nb}{NULL}\PYG{p}{)} \PYG{o}{=}\PYG{o}{=} \PYG{n}{DELETED}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                        \PYG{n}{cuckoo\PYGZus{}hash\PYGZus{}delete}\PYG{p}{(}\PYG{n}{table}\PYG{p}{,} \PYG{n}{key}\PYG{p}{)}\PYG{p}{;}
+                \PYG{p}{\PYGZcb{}}
+                \PYG{n}{read\PYGZus{}addr} \PYG{o}{+}\PYG{o}{=} \PYG{n}{DAT\PYGZus{}LEN}\PYG{p}{;}
+        \PYG{p}{\PYGZcb{}}
+
+       \PYG{n}{free}\PYG{p}{(}\PYG{n}{old\PYGZus{}table}\PYG{p}{.}\PYG{n}{slots}\PYG{p}{)}\PYG{p}{;}
+       \PYG{n}{free}\PYG{p}{(}\PYG{n}{old\PYGZus{}table}\PYG{p}{.}\PYG{n}{buckets}\PYG{p}{)}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k+kt}{uint8\PYGZus{}t} \PYG{o}{*}\PYG{n}{cuckoo\PYGZus{}filter\PYGZus{}get}\PYG{p}{(}\PYG{k+kt}{uint8\PYGZus{}t} \PYG{o}{*}\PYG{n}{key}\PYG{p}{)}
+\PYG{p}{\PYGZob{}}
+        \PYG{k+kt}{int} \PYG{n}{i}\PYG{p}{;}
+        \PYG{k+kt}{uint8\PYGZus{}t} \PYG{o}{*}\PYG{n}{read\PYGZus{}addr}\PYG{p}{;}
+        \PYG{k}{static} \PYG{k+kt}{uint8\PYGZus{}t} \PYG{n}{value}\PYG{p}{[}\PYG{n}{DAT\PYGZus{}LEN}\PYG{p}{]}\PYG{p}{;}
+
+        \PYG{c+cm}{/* Read data from the log entry on flash. */}
+        \PYG{k}{if} \PYG{p}{(}\PYG{n}{cuckoo\PYGZus{}hash\PYGZus{}get}\PYG{p}{(}\PYG{o}{\PYGZam{}}\PYG{n}{hash\PYGZus{}table}\PYG{p}{,} \PYG{n}{key}\PYG{p}{,} \PYG{o}{\PYGZam{}}\PYG{n}{read\PYGZus{}addr}\PYG{p}{)} \PYG{o}{!}\PYG{o}{=} \PYG{n}{OCCUPIED}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                \PYG{k}{return} \PYG{n+nb}{NULL}\PYG{p}{;}
+        \PYG{p}{\PYGZcb{}}
+
+        \PYG{k}{for} \PYG{p}{(}\PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{i} \PYG{o}{\PYGZlt{}} \PYG{n}{DAT\PYGZus{}LEN}\PYG{p}{;} \PYG{n}{i}\PYG{o}{+}\PYG{o}{+}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                \PYG{n}{value}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{=} \PYG{n}{flash\PYGZus{}read}\PYG{p}{(}\PYG{n}{read\PYGZus{}addr}\PYG{p}{)}\PYG{p}{;}
+                \PYG{n}{read\PYGZus{}addr}\PYG{o}{+}\PYG{o}{+}\PYG{p}{;}
+        \PYG{p}{\PYGZcb{}}
+
+        \PYG{k}{return} \PYG{n}{value}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k+kt}{void} \PYG{n}{cuckoo\PYGZus{}filter\PYGZus{}put}\PYG{p}{(}\PYG{k+kt}{uint8\PYGZus{}t} \PYG{o}{*}\PYG{n}{key}\PYG{p}{,} \PYG{k+kt}{uint8\PYGZus{}t} \PYG{o}{*}\PYG{n}{value}\PYG{p}{)}
+\PYG{p}{\PYGZob{}}
+        \PYG{k}{if} \PYG{p}{(}\PYG{n}{value} \PYG{o}{!}\PYG{o}{=} \PYG{n+nb}{NULL}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                \PYG{c+cm}{/* Important: Reject duplicated keys keeping from eternal collision */}
+                \PYG{k+kt}{int} \PYG{n}{status} \PYG{o}{=} \PYG{n}{cuckoo\PYGZus{}hash\PYGZus{}get}\PYG{p}{(}\PYG{o}{\PYGZam{}}\PYG{n}{hash\PYGZus{}table}\PYG{p}{,} \PYG{n}{key}\PYG{p}{,} \PYG{n+nb}{NULL}\PYG{p}{)}\PYG{p}{;}
+                \PYG{k}{if} \PYG{p}{(}\PYG{n}{status} \PYG{o}{=}\PYG{o}{=} \PYG{n}{OCCUPIED}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                        \PYG{k}{return}\PYG{p}{;}
+                \PYG{p}{\PYGZcb{}} \PYG{k}{else} \PYG{k}{if} \PYG{p}{(}\PYG{n}{status} \PYG{o}{=}\PYG{o}{=} \PYG{n}{DELETED}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                        \PYG{n}{cuckoo\PYGZus{}hash\PYGZus{}recover}\PYG{p}{(}\PYG{o}{\PYGZam{}}\PYG{n}{hash\PYGZus{}table}\PYG{p}{,} \PYG{n}{key}\PYG{p}{)}\PYG{p}{;}
+                \PYG{p}{\PYGZcb{}} \PYG{k}{else} \PYG{p}{\PYGZob{}}
+                        \PYG{c+cm}{/* Find new log entry offset on flash. */}
+                        \PYG{k+kt}{uint32\PYGZus{}t} \PYG{n}{offset} \PYG{o}{=} \PYG{n}{next\PYGZus{}entry\PYGZus{}offset}\PYG{p}{(}\PYG{p}{)}\PYG{p}{;}
+
+                        \PYG{c+cm}{/* Insert into hash slots */}
+                        \PYG{k}{if} \PYG{p}{(}\PYG{n}{cuckoo\PYGZus{}hash\PYGZus{}put}\PYG{p}{(}\PYG{o}{\PYGZam{}}\PYG{n}{hash\PYGZus{}table}\PYG{p}{,} \PYG{n}{key}\PYG{p}{,} \PYG{o}{\PYGZam{}}\PYG{n}{offset}\PYG{p}{)} \PYG{o}{=}\PYG{o}{=} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                                \PYG{n}{cuckoo\PYGZus{}rehash}\PYG{p}{(}\PYG{o}{\PYGZam{}}\PYG{n}{hash\PYGZus{}table}\PYG{p}{)}\PYG{p}{;}
+                                \PYG{n}{cuckoo\PYGZus{}hash\PYGZus{}put}\PYG{p}{(}\PYG{o}{\PYGZam{}}\PYG{n}{hash\PYGZus{}table}\PYG{p}{,} \PYG{n}{key}\PYG{p}{,} \PYG{o}{\PYGZam{}}\PYG{n}{offset}\PYG{p}{)}\PYG{p}{;}
+                        \PYG{p}{\PYGZcb{}}
+                        \PYG{k}{if} \PYG{p}{(}\PYG{n}{offset} \PYG{o}{=}\PYG{o}{=} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                                \PYG{n}{fprintf}\PYG{p}{(}\PYG{n}{stderr}\PYG{p}{,} \PYG{l+s}{\PYGZdq{}}\PYG{l+s}{Not enough capacity!}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}\PYG{p}{;}
+                                \PYG{k}{return}\PYG{p}{;}
+                        \PYG{p}{\PYGZcb{}}
+
+                        \PYG{c+cm}{/* Add new entry of key\PYGZhy{}value pair on flash. */}
+                        \PYG{k+kt}{int} \PYG{n}{i}\PYG{p}{;}
+                        \PYG{k+kt}{uint8\PYGZus{}t} \PYG{o}{*}\PYG{n}{append\PYGZus{}addr} \PYG{o}{=} \PYG{n}{nvrom\PYGZus{}base\PYGZus{}addr} \PYG{o}{+} \PYG{n}{offset}\PYG{p}{;}
+                        \PYG{n}{assert}\PYG{p}{(}\PYG{n}{flash\PYGZus{}align}\PYG{p}{(}\PYG{n}{append\PYGZus{}addr}\PYG{p}{)}\PYG{p}{)}\PYG{p}{;}
+                        \PYG{n}{flash\PYGZus{}sector\PYGZus{}erase}\PYG{p}{(}\PYG{n}{append\PYGZus{}addr}\PYG{p}{)}\PYG{p}{;}
+                        \PYG{k}{for} \PYG{p}{(}\PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{i} \PYG{o}{\PYGZlt{}} \PYG{l+m+mi}{20}\PYG{p}{;} \PYG{n}{i}\PYG{o}{+}\PYG{o}{+}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                                \PYG{n}{flash\PYGZus{}write}\PYG{p}{(}\PYG{n}{append\PYGZus{}addr}\PYG{p}{,} \PYG{n}{key}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{p}{)}\PYG{p}{;}
+                                \PYG{n}{append\PYGZus{}addr}\PYG{o}{+}\PYG{o}{+}\PYG{p}{;}
+                        \PYG{p}{\PYGZcb{}}
+                        \PYG{k}{for} \PYG{p}{(}\PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{i} \PYG{o}{\PYGZlt{}} \PYG{n}{DAT\PYGZus{}LEN}\PYG{p}{;} \PYG{n}{i}\PYG{o}{+}\PYG{o}{+}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                                \PYG{n}{flash\PYGZus{}write}\PYG{p}{(}\PYG{n}{append\PYGZus{}addr}\PYG{p}{,} \PYG{n}{value}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{p}{)}\PYG{p}{;}
+                                \PYG{n}{append\PYGZus{}addr}\PYG{o}{+}\PYG{o}{+}\PYG{p}{;}
+                        \PYG{p}{\PYGZcb{}}
+                        \PYG{n}{log\PYGZus{}entries}\PYG{o}{+}\PYG{o}{+}\PYG{p}{;}
+                \PYG{p}{\PYGZcb{}}
+        \PYG{p}{\PYGZcb{}} \PYG{k}{else} \PYG{p}{\PYGZob{}}
+                \PYG{c+cm}{/* Delete at the hash slot */}
+                \PYG{n}{cuckoo\PYGZus{}hash\PYGZus{}delete}\PYG{p}{(}\PYG{o}{\PYGZam{}}\PYG{n}{hash\PYGZus{}table}\PYG{p}{,} \PYG{n}{key}\PYG{p}{)}\PYG{p}{;}
+        \PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k+kt}{int} \PYG{n}{cuckoo\PYGZus{}filter\PYGZus{}init}\PYG{p}{(}\PYG{k+kt}{size\PYGZus{}t} \PYG{n}{size}\PYG{p}{)}
+\PYG{p}{\PYGZob{}}
+        \PYG{k+kt}{int} \PYG{n}{i}\PYG{p}{;}
+
+        \PYG{c+cm}{/* Make whole memory space large enough(but not always predictable...) */}
+        \PYG{n}{nvrom\PYGZus{}size} \PYG{o}{=} \PYG{n}{next\PYGZus{}pow\PYGZus{}of\PYGZus{}2}\PYG{p}{(}\PYG{p}{(}\PYG{n}{size} \PYG{o}{/} \PYG{n}{DAT\PYGZus{}LEN} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{)} \PYG{o}{*} \PYG{n}{SECTOR\PYGZus{}SIZE}\PYG{p}{)}\PYG{p}{;}
+        \PYG{n}{nvrom\PYGZus{}base\PYGZus{}addr} \PYG{o}{=} \PYG{n}{malloc}\PYG{p}{(}\PYG{n}{nvrom\PYGZus{}size} \PYG{o}{+} \PYG{n}{SECTOR\PYGZus{}SIZE}\PYG{p}{)}\PYG{p}{;}
+        \PYG{k}{if} \PYG{p}{(}\PYG{n}{nvrom\PYGZus{}base\PYGZus{}addr} \PYG{o}{=}\PYG{o}{=} \PYG{n+nb}{NULL}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                \PYG{k}{return} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{;}
+        \PYG{p}{\PYGZcb{}}
+        \PYG{n}{nvrom\PYGZus{}base\PYGZus{}addr} \PYG{o}{=} \PYG{n}{force\PYGZus{}align}\PYG{p}{(}\PYG{n}{nvrom\PYGZus{}base\PYGZus{}addr}\PYG{p}{,} \PYG{n}{SECTOR\PYGZus{}SIZE}\PYG{p}{)}\PYG{p}{;}
+
+        \PYG{c+cm}{/* Allocate hash slots */}
+        \PYG{n}{hash\PYGZus{}table}\PYG{p}{.}\PYG{n}{slot\PYGZus{}num} \PYG{o}{=} \PYG{n}{nvrom\PYGZus{}size} \PYG{o}{/} \PYG{n}{SECTOR\PYGZus{}SIZE}\PYG{p}{;}
+        \PYG{c+cm}{/* Make rehashing happen */}
+        \PYG{n}{hash\PYGZus{}table}\PYG{p}{.}\PYG{n}{slot\PYGZus{}num} \PYG{o}{/}\PYG{o}{=} \PYG{l+m+mi}{4}\PYG{p}{;}
+        \PYG{n}{hash\PYGZus{}table}\PYG{p}{.}\PYG{n}{slots} \PYG{o}{=} \PYG{n}{calloc}\PYG{p}{(}\PYG{n}{hash\PYGZus{}table}\PYG{p}{.}\PYG{n}{slot\PYGZus{}num}\PYG{p}{,} \PYG{k}{sizeof}\PYG{p}{(}\PYG{k}{struct} \PYG{n}{hash\PYGZus{}slot\PYGZus{}cache}\PYG{p}{)}\PYG{p}{)}\PYG{p}{;}
+        \PYG{k}{if} \PYG{p}{(}\PYG{n}{hash\PYGZus{}table}\PYG{p}{.}\PYG{n}{slots} \PYG{o}{=}\PYG{o}{=} \PYG{n+nb}{NULL}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                \PYG{k}{return} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{;}
+        \PYG{p}{\PYGZcb{}}
+
+        \PYG{c+cm}{/* Allocate hash buckets associated with slots */}
+        \PYG{n}{hash\PYGZus{}table}\PYG{p}{.}\PYG{n}{bucket\PYGZus{}num} \PYG{o}{=} \PYG{n}{hash\PYGZus{}table}\PYG{p}{.}\PYG{n}{slot\PYGZus{}num} \PYG{o}{/} \PYG{n}{ASSOC\PYGZus{}WAY}\PYG{p}{;}
+        \PYG{n}{hash\PYGZus{}table}\PYG{p}{.}\PYG{n}{buckets} \PYG{o}{=} \PYG{n}{malloc}\PYG{p}{(}\PYG{n}{hash\PYGZus{}table}\PYG{p}{.}\PYG{n}{bucket\PYGZus{}num} \PYG{o}{*} \PYG{k}{sizeof}\PYG{p}{(}\PYG{k}{struct} \PYG{n}{hash\PYGZus{}slot\PYGZus{}cache} \PYG{o}{*}\PYG{p}{)}\PYG{p}{)}\PYG{p}{;}
+        \PYG{k}{if} \PYG{p}{(}\PYG{n}{hash\PYGZus{}table}\PYG{p}{.}\PYG{n}{buckets} \PYG{o}{=}\PYG{o}{=} \PYG{n+nb}{NULL}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                \PYG{n}{free}\PYG{p}{(}\PYG{n}{hash\PYGZus{}table}\PYG{p}{.}\PYG{n}{slots}\PYG{p}{)}\PYG{p}{;}
+                \PYG{k}{return} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{;}
+        \PYG{p}{\PYGZcb{}}
+        \PYG{k}{for} \PYG{p}{(}\PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{i} \PYG{o}{\PYGZlt{}} \PYG{n}{hash\PYGZus{}table}\PYG{p}{.}\PYG{n}{bucket\PYGZus{}num}\PYG{p}{;} \PYG{n}{i}\PYG{o}{+}\PYG{o}{+}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                \PYG{n}{hash\PYGZus{}table}\PYG{p}{.}\PYG{n}{buckets}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{=} \PYG{o}{\PYGZam{}}\PYG{n}{hash\PYGZus{}table}\PYG{p}{.}\PYG{n}{slots}\PYG{p}{[}\PYG{n}{i} \PYG{o}{*} \PYG{n}{ASSOC\PYGZus{}WAY}\PYG{p}{]}\PYG{p}{;}
+        \PYG{p}{\PYGZcb{}}
+
+        \PYG{k}{return} \PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

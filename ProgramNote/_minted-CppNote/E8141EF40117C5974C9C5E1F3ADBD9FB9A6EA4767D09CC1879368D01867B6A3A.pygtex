@@ -1,0 +1,61 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+\PYG{k+kn}{import} \PYG{n+nn}{java.text.ParseException}\PYG{o}{;}  
+\PYG{k+kn}{import} \PYG{n+nn}{java.text.SimpleDateFormat}\PYG{o}{;}  
+\PYG{k+kn}{import} \PYG{n+nn}{java.util.Calendar}\PYG{o}{;}  
+\PYG{k+kn}{import} \PYG{n+nn}{java.util.Date}\PYG{o}{;}  
+
+\PYG{k+kd}{public} \PYG{k+kd}{class} \PYG{n+nc}{test16} \PYG{o}{\PYGZob{}}  
+
+    \PYG{c+cm}{/** }
+\PYG{c+cm}{      * @param args }
+\PYG{c+cm}{      * @throws ParseException  }
+\PYG{c+cm}{      */}  
+    \PYG{k+kd}{public} \PYG{k+kd}{static} \PYG{k+kt}{void} \PYG{n+nf}{main}\PYG{o}{(}\PYG{n}{String}\PYG{o}{[}\PYG{o}{]} \PYG{n}{args}\PYG{o}{)} \PYG{k+kd}{throws} \PYG{n}{ParseException} \PYG{o}{\PYGZob{}}  
+	\PYG{c+c1}{// TODO Auto\PYGZhy{}generated method stub  }
+	\PYG{n}{SimpleDateFormat} \PYG{n}{sdf}\PYG{o}{=}\PYG{k}{new} \PYG{n}{SimpleDateFormat}\PYG{o}{(}\PYG{l+s}{\PYGZdq{}yyyy\PYGZhy{}MM\PYGZhy{}dd HH:mm:ss\PYGZdq{}}\PYG{o}{)}\PYG{o}{;}  
+	\PYG{n}{Date} \PYG{n}{d1}\PYG{o}{=}\PYG{n}{sdf}\PYG{o}{.}\PYG{n+na}{parse}\PYG{o}{(}\PYG{l+s}{\PYGZdq{}2012\PYGZhy{}09\PYGZhy{}08 10:10:10\PYGZdq{}}\PYG{o}{)}\PYG{o}{;}  
+	\PYG{n}{Date} \PYG{n}{d2}\PYG{o}{=}\PYG{n}{sdf}\PYG{o}{.}\PYG{n+na}{parse}\PYG{o}{(}\PYG{l+s}{\PYGZdq{}2012\PYGZhy{}09\PYGZhy{}15 00:00:00\PYGZdq{}}\PYG{o}{)}\PYG{o}{;}  
+	\PYG{n}{System}\PYG{o}{.}\PYG{n+na}{out}\PYG{o}{.}\PYG{n+na}{println}\PYG{o}{(}\PYG{n}{daysBetween}\PYG{o}{(}\PYG{n}{d1}\PYG{o}{,}\PYG{n}{d2}\PYG{o}{)}\PYG{o}{)}\PYG{o}{;}  
+
+	\PYG{n}{System}\PYG{o}{.}\PYG{n+na}{out}\PYG{o}{.}\PYG{n+na}{println}\PYG{o}{(}\PYG{n}{daysBetween}\PYG{o}{(}\PYG{l+s}{\PYGZdq{}2012\PYGZhy{}09\PYGZhy{}08 10:10:10\PYGZdq{}}\PYG{o}{,}\PYG{l+s}{\PYGZdq{}2012\PYGZhy{}09\PYGZhy{}15 00:00:00\PYGZdq{}}\PYG{o}{)}\PYG{o}{)}\PYG{o}{;}  
+    \PYG{o}{\PYGZcb{}}  
+
+    \PYG{c+cm}{/**  }
+\PYG{c+cm}{      * 计算两个日期之间相差的天数  }
+\PYG{c+cm}{      * @param smdate 较小的时间 }
+\PYG{c+cm}{      * @param bdate  较大的时间 }
+\PYG{c+cm}{      * @return 相差天数 }
+\PYG{c+cm}{      * @throws ParseException  }
+\PYG{c+cm}{      */}    
+    \PYG{k+kd}{public} \PYG{k+kd}{static} \PYG{k+kt}{int} \PYG{n+nf}{daysBetween}\PYG{o}{(}\PYG{n}{Date} \PYG{n}{smdate}\PYG{o}{,}\PYG{n}{Date} \PYG{n}{bdate}\PYG{o}{)} \PYG{k+kd}{throws} \PYG{n}{ParseException}    
+    \PYG{o}{\PYGZob{}}    
+	\PYG{n}{SimpleDateFormat} \PYG{n}{sdf}\PYG{o}{=}\PYG{k}{new} \PYG{n}{SimpleDateFormat}\PYG{o}{(}\PYG{l+s}{\PYGZdq{}yyyy\PYGZhy{}MM\PYGZhy{}dd\PYGZdq{}}\PYG{o}{)}\PYG{o}{;}  
+	\PYG{n}{smdate}\PYG{o}{=}\PYG{n}{sdf}\PYG{o}{.}\PYG{n+na}{parse}\PYG{o}{(}\PYG{n}{sdf}\PYG{o}{.}\PYG{n+na}{format}\PYG{o}{(}\PYG{n}{smdate}\PYG{o}{)}\PYG{o}{)}\PYG{o}{;}  
+	\PYG{n}{bdate}\PYG{o}{=}\PYG{n}{sdf}\PYG{o}{.}\PYG{n+na}{parse}\PYG{o}{(}\PYG{n}{sdf}\PYG{o}{.}\PYG{n+na}{format}\PYG{o}{(}\PYG{n}{bdate}\PYG{o}{)}\PYG{o}{)}\PYG{o}{;}  
+	\PYG{n}{Calendar} \PYG{n}{cal} \PYG{o}{=} \PYG{n}{Calendar}\PYG{o}{.}\PYG{n+na}{getInstance}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}    
+	\PYG{n}{cal}\PYG{o}{.}\PYG{n+na}{setTime}\PYG{o}{(}\PYG{n}{smdate}\PYG{o}{)}\PYG{o}{;}    
+	\PYG{k+kt}{long} \PYG{n}{time1} \PYG{o}{=} \PYG{n}{cal}\PYG{o}{.}\PYG{n+na}{getTimeInMillis}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}                 
+	\PYG{n}{cal}\PYG{o}{.}\PYG{n+na}{setTime}\PYG{o}{(}\PYG{n}{bdate}\PYG{o}{)}\PYG{o}{;}    
+	\PYG{k+kt}{long} \PYG{n}{time2} \PYG{o}{=} \PYG{n}{cal}\PYG{o}{.}\PYG{n+na}{getTimeInMillis}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}         
+	\PYG{k+kt}{long} \PYG{n}{between\PYGZus{}days}\PYG{o}{=}\PYG{o}{(}\PYG{n}{time2}\PYG{o}{\PYGZhy{}}\PYG{n}{time1}\PYG{o}{)}\PYG{o}{/}\PYG{o}{(}\PYG{l+m+mi}{1000}\PYG{o}{*}\PYG{l+m+mi}{3600}\PYG{o}{*}\PYG{l+m+mi}{24}\PYG{o}{)}\PYG{o}{;}  
+
+	\PYG{k}{return} \PYG{n}{Integer}\PYG{o}{.}\PYG{n+na}{parseInt}\PYG{o}{(}\PYG{n}{String}\PYG{o}{.}\PYG{n+na}{valueOf}\PYG{o}{(}\PYG{n}{between\PYGZus{}days}\PYG{o}{)}\PYG{o}{)}\PYG{o}{;}           
+    \PYG{o}{\PYGZcb{}}    
+
+    \PYG{c+cm}{/** }
+\PYG{c+cm}{    *字符串的日期格式的计算 }
+\PYG{c+cm}{    */}  
+    \PYG{k+kd}{public} \PYG{k+kd}{static} \PYG{k+kt}{int} \PYG{n+nf}{daysBetween}\PYG{o}{(}\PYG{n}{String} \PYG{n}{smdate}\PYG{o}{,}\PYG{n}{String} \PYG{n}{bdate}\PYG{o}{)} \PYG{k+kd}{throws} \PYG{n}{ParseException}\PYG{o}{\PYGZob{}}  
+	\PYG{n}{SimpleDateFormat} \PYG{n}{sdf}\PYG{o}{=}\PYG{k}{new} \PYG{n}{SimpleDateFormat}\PYG{o}{(}\PYG{l+s}{\PYGZdq{}yyyy\PYGZhy{}MM\PYGZhy{}dd\PYGZdq{}}\PYG{o}{)}\PYG{o}{;}  
+	\PYG{n}{Calendar} \PYG{n}{cal} \PYG{o}{=} \PYG{n}{Calendar}\PYG{o}{.}\PYG{n+na}{getInstance}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}    
+	\PYG{n}{cal}\PYG{o}{.}\PYG{n+na}{setTime}\PYG{o}{(}\PYG{n}{sdf}\PYG{o}{.}\PYG{n+na}{parse}\PYG{o}{(}\PYG{n}{smdate}\PYG{o}{)}\PYG{o}{)}\PYG{o}{;}    
+	\PYG{k+kt}{long} \PYG{n}{time1} \PYG{o}{=} \PYG{n}{cal}\PYG{o}{.}\PYG{n+na}{getTimeInMillis}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}                 
+	\PYG{n}{cal}\PYG{o}{.}\PYG{n+na}{setTime}\PYG{o}{(}\PYG{n}{sdf}\PYG{o}{.}\PYG{n+na}{parse}\PYG{o}{(}\PYG{n}{bdate}\PYG{o}{)}\PYG{o}{)}\PYG{o}{;}    
+	\PYG{k+kt}{long} \PYG{n}{time2} \PYG{o}{=} \PYG{n}{cal}\PYG{o}{.}\PYG{n+na}{getTimeInMillis}\PYG{o}{(}\PYG{o}{)}\PYG{o}{;}         
+	\PYG{k+kt}{long} \PYG{n}{between\PYGZus{}days}\PYG{o}{=}\PYG{o}{(}\PYG{n}{time2}\PYG{o}{\PYGZhy{}}\PYG{n}{time1}\PYG{o}{)}\PYG{o}{/}\PYG{o}{(}\PYG{l+m+mi}{1000}\PYG{o}{*}\PYG{l+m+mi}{3600}\PYG{o}{*}\PYG{l+m+mi}{24}\PYG{o}{)}\PYG{o}{;}  
+
+	\PYG{k}{return} \PYG{n}{Integer}\PYG{o}{.}\PYG{n+na}{parseInt}\PYG{o}{(}\PYG{n}{String}\PYG{o}{.}\PYG{n+na}{valueOf}\PYG{o}{(}\PYG{n}{between\PYGZus{}days}\PYG{o}{)}\PYG{o}{)}\PYG{o}{;}     
+    \PYG{o}{\PYGZcb{}}  
+
+\PYG{o}{\PYGZcb{}}  
+\end{Verbatim}

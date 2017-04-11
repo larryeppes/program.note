@@ -1,0 +1,113 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+\PYG{c+cm}{/*}
+\PYG{c+cm}{ * nvrom\PYGZus{}test.c}
+\PYG{c+cm}{ *}
+\PYG{c+cm}{ *  Created on: Dec 10, 2016}
+\PYG{c+cm}{ *      Author: math}
+\PYG{c+cm}{ */}
+
+
+\PYG{c+cp}{\PYGZsh{}}\PYG{c+cp}{include} \PYG{c+cpf}{\PYGZlt{}stdio.h\PYGZgt{}}
+\PYG{c+cp}{\PYGZsh{}}\PYG{c+cp}{include} \PYG{c+cpf}{\PYGZlt{}stdlib.h\PYGZgt{}}
+\PYG{c+cp}{\PYGZsh{}}\PYG{c+cp}{include} \PYG{c+cpf}{\PYGZlt{}stdint.h\PYGZgt{}}
+\PYG{c+cp}{\PYGZsh{}}\PYG{c+cp}{include} \PYG{c+cpf}{\PYGZlt{}string.h\PYGZgt{}}
+\PYG{c+cp}{\PYGZsh{}}\PYG{c+cp}{include} \PYG{c+cpf}{\PYGZlt{}sys/stat.h\PYGZgt{}}
+
+\PYG{c+cp}{\PYGZsh{}}\PYG{c+cp}{include} \PYG{c+cpf}{\PYGZdq{}cuckoo\PYGZus{}filter.h\PYGZdq{}}
+\PYG{c+cp}{\PYGZsh{}}\PYG{c+cp}{include} \PYG{c+cpf}{\PYGZdq{}mozilla\PYGZhy{}sha1/sha1.h\PYGZdq{}}
+
+\PYG{k+kt}{int} \PYG{n+nf}{main}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{argc}\PYG{p}{,} \PYG{k+kt}{char} \PYG{o}{*}\PYG{o}{*}\PYG{n}{argv}\PYG{p}{)}
+\PYG{p}{\PYGZob{}}
+        \PYG{n}{SHA\PYGZus{}CTX} \PYG{n}{c}\PYG{p}{;}
+        \PYG{k}{struct} \PYG{n}{stat} \PYG{n}{st}\PYG{p}{;}
+        \PYG{k+kt}{uint32\PYGZus{}t} \PYG{n}{key\PYGZus{}num}\PYG{p}{;}
+        \PYG{k+kt}{uint8\PYGZus{}t} \PYG{o}{*}\PYG{n}{keys}\PYG{p}{;}
+        \PYG{k+kt}{uint8\PYGZus{}t} \PYG{o}{*}\PYG{o}{*}\PYG{n}{sha1\PYGZus{}key}\PYG{p}{;}
+        \PYG{k+kt}{uint8\PYGZus{}t} \PYG{n}{value}\PYG{p}{[}\PYG{n}{DAT\PYGZus{}LEN}\PYG{p}{]}\PYG{p}{,} \PYG{o}{*}\PYG{n}{v}\PYG{p}{;}
+        \PYG{k+kt}{int} \PYG{n}{bytes}\PYG{p}{,} \PYG{n}{i}\PYG{p}{,} \PYG{n}{j}\PYG{p}{;}
+        \PYG{k+kt}{FILE} \PYG{o}{*}\PYG{n}{f1}\PYG{p}{,} \PYG{o}{*}\PYG{n}{f2}\PYG{p}{;}
+
+        \PYG{k}{if} \PYG{p}{(}\PYG{n}{argc} \PYG{o}{\PYGZlt{}} \PYG{l+m+mi}{3}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                \PYG{n}{fprintf}\PYG{p}{(}\PYG{n}{stderr}\PYG{p}{,} \PYG{l+s}{\PYGZdq{}}\PYG{l+s}{usage: ./cuckoo\PYGZus{}filter read\PYGZus{}file write\PYGZus{}file}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}\PYG{p}{;}
+                \PYG{n}{exit}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{p}{;}
+        \PYG{p}{\PYGZcb{}}
+
+        \PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{n}{argc}\PYG{p}{;}
+        \PYG{o}{+}\PYG{o}{+}\PYG{n}{argv}\PYG{p}{;}
+
+        \PYG{n}{f1} \PYG{o}{=} \PYG{n}{fopen}\PYG{p}{(}\PYG{n}{argv}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{p}{,} \PYG{l+s}{\PYGZdq{}}\PYG{l+s}{rb}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}\PYG{p}{;}
+        \PYG{k}{if} \PYG{p}{(}\PYG{n}{f1} \PYG{o}{=}\PYG{o}{=} \PYG{n+nb}{NULL}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                \PYG{n}{fprintf}\PYG{p}{(}\PYG{n}{stderr}\PYG{p}{,} \PYG{l+s}{\PYGZdq{}}\PYG{l+s}{Fail to open \PYGZpc{}s!}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{argv}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{p}{)}\PYG{p}{;}
+                \PYG{n}{exit}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{p}{;}
+        \PYG{p}{\PYGZcb{}}
+        \PYG{n}{stat}\PYG{p}{(}\PYG{n}{argv}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{p}{,} \PYG{o}{\PYGZam{}}\PYG{n}{st}\PYG{p}{)}\PYG{p}{;}
+
+        \PYG{n}{f2} \PYG{o}{=} \PYG{n}{fopen}\PYG{p}{(}\PYG{n}{argv}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{p}{,} \PYG{l+s}{\PYGZdq{}}\PYG{l+s}{wb+}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}\PYG{p}{;}
+        \PYG{k}{if} \PYG{p}{(}\PYG{n}{f2} \PYG{o}{=}\PYG{o}{=} \PYG{n+nb}{NULL}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                \PYG{n}{fprintf}\PYG{p}{(}\PYG{n}{stderr}\PYG{p}{,} \PYG{l+s}{\PYGZdq{}}\PYG{l+s}{Fail to open \PYGZpc{}s!}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{argv}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{p}{)}\PYG{p}{;}
+                \PYG{n}{exit}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{p}{;}
+        \PYG{p}{\PYGZcb{}}
+
+        \PYG{c+cm}{/* Initialization */}
+        \PYG{n}{cuckoo\PYGZus{}filter\PYGZus{}init}\PYG{p}{(}\PYG{n}{st}\PYG{p}{.}\PYG{n}{st\PYGZus{}size}\PYG{p}{)}\PYG{p}{;}
+
+        \PYG{c+cm}{/* Allocate SHA1 key space */}
+        \PYG{n}{key\PYGZus{}num} \PYG{o}{=} \PYG{n}{next\PYGZus{}pow\PYGZus{}of\PYGZus{}2}\PYG{p}{(}\PYG{n}{st}\PYG{p}{.}\PYG{n}{st\PYGZus{}size}\PYG{p}{)} \PYG{o}{/} \PYG{n}{DAT\PYGZus{}LEN}\PYG{p}{;}
+        \PYG{n}{keys} \PYG{o}{=} \PYG{n}{malloc}\PYG{p}{(}\PYG{n}{key\PYGZus{}num} \PYG{o}{*} \PYG{l+m+mi}{20}\PYG{p}{)}\PYG{p}{;}
+        \PYG{n}{sha1\PYGZus{}key} \PYG{o}{=} \PYG{n}{malloc}\PYG{p}{(}\PYG{n}{key\PYGZus{}num} \PYG{o}{*} \PYG{k}{sizeof}\PYG{p}{(}\PYG{k+kt}{void} \PYG{o}{*}\PYG{p}{)}\PYG{p}{)}\PYG{p}{;}
+        \PYG{k}{if} \PYG{p}{(}\PYG{o}{!}\PYG{n}{keys}  \PYG{o}{!}\PYG{n}{sha1\PYGZus{}key}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                \PYG{n}{fprintf}\PYG{p}{(}\PYG{n}{stderr}\PYG{p}{,} \PYG{l+s}{\PYGZdq{}}\PYG{l+s}{Out of memory!}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}\PYG{p}{;}
+                \PYG{n}{exit}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{p}{;}
+        \PYG{p}{\PYGZcb{}}
+        \PYG{k}{for} \PYG{p}{(}\PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{i} \PYG{o}{\PYGZlt{}} \PYG{n}{key\PYGZus{}num}\PYG{p}{;} \PYG{n}{i}\PYG{o}{+}\PYG{o}{+}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                \PYG{n}{sha1\PYGZus{}key}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{=} \PYG{n}{keys} \PYG{o}{+} \PYG{n}{i} \PYG{o}{*} \PYG{l+m+mi}{20}\PYG{p}{;}
+        \PYG{p}{\PYGZcb{}}
+
+        \PYG{c+cm}{/* Put read\PYGZus{}file into log on flash. */}
+        \PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;}
+        \PYG{k}{do} \PYG{p}{\PYGZob{}}
+                \PYG{n}{memset}\PYG{p}{(}\PYG{n}{value}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{DAT\PYGZus{}LEN}\PYG{p}{)}\PYG{p}{;}
+                \PYG{n}{bytes} \PYG{o}{=} \PYG{n}{fread}\PYG{p}{(}\PYG{n}{value}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{DAT\PYGZus{}LEN}\PYG{p}{,} \PYG{n}{f1}\PYG{p}{)}\PYG{p}{;}
+                \PYG{n}{SHA1\PYGZus{}Init}\PYG{p}{(}\PYG{o}{\PYGZam{}}\PYG{n}{c}\PYG{p}{)}\PYG{p}{;}
+                \PYG{n}{SHA1\PYGZus{}Update}\PYG{p}{(}\PYG{o}{\PYGZam{}}\PYG{n}{c}\PYG{p}{,} \PYG{n}{value}\PYG{p}{,} \PYG{n}{bytes}\PYG{p}{)}\PYG{p}{;}
+                \PYG{n}{SHA1\PYGZus{}Final}\PYG{p}{(}\PYG{n}{sha1\PYGZus{}key}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{p}{,} \PYG{o}{\PYGZam{}}\PYG{n}{c}\PYG{p}{)}\PYG{p}{;}
+                \PYG{n}{cuckoo\PYGZus{}filter\PYGZus{}put}\PYG{p}{(}\PYG{n}{sha1\PYGZus{}key}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{p}{,} \PYG{n}{value}\PYG{p}{)}\PYG{p}{;}
+                \PYG{n}{i}\PYG{o}{+}\PYG{o}{+}\PYG{p}{;}
+        \PYG{p}{\PYGZcb{}} \PYG{k}{while} \PYG{p}{(}\PYG{n}{bytes} \PYG{o}{=}\PYG{o}{=} \PYG{n}{DAT\PYGZus{}LEN}\PYG{p}{)}\PYG{p}{;}
+
+        \PYG{c+cm}{/* Real key number */}
+        \PYG{n}{key\PYGZus{}num} \PYG{o}{=} \PYG{n}{i}\PYG{p}{;}
+        \PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{Total \PYGZpc{}u records.}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{key\PYGZus{}num}\PYG{p}{)}\PYG{p}{;}
+
+        \PYG{c+cm}{/* Deletion test */}
+        \PYG{k}{for} \PYG{p}{(}\PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{i} \PYG{o}{\PYGZlt{}} \PYG{n}{key\PYGZus{}num}\PYG{p}{;} \PYG{n}{i} \PYG{o}{+}\PYG{o}{=} \PYG{l+m+mi}{2}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                \PYG{n}{cuckoo\PYGZus{}filter\PYGZus{}put}\PYG{p}{(}\PYG{n}{sha1\PYGZus{}key}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{p}{,} \PYG{n+nb}{NULL}\PYG{p}{)}\PYG{p}{;}
+        \PYG{p}{\PYGZcb{}}
+
+        \PYG{n}{fseek}\PYG{p}{(}\PYG{n}{f1}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{SEEK\PYGZus{}SET}\PYG{p}{)}\PYG{p}{;}
+        \PYG{k}{for} \PYG{p}{(}\PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{i} \PYG{o}{\PYGZlt{}} \PYG{n}{key\PYGZus{}num}\PYG{p}{;} \PYG{n}{i}\PYG{o}{+}\PYG{o}{+}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                \PYG{n}{memset}\PYG{p}{(}\PYG{n}{value}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{DAT\PYGZus{}LEN}\PYG{p}{)}\PYG{p}{;}
+                \PYG{n}{bytes} \PYG{o}{=} \PYG{n}{fread}\PYG{p}{(}\PYG{n}{value}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{DAT\PYGZus{}LEN}\PYG{p}{,} \PYG{n}{f1}\PYG{p}{)}\PYG{p}{;}
+                \PYG{k}{if} \PYG{p}{(}\PYG{o}{!}\PYG{p}{(}\PYG{n}{i} \PYG{o}{\PYGZam{}} \PYG{l+m+mh}{0x1}\PYG{p}{)}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                        \PYG{n}{cuckoo\PYGZus{}filter\PYGZus{}put}\PYG{p}{(}\PYG{n}{sha1\PYGZus{}key}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{p}{,} \PYG{n}{value}\PYG{p}{)}\PYG{p}{;}
+                \PYG{p}{\PYGZcb{}}
+        \PYG{p}{\PYGZcb{}}
+
+        \PYG{c+cm}{/* Get logs on flash and write them into a new file. */}
+        \PYG{k}{for} \PYG{p}{(}\PYG{n}{j} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{j} \PYG{o}{\PYGZlt{}} \PYG{n}{key\PYGZus{}num}\PYG{p}{;} \PYG{n}{j}\PYG{o}{+}\PYG{o}{+}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                \PYG{n}{v} \PYG{o}{=} \PYG{n}{cuckoo\PYGZus{}filter\PYGZus{}get}\PYG{p}{(}\PYG{n}{sha1\PYGZus{}key}\PYG{p}{[}\PYG{n}{j}\PYG{p}{]}\PYG{p}{)}\PYG{p}{;}
+                \PYG{k}{if} \PYG{p}{(}\PYG{n}{v} \PYG{o}{!}\PYG{o}{=} \PYG{n+nb}{NULL}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+                        \PYG{n}{memcpy}\PYG{p}{(}\PYG{n}{value}\PYG{p}{,} \PYG{n}{v}\PYG{p}{,} \PYG{n}{DAT\PYGZus{}LEN}\PYG{p}{)}\PYG{p}{;}
+                        \PYG{n}{fwrite}\PYG{p}{(}\PYG{n}{value}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{DAT\PYGZus{}LEN}\PYG{p}{,} \PYG{n}{f2}\PYG{p}{)}\PYG{p}{;}
+                \PYG{p}{\PYGZcb{}}
+        \PYG{p}{\PYGZcb{}}
+
+        \PYG{n}{fclose}\PYG{p}{(}\PYG{n}{f1}\PYG{p}{)}\PYG{p}{;}
+        \PYG{n}{fclose}\PYG{p}{(}\PYG{n}{f2}\PYG{p}{)}\PYG{p}{;}
+
+        \PYG{n}{free}\PYG{p}{(}\PYG{n}{keys}\PYG{p}{)}\PYG{p}{;}
+        \PYG{n}{free}\PYG{p}{(}\PYG{n}{sha1\PYGZus{}key}\PYG{p}{)}\PYG{p}{;}
+
+        \PYG{k}{return} \PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

@@ -1,0 +1,84 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+\PYG{c+cm}{/*}
+\PYG{c+cm}{ * cuckoo\PYGZus{}filter.h}
+\PYG{c+cm}{ *}
+\PYG{c+cm}{ *  Created on: Dec 10, 2016}
+\PYG{c+cm}{ *      Author: math}
+\PYG{c+cm}{ */}
+\PYG{c+cm}{/*}
+\PYG{c+cm}{ * Copyright (C) 2015, Leo Ma \PYGZlt{}begeekmyfriend@gmail.com\PYGZgt{}}
+\PYG{c+cm}{ */}
+\PYG{c+cp}{\PYGZsh{}}\PYG{c+cp}{ifndef SRC\PYGZus{}CUCKOO\PYGZus{}FILTER\PYGZus{}H\PYGZus{}}
+\PYG{c+cp}{\PYGZsh{}}\PYG{c+cp}{define SRC\PYGZus{}CUCKOO\PYGZus{}FILTER\PYGZus{}H\PYGZus{}}
+
+\PYG{c+c1}{//\PYGZsh{}define CUCKOO\PYGZus{}DBG}
+
+\PYG{c+cm}{/* Configuration */}
+\PYG{c+cp}{\PYGZsh{}}\PYG{c+cp}{define SECTOR\PYGZus{}SIZE    (1 \PYGZlt{}\PYGZlt{} 5)}
+\PYG{c+cp}{\PYGZsh{}}\PYG{c+cp}{define DAT\PYGZus{}LEN        (SECTOR\PYGZus{}SIZE \PYGZhy{} 20)  }\PYG{c+cm}{/* minus sha1 size */}
+\PYG{c+cp}{\PYGZsh{}}\PYG{c+cp}{define ASSOC\PYGZus{}WAY      (4)  }\PYG{c+cm}{/* 4\PYGZhy{}way association */}
+\PYG{c+cp}{\PYGZsh{}}\PYG{c+cp}{define INVALID\PYGZus{}OFFSET (\PYGZhy{}1)}
+
+\PYG{c+cm}{/* Cuckoo hash */}
+\PYG{c+cp}{\PYGZsh{}}\PYG{c+cp}{define force\PYGZus{}align(addr, size)  ((void *)((((uintptr\PYGZus{}t)(addr)) + (size) \PYGZhy{} 1) \PYGZam{} \PYGZti{}((size) \PYGZhy{} 1)))}
+\PYG{c+cp}{\PYGZsh{}}\PYG{c+cp}{define cuckoo\PYGZus{}hash\PYGZus{}lsb(key, count)  (((size\PYGZus{}t *)(key))[0] \PYGZam{} (count \PYGZhy{} 1))}
+\PYG{c+cp}{\PYGZsh{}}\PYG{c+cp}{define cuckoo\PYGZus{}hash\PYGZus{}msb(key, count)  (((size\PYGZus{}t *)(key))[1] \PYGZam{} (count \PYGZhy{} 1))}
+
+\PYG{c+cm}{/* Flash driver interfaces. */}
+\PYG{c+cp}{\PYGZsh{}}\PYG{c+cp}{define flash\PYGZus{}align(addr)  (!((uintptr\PYGZus{}t)(addr) \PYGZam{} (SECTOR\PYGZus{}SIZE \PYGZhy{} 1)))}
+\PYG{c+cp}{\PYGZsh{}}\PYG{c+cp}{define flash\PYGZus{}read(addr)  (*(volatile uint8\PYGZus{}t *)(addr))}
+\PYG{c+cp}{\PYGZsh{}}\PYG{c+cp}{define flash\PYGZus{}write(addr, byte)  (*(volatile uint8\PYGZus{}t *)(addr) = (byte))}
+\PYG{c+cp}{\PYGZsh{}}\PYG{c+cp}{define flash\PYGZus{}sector\PYGZus{}erase(addr) \PYGZbs{}}
+\PYG{c+cp}{        do \PYGZob{} \PYGZbs{}}
+\PYG{c+cp}{                uint32\PYGZus{}t \PYGZus{}\PYGZus{}i; \PYGZbs{}}
+\PYG{c+cp}{                volatile uint8\PYGZus{}t *\PYGZus{}\PYGZus{}addr = (volatile uint8\PYGZus{}t *)(addr); \PYGZbs{}}
+\PYG{c+cp}{                for (\PYGZus{}\PYGZus{}i = 0; \PYGZus{}\PYGZus{}i \PYGZlt{} SECTOR\PYGZus{}SIZE; \PYGZus{}\PYGZus{}i++) \PYGZob{} \PYGZbs{}}
+\PYG{c+cp}{                        *(volatile uint8\PYGZus{}t *)\PYGZus{}\PYGZus{}addr = 0xff; \PYGZbs{}}
+\PYG{c+cp}{                        \PYGZus{}\PYGZus{}addr++; \PYGZbs{}}
+\PYG{c+cp}{                \PYGZcb{} \PYGZbs{}}
+\PYG{c+cp}{        \PYGZcb{} while (0)}
+
+\PYG{c+cm}{/* The log entries store key\PYGZhy{}value pairs on flash and}
+\PYG{c+cm}{ * each entry is assumed just one sector size fit.}
+\PYG{c+cm}{ */}
+\PYG{k}{struct} \PYG{n}{log\PYGZus{}entry} \PYG{p}{\PYGZob{}}
+        \PYG{k+kt}{uint8\PYGZus{}t} \PYG{n}{sha1}\PYG{p}{[}\PYG{l+m+mi}{20}\PYG{p}{]}\PYG{p}{;}
+        \PYG{k+kt}{uint8\PYGZus{}t} \PYG{n}{data}\PYG{p}{[}\PYG{n}{DAT\PYGZus{}LEN}\PYG{p}{]}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}\PYG{p}{;}
+
+\PYG{k}{enum} \PYG{p}{\PYGZob{}} \PYG{n}{AVAILIBLE}\PYG{p}{,} \PYG{n}{OCCUPIED}\PYG{p}{,} \PYG{n}{DELETED}\PYG{p}{,} \PYG{p}{\PYGZcb{}}\PYG{p}{;}
+
+\PYG{c+cm}{/* The in\PYGZhy{}memory hash buckets cache filter keys (which are assumed SHA1 values)}
+\PYG{c+cm}{ * via cuckoo hashing function and map them to log entries stored on flash.}
+\PYG{c+cm}{ */}
+\PYG{k}{struct} \PYG{n}{hash\PYGZus{}slot\PYGZus{}cache} \PYG{p}{\PYGZob{}}
+        \PYG{k+kt}{uint32\PYGZus{}t} \PYG{n+nl}{tag} \PYG{p}{:} \PYG{l+m+mi}{30}\PYG{p}{;}  \PYG{c+cm}{/* summary of key */}
+        \PYG{k+kt}{uint32\PYGZus{}t} \PYG{n+nl}{status} \PYG{p}{:} \PYG{l+m+mi}{2}\PYG{p}{;}  \PYG{c+cm}{/* FSM */}
+        \PYG{k+kt}{uint32\PYGZus{}t} \PYG{n}{offset}\PYG{p}{;}  \PYG{c+cm}{/* offset on flash memory */}
+\PYG{p}{\PYGZcb{}}\PYG{p}{;}
+
+\PYG{k}{static} \PYG{k+kr}{inline} \PYG{k+kt}{int} \PYG{n+nf}{is\PYGZus{}pow\PYGZus{}of\PYGZus{}2}\PYG{p}{(}\PYG{k+kt}{uint32\PYGZus{}t} \PYG{n}{x}\PYG{p}{)}
+\PYG{p}{\PYGZob{}}
+	\PYG{k}{return} \PYG{o}{!}\PYG{p}{(}\PYG{n}{x} \PYG{o}{\PYGZam{}} \PYG{p}{(}\PYG{n}{x}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{p}{)}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k}{static} \PYG{k+kr}{inline} \PYG{k+kt}{uint32\PYGZus{}t} \PYG{n+nf}{next\PYGZus{}pow\PYGZus{}of\PYGZus{}2}\PYG{p}{(}\PYG{k+kt}{uint32\PYGZus{}t} \PYG{n}{x}\PYG{p}{)}
+\PYG{p}{\PYGZob{}}
+	\PYG{k}{if} \PYG{p}{(}\PYG{n}{is\PYGZus{}pow\PYGZus{}of\PYGZus{}2}\PYG{p}{(}\PYG{n}{x}\PYG{p}{)}\PYG{p}{)}
+		\PYG{k}{return} \PYG{n}{x}\PYG{p}{;}
+	\PYG{n}{x} \PYG{esc}{= x>>1;}
+\PYG{esc}{	x }\PYG{o}{=} \PYG{n}{x}\PYG{o}{\PYGZgt{}}\PYG{o}{\PYGZgt{}}\PYG{l+m+mi}{2}\PYG{p}{;}
+	\PYG{n}{x} \PYG{esc}{= x>>4;}
+\PYG{esc}{	x }\PYG{o}{=} \PYG{n}{x}\PYG{o}{\PYGZgt{}}\PYG{o}{\PYGZgt{}}\PYG{l+m+mi}{8}\PYG{p}{;}
+	\PYG{n}{x} \PYG{err}{|}\PYG{o}{=} \PYG{n}{x}\PYG{o}{\PYGZgt{}}\PYG{o}{\PYGZgt{}}\PYG{l+m+mi}{16}\PYG{p}{;}
+	\PYG{k}{return} \PYG{n}{x} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k+kt}{int} \PYG{n}{cuckoo\PYGZus{}filter\PYGZus{}init}\PYG{p}{(}\PYG{k+kt}{size\PYGZus{}t} \PYG{n}{size}\PYG{p}{)}\PYG{p}{;}
+\PYG{k+kt}{uint8\PYGZus{}t} \PYG{o}{*}\PYG{n+nf}{cuckoo\PYGZus{}filter\PYGZus{}get}\PYG{p}{(}\PYG{k+kt}{uint8\PYGZus{}t} \PYG{o}{*}\PYG{n}{key}\PYG{p}{)}\PYG{p}{;}
+\PYG{k+kt}{void} \PYG{n+nf}{cuckoo\PYGZus{}filter\PYGZus{}put}\PYG{p}{(}\PYG{k+kt}{uint8\PYGZus{}t} \PYG{o}{*}\PYG{n}{key}\PYG{p}{,} \PYG{k+kt}{uint8\PYGZus{}t} \PYG{o}{*}\PYG{n}{value}\PYG{p}{)}\PYG{p}{;}
+
+
+
+\PYG{c+cp}{\PYGZsh{}}\PYG{c+cp}{endif }\PYG{c+cm}{/* SRC\PYGZus{}CUCKOO\PYGZus{}FILTER\PYGZus{}H\PYGZus{} */}
+\end{Verbatim}

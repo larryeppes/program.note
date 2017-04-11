@@ -1,0 +1,5 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+graphviz : rich \PYG{n+nb}{set} of graph drawing tools
+graphviz\PYGZhy{}devel : transitional package \PYG{k}{for} graphviz\PYGZhy{}devel rename
+graphviz\PYGZhy{}doc : additional documentation \PYG{k}{for} graphviz
+\end{Verbatim}

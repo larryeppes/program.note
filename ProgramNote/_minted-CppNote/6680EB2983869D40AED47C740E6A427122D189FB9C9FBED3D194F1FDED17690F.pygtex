@@ -1,0 +1,60 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+\PYG{c+cm}{/*}
+\PYG{c+cm}{ * sha1.h}
+\PYG{c+cm}{ *}
+\PYG{c+cm}{ *  Created on: Dec 10, 2016}
+\PYG{c+cm}{ *      Author: math}
+\PYG{c+cm}{ */}
+\PYG{c+cm}{/*}
+\PYG{c+cm}{ * The contents of this file are subject to the Mozilla Public}
+\PYG{c+cm}{ * License Version 1.1 (the \PYGZdq{}License\PYGZdq{}); you may not use this file}
+\PYG{c+cm}{ * except in compliance with the License. You may obtain a copy of}
+\PYG{c+cm}{ * the License at http://www.mozilla.org/MPL/}
+\PYG{c+cm}{ *}
+\PYG{c+cm}{ * Software distributed under the License is distributed on an \PYGZdq{}AS}
+\PYG{c+cm}{ * IS\PYGZdq{} basis, WITHOUT WARRANTY OF ANY KIND, either express or}
+\PYG{c+cm}{ * implied. See the License for the specific language governing}
+\PYG{c+cm}{ * rights and limitations under the License.}
+\PYG{c+cm}{ *}
+\PYG{c+cm}{ * The Original Code is SHA 180\PYGZhy{}1 Header File}
+\PYG{c+cm}{ *}
+\PYG{c+cm}{ * The Initial Developer of the Original Code is Paul Kocher of}
+\PYG{c+cm}{ * Cryptography Research.  Portions created by Paul Kocher are}
+\PYG{c+cm}{ * Copyright (C) 1995\PYGZhy{}9 by Cryptography Research, Inc.  All}
+\PYG{c+cm}{ * Rights Reserved.}
+\PYG{c+cm}{ *}
+\PYG{c+cm}{ * Contributor(s):}
+\PYG{c+cm}{ *}
+\PYG{c+cm}{ *     Paul Kocher}
+\PYG{c+cm}{ *}
+\PYG{c+cm}{ * Alternatively, the contents of this file may be used under the}
+\PYG{c+cm}{ * terms of the GNU General Public License Version 2 or later (the}
+\PYG{c+cm}{ * \PYGZdq{}GPL\PYGZdq{}), in which case the provisions of the GPL are applicable}
+\PYG{c+cm}{ * instead of those above.  If you wish to allow use of your}
+\PYG{c+cm}{ * version of this file only under the terms of the GPL and not to}
+\PYG{c+cm}{ * allow others to use your version of this file under the MPL,}
+\PYG{c+cm}{ * indicate your decision by deleting the provisions above and}
+\PYG{c+cm}{ * replace them with the notice and other provisions required by}
+\PYG{c+cm}{ * the GPL.  If you do not delete the provisions above, a recipient}
+\PYG{c+cm}{ * may use your version of this file under either the MPL or the}
+\PYG{c+cm}{ * GPL.}
+\PYG{c+cm}{ */}
+\PYG{c+cp}{\PYGZsh{}}\PYG{c+cp}{ifndef SRC\PYGZus{}MOZILLA\PYGZus{}SHA1\PYGZus{}SHA1\PYGZus{}H\PYGZus{}}
+\PYG{c+cp}{\PYGZsh{}}\PYG{c+cp}{define SRC\PYGZus{}MOZILLA\PYGZus{}SHA1\PYGZus{}SHA1\PYGZus{}H\PYGZus{}}
+
+\PYG{k}{typedef} \PYG{k}{struct} \PYG{p}{\PYGZob{}}
+  \PYG{k+kt}{unsigned} \PYG{k+kt}{int} \PYG{n}{H}\PYG{p}{[}\PYG{l+m+mi}{5}\PYG{p}{]}\PYG{p}{;}
+  \PYG{k+kt}{unsigned} \PYG{k+kt}{int} \PYG{n}{W}\PYG{p}{[}\PYG{l+m+mi}{80}\PYG{p}{]}\PYG{p}{;}
+  \PYG{k+kt}{int} \PYG{n}{lenW}\PYG{p}{;}
+  \PYG{k+kt}{unsigned} \PYG{k+kt}{int} \PYG{n}{sizeHi}\PYG{p}{,}\PYG{n}{sizeLo}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}} \PYG{n}{SHA\PYGZus{}CTX}\PYG{p}{;}
+
+\PYG{k+kt}{void} \PYG{n+nf}{SHA1\PYGZus{}Init}\PYG{p}{(}\PYG{n}{SHA\PYGZus{}CTX} \PYG{o}{*}\PYG{n}{ctx}\PYG{p}{)}\PYG{p}{;}
+\PYG{k+kt}{void} \PYG{n+nf}{SHA1\PYGZus{}Update}\PYG{p}{(}\PYG{n}{SHA\PYGZus{}CTX} \PYG{o}{*}\PYG{n}{ctx}\PYG{p}{,} \PYG{k+kt}{void} \PYG{o}{*}\PYG{n}{dataIn}\PYG{p}{,} \PYG{k+kt}{int} \PYG{n}{len}\PYG{p}{)}\PYG{p}{;}
+\PYG{k+kt}{void} \PYG{n+nf}{SHA1\PYGZus{}Final}\PYG{p}{(}\PYG{k+kt}{unsigned} \PYG{k+kt}{char} \PYG{n}{hashout}\PYG{p}{[}\PYG{l+m+mi}{20}\PYG{p}{]}\PYG{p}{,} \PYG{n}{SHA\PYGZus{}CTX} \PYG{o}{*}\PYG{n}{ctx}\PYG{p}{)}\PYG{p}{;}
+
+
+
+
+\PYG{c+cp}{\PYGZsh{}}\PYG{c+cp}{endif }\PYG{c+cm}{/* SRC\PYGZus{}MOZILLA\PYGZus{}SHA1\PYGZus{}SHA1\PYGZus{}H\PYGZus{} */}
+\end{Verbatim}
