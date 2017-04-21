@@ -7,6 +7,23 @@
 在终端用管理员权限添加用户的命令\cmd*{sudo adduser [username]}, 
 创建用户名之后用命令\cmd*{sudo passwd [username]}来分配用户密码.
 
+在终端使用powerline, tmux, 可以美化终端. 首先由dnf安装powerline, 
+然后在.bashrc文件中添加
+\begin{shell}
+if [ -f `which powerline-daemon` ]; then
+  powerline-daemon -q
+  POWERLINE_BASH_CONTINUATION=1
+  POWERLINE_BASH_SELECT=1
+  . /usr/share/powerline/bash/powerline.sh
+fi
+\end{shell}
+用dnf安装tmux-powerline, 然后编辑\cmd{~/.tmux.conf}添加一行
+\begin{shell}
+ source "/usr/share/tmux/powerline.conf"
+\end{shell}
+
+安装\cmd{vim-plugin-powerline}可以美化vim编辑器的状态栏.
+
 \section{Linux C}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
