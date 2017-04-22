@@ -1,0 +1,7 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+whereis bash
+\PYG{c+c1}{\PYGZsh{}\PYGZsh{} 仅查找 binary}
+whereis \PYGZhy{}b bash
+\PYG{c+c1}{\PYGZsh{}\PYGZsh{} 仅查找 manual}
+whereis \PYGZhy{}m bash
+\end{Verbatim}

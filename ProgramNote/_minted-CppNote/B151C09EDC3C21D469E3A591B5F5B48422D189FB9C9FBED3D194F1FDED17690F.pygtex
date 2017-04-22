@@ -1,0 +1,31 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+\PYG{c+cm}{/*******************************************************************}
+\PYG{c+cm}{    \PYGZgt{} File Name: va\PYGZus{}arg.c}
+\PYG{c+cm}{    \PYGZgt{} Author: Larry Eppes}
+\PYG{c+cm}{    \PYGZgt{} Mail: larryleifeng@163.com}
+\PYG{c+cm}{    \PYGZgt{} Created Time: Sat 22 Apr 2017 06:17:04 PM CST}
+\PYG{c+cm}{ *******************************************************************/}
+
+\PYG{c+cp}{\PYGZsh{}}\PYG{c+cp}{include}\PYG{c+cpf}{\PYGZlt{}stdio.h\PYGZgt{}}
+\PYG{c+cp}{\PYGZsh{}}\PYG{c+cp}{include}\PYG{c+cpf}{\PYGZlt{}stdarg.h\PYGZgt{}}
+
+\PYG{k+kt}{int} \PYG{n+nf}{FindMax}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{n}\PYG{p}{,} \PYG{p}{.}\PYG{p}{.}\PYG{p}{.}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+	\PYG{k+kt}{int} \PYG{n}{i}\PYG{p}{,} \PYG{n}{val}\PYG{p}{,} \PYG{n}{largest}\PYG{p}{;}
+	\PYG{k+kt}{va\PYGZus{}list} \PYG{n}{vl}\PYG{p}{;}
+	\PYG{n}{va\PYGZus{}start}\PYG{p}{(}\PYG{n}{vl}\PYG{p}{,} \PYG{n}{n}\PYG{p}{)}\PYG{p}{;}
+	\PYG{n}{largest} \PYG{o}{=} \PYG{n}{va\PYGZus{}arg}\PYG{p}{(}\PYG{n}{vl}\PYG{p}{,} \PYG{k+kt}{int}\PYG{p}{)}\PYG{p}{;}
+	\PYG{k}{for} \PYG{p}{(}\PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{1}\PYG{p}{;} \PYG{n}{i} \PYG{o}{\PYGZlt{}} \PYG{n}{n}\PYG{p}{;} \PYG{n}{i}\PYG{o}{+}\PYG{o}{+}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+		\PYG{n}{val} \PYG{o}{=} \PYG{n}{va\PYGZus{}arg}\PYG{p}{(}\PYG{n}{vl}\PYG{p}{,} \PYG{k+kt}{int}\PYG{p}{)}\PYG{p}{;}
+		\PYG{n}{largest} \PYG{o}{=} \PYG{p}{(}\PYG{n}{largest} \PYG{o}{\PYGZgt{}} \PYG{n}{val}\PYG{p}{)} \PYG{o}{?} \PYG{n+nl}{largest} \PYG{p}{:} \PYG{n}{val}\PYG{p}{;}
+	\PYG{p}{\PYGZcb{}}
+	\PYG{n}{va\PYGZus{}end}\PYG{p}{(}\PYG{n}{vl}\PYG{p}{)}\PYG{p}{;}
+	\PYG{k}{return} \PYG{n}{largest}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k+kt}{int} \PYG{n+nf}{main}\PYG{p}{(}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+	\PYG{k+kt}{int} \PYG{n}{m}\PYG{p}{;}
+	\PYG{n}{m} \PYG{o}{=} \PYG{n}{FindMax}\PYG{p}{(}\PYG{l+m+mi}{7}\PYG{p}{,}\PYG{l+m+mi}{702}\PYG{p}{,}\PYG{l+m+mi}{422}\PYG{p}{,}\PYG{l+m+mi}{631}\PYG{p}{,}\PYG{l+m+mi}{834}\PYG{p}{,}\PYG{l+m+mi}{892}\PYG{p}{,}\PYG{l+m+mi}{104}\PYG{p}{,}\PYG{l+m+mi}{772}\PYG{p}{)}\PYG{p}{;}
+	\PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{The largest value is: \PYGZpc{}d}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{m}\PYG{p}{)}\PYG{p}{;}
+	\PYG{k}{return} \PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

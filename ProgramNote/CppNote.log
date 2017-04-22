@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2016/dev) (preloaded format=pdflatex 2017.1.5)  20 APR 2017 11:41
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2016/dev) (preloaded format=pdflatex 2017.1.5)  22 APR 2017 19:21
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -395,6 +395,10 @@ Package: etoolbox 2015/08/02 v2.2a e-TeX tools for LaTeX (JAW)
 \tcb@out=\write4
 \tcb@record@out=\write5
 )
+(/usr/share/texlive/texmf-dist/tex/latex/tools/enumerate.sty
+Package: enumerate 2014/10/28 v3.00 enumerate extensions (DPC)
+\@enLab=\toks38
+)
 (/usr/share/texlive/texmf-dist/tex/latex/base/textcomp.sty
 Package: textcomp 2005/09/27 v1.99g Standard LaTeX package
 Package textcomp Info: Sub-encoding information:
@@ -502,7 +506,7 @@ Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 \Gm@layoutheight=\dimen156
 \Gm@layouthoffset=\dimen157
 \Gm@layoutvoffset=\dimen158
-\Gm@dimlist=\toks38
+\Gm@dimlist=\toks39
 )
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/hyperref.sty
 Package: hyperref 2012/11/06 v6.83m Hypertext links for LaTeX
@@ -621,8 +625,8 @@ Package: CJKutf8 2015/04/18 4.8.4
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/inputenc.sty
 Package: inputenc 2015/03/17 v1.2c Input encoding file
-\inpenc@prehook=\toks39
-\inpenc@posthook=\toks40
+\inpenc@prehook=\toks40
+\inpenc@posthook=\toks41
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/utf8.def
 File: utf8.def 2015/06/27 v1.1n UTF-8 support for inputenc
@@ -992,7 +996,7 @@ LaTeX Info: Redefining \selectfont on input line 755.
 (/usr/share/texlive/texmf-dist/tex/latex/base/fontenc.sty
 Package: fontenc 2005/09/27 v1.99g Standard LaTeX package
 ))
-Package hyperref Info: Option `unicode' set `true' on input line 9.
+Package hyperref Info: Option `unicode' set `true' on input line 10.
 
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/puenc.def
 File: puenc.def 2012/11/06 v6.83m Hyperref: PDF Unicode definition (HO)
@@ -1001,9 +1005,9 @@ Now handling font encoding PU ...
 )
 
 Package hyperref Warning: Option `backref' has already been used,
-(hyperref)                setting the option has no effect on input line 9.
+(hyperref)                setting the option has no effect on input line 10.
 
-Package hyperref Info: Option `colorlinks' set `true' on input line 9.
+Package hyperref Info: Option `colorlinks' set `true' on input line 10.
 (/usr/share/texlive/texmf-dist/tex/latex/tcolorbox/tcbtheorems.code.tex
 Library (tcolorbox): 'tcbtheorems.code.tex' version '3.72'
 ) (/usr/share/texlive/texmf-dist/tex/latex/tcolorbox/tcbbreakable.code.tex
@@ -1025,8 +1029,8 @@ Package: pgffor 2013/12/13 v3.0.1a (rcs-revision 1.25)
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex)
 \pgffor@iter=\dimen163
 \pgffor@skip=\dimen164
-\pgffor@stack=\toks41
-\pgffor@toks=\toks42
+\pgffor@stack=\toks42
+\pgffor@toks=\toks43
 ))
 (/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/tikz.code.tex
 Package: tikz 2015/08/07 v3.0.1a (rcs-revision 1.151)
@@ -1078,7 +1082,7 @@ Library (tcolorbox): 'tcblistings.code.tex' version '3.72'
 (/usr/share/texlive/texmf-dist/tex/latex/listings/listings.sty
 \lst@mode=\count139
 \lst@gtempboxa=\box52
-\lst@token=\toks43
+\lst@token=\toks44
 \lst@length=\count140
 \lst@currlwidth=\dimen172
 \lst@column=\count141
@@ -1122,9 +1126,9 @@ Style option: `fancyvrb' v2.7a, with DG/SPQR fixes, and firstline=lastline fix
 ) (/usr/share/texlive/texmf-dist/tex/latex/float/float.sty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \c@float@type=\count151
-\float@exts=\toks44
+\float@exts=\toks45
 \float@box=\box55
-\@float@everytoks=\toks45
+\@float@everytoks=\toks46
 \@floatcapt=\box56
 )
 (/usr/share/texlive/texmf-dist/tex/latex/base/ifthen.sty
@@ -1166,7 +1170,7 @@ Package: xstring 2013/10/13  v1.7c  String manipulations (C Tellechea)
 (/usr/share/texlive/texmf-dist/tex/latex/lineno/lineno.sty
 Package: lineno 2005/11/02 line numbers on paragraphs v4.41
 \linenopenalty=\count157
-\output=\toks46
+\output=\toks47
 \linenoprevgraf=\count158
 \linenumbersep=\dimen178
 \linenumberwidth=\dimen179
@@ -1193,7 +1197,7 @@ LaTeX Info: Redefining \\ on input line 3056.
 \minted@bgbox=\box60
 \minted@code=\write8
 \c@minted@FancyVerbLineTemp=\count165
-\@float@every@listing=\toks47
+\@float@every@listing=\toks48
 \c@listing=\count166
 )
 runsystem(mkdir -p "_minted-CppNote")...executed.
@@ -1534,12 +1538,12 @@ ABD: EveryShipout initializing macros
 \scratchbox=\box76
 \nofMPsegments=\count201
 \nofMParguments=\count202
-\everyMPshowfont=\toks48
+\everyMPshowfont=\toks49
 \MPscratchCnt=\count203
 \MPscratchDim=\dimen220
 \MPnumerator=\count204
 \makeMPintoPDFobject=\count205
-\everyMPtoPDFconversion=\toks49
+\everyMPtoPDFconversion=\toks50
 ) (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
 
@@ -1629,59 +1633,54 @@ File: c70gbsn.fd 2015/04/18 4.8.4
 (/usr/share/texlive/texmf-dist/tex/latex/cjk/texinput/UTF8/c70gbsn.fdx
 File: c70gbsn.fdx 2015/04/18 4.8.4
 )
-LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <10> not available
-(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 7.
-LaTeX Font Info:    Try loading font information for TS1+cmtt on input line 7.
+\openout4 = `CppNote.listing'.
 
-(/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmtt.fd
-File: ts1cmtt.fd 2014/09/29 v2.5h Standard LaTeX font definitions
+
+(./_minted-CppNote/emacs.pygstyle)
+(./_minted-CppNote/D9D7E4443EDDCD48F95EFC40AC25ACD02CF9BB4A8423D46BFE2B61659E2E
+4E6A.pygtex
+
+LaTeX Font Warning: Font shape `C70/gbsn/m/it' undefined
+(Font)              using `C70/gbsn/m/n' instead on input line 2.
+
 )
+\openout4 = `CppNote.listing'.
 
-LaTeX Font Warning: Font shape `TS1/cmtt/bx/n' undefined
-(Font)              using `TS1/cmtt/m/n' instead
-(Font)              for symbol `textdollar' on input line 7.
 
-(/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
+(./_minted-CppNote/12F08A9F8EBC7162A6256B8253B7B38F2CF9BB4A8423D46BFE2B61659E2E
+4E6A.pygtex)
+\openout4 = `CppNote.listing'.
+
+
+(./_minted-CppNote/47229FE9F585D3C511405EC48C6B9DCC2CF9BB4A8423D46BFE2B61659E2E
+4E6A.pygtex
+LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <9> not available
+(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 5.
+)
+\openout4 = `CppNote.listing'.
+
+
+(./_minted-CppNote/46CDC2223184EEC86AC8BC659E6A59712CF9BB4A8423D46BFE2B61659E2E
+4E6A.pygtex) [1
+
+
+{/usr/share/texlive/texmf-dist/fonts/map/pdftex/updmap/pdftex.map}]
+\openout4 = `CppNote.listing'.
+
+
+(./_minted-CppNote/4E6AC0A7E5352E11E4255508BCAE79562CF9BB4A8423D46BFE2B61659E2E
+4E6A.pygtex) (/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2015/06/04 1.6 listings language file
 )
-LaTeX Font Info:    Try loading font information for U+msa on input line 7.
+LaTeX Font Info:    Try loading font information for U+msa on input line 69.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 7.
+LaTeX Font Info:    Try loading font information for U+msb on input line 69.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-)
-Overfull \hbox (18.0415pt too wide) in paragraph at lines 7--9
-\C70/gbsn/m/n/10/57 ( \C70/gbsn/m/n/10/7e È \C70/gbsn/m/n/10/7a ï \C70/gbsn/m/n
-/10/75 ( \C70/gbsn/m/n/10/7b ¡ \C70/gbsn/m/n/10/74 ^^F \C70/gbsn/m/n/10/54 X \C
-70/gbsn/m/n/10/67 C \C70/gbsn/m/n/10/96 P \C70/gbsn/m/n/10/6d û \C70/gbsn/m/n/1
-0/52   \C70/gbsn/m/n/10/75 ( \C70/gbsn/m/n/10/62 7 \C70/gbsn/m/n/10/76 „ \C70/g
-bsn/m/n/10/54 } \C70/gbsn/m/n/10/4e ä[]\OT1/cmr/m/n/10 , \C70/gbsn/m/n/10/52 ^^
-[ \C70/gbsn/m/n/10/5e ú \C70/gbsn/m/n/10/75 ( \C70/gbsn/m/n/10/62 7 \C70/gbsn/m
-/n/10/54 ^^M \C70/gbsn/m/n/10/4e K \C70/gbsn/m/n/10/54 ^^N \C70/gbsn/m/n/10/75 
-( \C70/gbsn/m/n/10/54 } \C70/gbsn/m/n/10/4e ä[]\C70/gbsn/m/n/10/67 e
- []
-
-\openout4 = `CppNote.listing'.
-
-(./_minted-CppNote/emacs.pygstyle)
-runsystem(python -c "import sys; import textwrap; from io import open; f = open
-(\"CppNote.listing\", \"r\", encoding=\"UTF8\"); t = f.read(); f.close(); f = o
-pen(\"CppNote.pyg\", \"w\", encoding=\"UTF8\"); f.write(textwrap.dedent(t)); f.
-close();")...executed.
-
-runsystem(pygmentize -l sh -f latex -P commandprefix=PYG -F tokenmerge -P "esca
-peinside=||" -o "_minted-CppNote/4E6AC0A7E5352E11E4255508BCAE79562CF9BB4A8423D4
-6BFE2B61659E2E4E6A.pygtex" "CppNote.pyg" )...executed.
-
-
-(./_minted-CppNote/4E6AC0A7E5352E11E4255508BCAE79562CF9BB4A8423D46BFE2B61659E2E
-4E6A.pygtex
-LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <9> not available
-(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 2.
 )
 \openout4 = `CppNote.listing'.
 
@@ -1693,31 +1692,34 @@ LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <9> not available
 
 (./_minted-CppNote/9EF4E14D069C09C71339AED647062A7A2CF9BB4A8423D46BFE2B61659E2E
 4E6A.pygtex)
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [1
-
-
-{/usr/share/texlive/texmf-dist/fonts/map/pdftex/updmap/pdftex.map}]
-\openout4 = `CppNote.listing'.
-
-
-(./_minted-CppNote/62601465EBAC6C5AA2CE2219897CB75B2CF9BB4A8423D46BFE2B61659E2E
-4E6A.pygtex)
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
 
 LaTeX Font Warning: Font shape `C70/gbsn/m/sl' undefined
-(Font)              using `C70/gbsn/m/n' instead on input line 139.
+(Font)              using `C70/gbsn/m/n' instead on input line 146.
 
 [2pdfTeX warning (ext4): destination with the same identifier (name{table.1.1})
  has been already used, duplicate ignored
 
 \@EveryShipout@Output ...@Org@Shipout \box \@cclv 
                                                   
-l.139 
+l.146 
       ]
+LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <10> not available
+(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 151.
+LaTeX Font Info:    Try loading font information for TS1+cmtt on input line 151
+.
+ (/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmtt.fd
+File: ts1cmtt.fd 2014/09/29 v2.5h Standard LaTeX font definitions
+)
+
+LaTeX Font Warning: Font shape `TS1/cmtt/bx/n' undefined
+(Font)              using `TS1/cmtt/m/n' instead
+(Font)              for symbol `textdollar' on input line 151.
+
+\openout4 = `CppNote.listing'.
+
+
+(./_minted-CppNote/62601465EBAC6C5AA2CE2219897CB75B2CF9BB4A8423D46BFE2B61659E2E
+4E6A.pygtex)
 \openout4 = `CppNote.listing'.
 
 
@@ -1727,10 +1729,10 @@ e{table.1.2}) has been already used, duplicate ignored
 
 \@EveryShipout@Output ...@Org@Shipout \box \@cclv 
                                                   
-l.186 s
-       tdio.h å¤´æ–‡ä»¶å­˜æ”¾çš„æ˜¯è¾“å…¥è¾“å‡ºç›¸å…³çš„å‡½æ•°.])
-(./src/BPNN.tex [4pdfTeX warning (ext4): destination with the same identifier (
-name{table.1.3}) has been already used, duplicate ignored
+l.210 \begin{verbatim}
+                      ]) (./src/BPNN.tex [4pdfTeX warning (ext4): destination w
+ith the same identifier (name{table.1.3}) has been already used, duplicate igno
+red
 
 \@EveryShipout@Output ...@Org@Shipout \box \@cclv 
                                                   
@@ -1757,10 +1759,6 @@ it/10 X[] \OT1/cmr/m/n/10 = (\OML/cmm/m/it/10 x[]; x[]; []  ; x[]\OT1/cmr/m/n/1
 ] [6]
 Chapter 3.
 
-LaTeX Font Warning: Font shape `C70/gbsn/m/it' undefined
-(Font)              using `C70/gbsn/m/n' instead on input line 83.
-
-
 LaTeX Warning: Command \textlangle invalid in math mode on input line 90.
 
 
@@ -1784,12 +1782,34 @@ LaTeX Warning: Command \textrangle invalid in math mode on input line 90.
 
 LaTeX Warning: Command \textrangle invalid in math mode on input line 90.
 
-) (./src/CPP.tex [7
+) (./src/C.tex [7
 
 ] [8
 
 ]
 Chapter 4.
+(./_minted-CppNote/friendly.pygstyle)
+(./_minted-CppNote/BF8791C8E99B2F018E435AF39D24203922D189FB9C9FBED3D194F1FDED17
+690F.pygtex)
+(./_minted-CppNote/B151C09EDC3C21D469E3A591B5F5B48422D189FB9C9FBED3D194F1FDED17
+690F.pygtex) [9]
+(./_minted-CppNote/21FDD322025421F15BD4BB9C049E14E722D189FB9C9FBED3D194F1FDED17
+690F.pygtex) [10]
+(./_minted-CppNote/2B8DD51F77DF6A3A4E65193A15E0DC9A22D189FB9C9FBED3D194F1FDED17
+690F.pygtex)
+runsystem(python -c "import sys; import textwrap; from io import open; f = open
+(\"code/vacopy001.c\", \"r\", encoding=\"UTF8\"); t = f.read(); f.close(); f = 
+open(\"CppNote.pyg\", \"w\", encoding=\"UTF8\"); f.write(textwrap.dedent(t)); f
+.close();")...executed.
+
+runsystem(pygmentize -l C -f latex -P commandprefix=PYG -F tokenmerge -P "escap
+einside=||" -o "_minted-CppNote/18DF8F1A50581E336CA819DB5DC1A3D322D189FB9C9FBED
+3D194F1FDED17690F.pygtex" "CppNote.pyg" )...executed.
+
+
+(./_minted-CppNote/18DF8F1A50581E336CA819DB5DC1A3D322D189FB9C9FBED3D194F1FDED17
+690F.pygtex) [11]) (./src/CPP.tex [12]
+Chapter 5.
 \openout4 = `CppNote.listing'.
 
 
@@ -1805,69 +1825,71 @@ Chapter 4.
 
 (./_minted-CppNote/673F6F9D94416800D21387925453F0EC2CF9BB4A8423D46BFE2B61659E2E
 4E6A.pygtex)
-Overfull \hbox (67.1699pt too wide) in paragraph at lines 15--21
+Overfull \hbox (67.1699pt too wide) in paragraph at lines 33--39
 []\C70/gbsn/m/n/10/67 ^^@ \C70/gbsn/m/sl/10/54 ^^N \C70/gbsn/m/sl/10/5b ‰ \C70/
 gbsn/m/n/10/88 Å\OT1/cmr/m/n/10 CodeViz: []. \C70/gbsn/m/sl/10/4e  \C70/gbsn/m
 /n/10/8f }\OT1/cmr/m/n/10 git\C70/gbsn/m/n/10/98 y \C70/gbsn/m/n/10/76 î\OT1/cm
 r/m/n/10 : [],
  []
 
-[9] (./_minted-CppNote/friendly.pygstyle)
+[13
+
+]
 (./_minted-CppNote/AFFAA31F502B838754A39746E99AF7E922D189FB9C9FBED3D194F1FDED17
-690F.pygtex) [10] [11] [12]
+690F.pygtex) [14] [15] [16]
 (./_minted-CppNote/76A56549ACA23B47D0D9D48E1B10990F22D189FB9C9FBED3D194F1FDED17
-690F.pygtex) [13]
+690F.pygtex) [17]
 (./_minted-CppNote/7D9C405DD88B5E81F64879114AB3033F22D189FB9C9FBED3D194F1FDED17
-690F.pygtex) [14] [15]
+690F.pygtex) [18] [19]
 (./_minted-CppNote/CDACCCD9800F8BDF270EB7557434FCD322D189FB9C9FBED3D194F1FDED17
-690F.pygtex) [16] [17] [18] [19] [20] [21] [22]
+690F.pygtex) [20] [21] [22] [23] [24] [25] [26]
 (./_minted-CppNote/6680EB2983869D40AED47C740E6A427122D189FB9C9FBED3D194F1FDED17
 690F.pygtex)
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [23]
+ [27]
 (./_minted-CppNote/EE161B5432BF97AD756A2AF6FBCB961C22D189FB9C9FBED3D194F1FDED17
 690F.pygtex)
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [24]
+ [28]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [25]
-[26] [27]) (./src/JAVA.tex [28
+ [29]
+[30] [31]) (./src/JAVA.tex [32
 
 ]
-Chapter 5.
+Chapter 6.
 
 (./_minted-CppNote/2472F188636F4C4F076A474C5D2D8A199A6EA4767D09CC1879368D01867B
-6A3A.pygtex) [29]
+6A3A.pygtex) [33]
 (./_minted-CppNote/E8141EF40117C5974C9C5E1F3ADBD9FB9A6EA4767D09CC1879368D01867B
-6A3A.pygtex) [30] [31]) [32] (./CppNote.ind [33
+6A3A.pygtex) [34] [35]) [36] (./CppNote.ind [37
 
 
 ])
 runsystem(rm "CppNote.pyg")...executed.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 19.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 19.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 20.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 20.
  (./CppNote.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 19.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 19.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 20.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 20.
 Package rerunfilecheck Info: File `CppNote.out' has not changed.
-(rerunfilecheck)             Checksum: 006FC301D279C9C0BF7D1ACCD5842625;2660.
+(rerunfilecheck)             Checksum: 28160A134AB3AC7DD2EC0FE3080C834C;3017.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
  ) 
 Here is how much of TeX's memory you used:
- 38404 strings out of 493096
- 713446 string characters out of 6137368
- 902303 words of memory out of 5000000
- 40908 multiletter control sequences out of 15000+600000
- 63943 words of font info for 232 fonts, out of 8000000 for 9000
+ 38764 strings out of 493096
+ 721505 string characters out of 6137368
+ 904746 words of memory out of 5000000
+ 41193 multiletter control sequences out of 15000+600000
+ 65889 words of font info for 239 fonts, out of 8000000 for 9000
  1137 hyphenation exceptions out of 8191
- 56i,12n,83p,10536b,2231s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 56i,12n,83p,10536b,2308s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}</us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/shar
 e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texl
@@ -1931,28 +1953,31 @@ e/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu7e.pfb></usr/share/texlive/t
 exmf-dist/fonts/type1/arphic/gbsnu/gbsnu7f.pfb></usr/share/texlive/texmf-dist/f
 onts/type1/arphic/gbsnu/gbsnu80.pfb></usr/share/texlive/texmf-dist/fonts/type1/
 arphic/gbsnu/gbsnu81.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsn
-u/gbsnu82.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu85.p
-fb></usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu88.pfb></usr/sh
-are/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu89.pfb></usr/share/texlive
-/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu8a.pfb></usr/share/texlive/texmf-dist
-/fonts/type1/arphic/gbsnu/gbsnu8b.pfb></usr/share/texlive/texmf-dist/fonts/type
-1/arphic/gbsnu/gbsnu8c.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/gb
-snu/gbsnu8d.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu8f
-.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu90.pfb></usr/
-share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu91.pfb></usr/share/texli
-ve/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu94.pfb></usr/share/texlive/texmf-di
-st/fonts/type1/arphic/gbsnu/gbsnu95.pfb></usr/share/texlive/texmf-dist/fonts/ty
-pe1/arphic/gbsnu/gbsnu96.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/
-gbsnu/gbsnu97.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu
-98.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu99.pfb></us
-r/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu9a.pfb></usr/share/tex
-live/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu9e.pfb></usr/share/texlive/texmf-
-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/share/texlive/texmf-d
-ist/fonts/type1/public/cm-super/sftt1000.pfb>
-Output written on CppNote.pdf (33 pages, 686404 bytes).
+u/gbsnu82.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu83.p
+fb></usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu85.pfb></usr/sh
+are/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu86.pfb></usr/share/texlive
+/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu88.pfb></usr/share/texlive/texmf-dist
+/fonts/type1/arphic/gbsnu/gbsnu89.pfb></usr/share/texlive/texmf-dist/fonts/type
+1/arphic/gbsnu/gbsnu8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/gb
+snu/gbsnu8b.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu8c
+.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu8d.pfb></usr/
+share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu8e.pfb></usr/share/texli
+ve/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu8f.pfb></usr/share/texlive/texmf-di
+st/fonts/type1/arphic/gbsnu/gbsnu90.pfb></usr/share/texlive/texmf-dist/fonts/ty
+pe1/arphic/gbsnu/gbsnu91.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/
+gbsnu/gbsnu94.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu
+95.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu96.pfb></us
+r/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu97.pfb></usr/share/tex
+live/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu98.pfb></usr/share/texlive/texmf-
+dist/fonts/type1/arphic/gbsnu/gbsnu99.pfb></usr/share/texlive/texmf-dist/fonts/
+type1/arphic/gbsnu/gbsnu9a.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphi
+c/gbsnu/gbsnu9e.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
+symbols/msbm10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/cm-super/s
+ftt1000.pfb>
+Output written on CppNote.pdf (37 pages, 745180 bytes).
 PDF statistics:
- 713 PDF objects out of 1000 (max. 8388607)
- 512 compressed objects within 6 object streams
- 65 named destinations out of 1000 (max. 500000)
- 489 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 770 PDF objects out of 1000 (max. 8388607)
+ 559 compressed objects within 6 object streams
+ 77 named destinations out of 1000 (max. 500000)
+ 533 words of extra memory for PDF output out of 10000 (max. 10000000)
 

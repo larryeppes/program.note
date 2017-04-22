@@ -1,0 +1,28 @@
+\chapter{C}
+\section{可变参数}
+C语言中有一种长度不确定的参数, 主要用在参数个数不确定的函数中. 首先解释代码需求:
+
+\begin{enumerate}[(1)]
+\item va\_list型的变量是存储参数地址的指针, 再结合参数类型得到参数的值.
+\item va\_start宏初始化va\_list型的变量, 宏的第二个参数是可变参数列表的最后一个固定参数.
+\item 依次用va\_arg宏使arg\_ptr返回可变参数的地址, 结合参数的类型, 可以得到参数的值.
+\item 被调的函数在调用时不知道可变参数的正确数目, 必须在代码中指明结束条件.
+\end{enumerate}
+
+\inputcode[C]{code/stdarg001.c}
+
+\subsection{cstdarg/stdarg.h}
+type va\_arg (va\_list ap, type)用于获取下一个参数, 每次调用此函数都会从参数列表 ap 中获取一个 type 类型的数据返回, 
+同时将 ap 指向下一个参数的地址. 此函数不会判断参数列表的实际类型, 同时也不会判断是否达到最后一个参数.
+\inputcode[C]{code/vaarg001.c}
+
+void va\_start(va\_list ap, paramN)初始化参数列表, 调用之后记得调用va\_end释放内存. va\_list存储附加参数, 
+由va\_arg获取附加参数的值, 但不包括paramN.
+\inputcode[C]{code/vastart001.c}
+
+void va\_end(va\_list ap)结束使用参数列表, 释放内存.
+\inputcode[C]{code/vaend001.c}
+
+void va\_copy(va\_list dest, va\_list src)用于拷贝参数列表数据src到dest. 同时,
+dest中下一个要读取的参数与src相同. 同样要记得调用va\_end清理内存. (C++11)
+\inputcode[C]{code/vacopy001.c}

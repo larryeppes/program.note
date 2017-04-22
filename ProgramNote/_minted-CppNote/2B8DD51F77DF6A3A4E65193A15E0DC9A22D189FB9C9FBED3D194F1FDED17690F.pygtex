@@ -1,0 +1,30 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+\PYG{c+cm}{/*******************************************************************}
+\PYG{c+cm}{    \PYGZgt{} File Name: va\PYGZus{}end.c}
+\PYG{c+cm}{    \PYGZgt{} Author: Larry Eppes}
+\PYG{c+cm}{    \PYGZgt{} Mail: larryleifeng@163.com}
+\PYG{c+cm}{    \PYGZgt{} Created Time: Sat 22 Apr 2017 07:01:23 PM CST}
+\PYG{c+cm}{ *******************************************************************/}
+
+\PYG{c+cp}{\PYGZsh{}}\PYG{c+cp}{include}\PYG{c+cpf}{\PYGZlt{}stdio.h\PYGZgt{}}
+\PYG{c+cp}{\PYGZsh{}}\PYG{c+cp}{include}\PYG{c+cpf}{\PYGZlt{}stdarg.h\PYGZgt{}}
+\PYG{k+kt}{void} \PYG{n+nf}{PrintLines}\PYG{p}{(}\PYG{k+kt}{char}\PYG{o}{*} \PYG{n}{first}\PYG{p}{,} \PYG{p}{.}\PYG{p}{.}\PYG{p}{.}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+	\PYG{k+kt}{char}\PYG{o}{*} \PYG{n}{str}\PYG{p}{;}
+	\PYG{k+kt}{va\PYGZus{}list} \PYG{n}{vl}\PYG{p}{;}
+
+	\PYG{n}{str}\PYG{o}{=}\PYG{n}{first}\PYG{p}{;}
+	\PYG{n}{va\PYGZus{}start}\PYG{p}{(}\PYG{n}{vl}\PYG{p}{,} \PYG{n}{first}\PYG{p}{)}\PYG{p}{;}
+
+	\PYG{k}{do}\PYG{p}{\PYGZob{}}
+		\PYG{n}{puts}\PYG{p}{(}\PYG{n}{str}\PYG{p}{)}\PYG{p}{;}
+		\PYG{n}{str}\PYG{o}{=}\PYG{n}{va\PYGZus{}arg}\PYG{p}{(}\PYG{n}{vl}\PYG{p}{,} \PYG{k+kt}{char}\PYG{o}{*}\PYG{p}{)}\PYG{p}{;}
+	\PYG{p}{\PYGZcb{}}\PYG{k}{while}\PYG{p}{(}\PYG{n}{str} \PYG{o}{!}\PYG{o}{=} \PYG{n+nb}{NULL}\PYG{p}{)}\PYG{p}{;}
+
+	\PYG{n}{va\PYGZus{}end}\PYG{p}{(}\PYG{n}{vl}\PYG{p}{)}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k+kt}{int} \PYG{n+nf}{main}\PYG{p}{(}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+	\PYG{n}{PrintLines}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}}\PYG{l+s}{First}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,} \PYG{l+s}{\PYGZdq{}}\PYG{l+s}{Second}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,} \PYG{l+s}{\PYGZdq{}}\PYG{l+s}{Third}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,} \PYG{l+s}{\PYGZdq{}}\PYG{l+s}{Fourth}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,} \PYG{n+nb}{NULL}\PYG{p}{)}\PYG{p}{;}
+	\PYG{k}{return} \PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

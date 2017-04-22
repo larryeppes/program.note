@@ -4,19 +4,71 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-在终端用管理员权限添加用户的命令\cmd*{sudo adduser [username]}, 
-创建用户名之后用命令\cmd*{sudo passwd [username]}来分配用户密码.
+tar 主要用于创建和解压归档文件, 其本身没有压缩功能, 但可以调用 gzip, bzip2 进行压缩处理.
+参数解释:
+\begin{itemize}
+ \item[-c] 创建归档
+ \item[-x] 解压归档
+ \item[-v] 显示处理过程
+ \item[-f] 目标文件
+ \item[-j] 调用 bzip2 进行解压缩
+ \item[-z] 调用 gzip 进行解压缩
+ \item[-t] 列出归档中文件
+\end{itemize}
+
+useradd 与 passwd
+\begin{shell}
+## -m 创建 home 目录
+## -g 所属的主组
+## -G 指定用户在哪些附加组
+## -s 设定默认的 shell
+## newuser 新的用户名
+useradd -m -g users -G audio -s /usr/bin/bash newuser
+## 不带参数更改当前用户密码
+passwd
+## 更改 newuser 的用户密码
+passwd newuser
+\end{shell}
+
+whereis 用于查找文件, 手册等
+\begin{shell}
+whereis bash
+## 仅查找 binary
+whereis -b bash
+## 仅查找 manual
+whereis -m bash
+\end{shell}
+
+find 用于查找文件, 支持正则, 并可将查找结果传递到其他命令
+\begin{shell}
+## 当前目录查找符合 pattern 的文件
+find . -name pattern
+## 从 home 目录查找所有符合 pattern 的文件, 并交由 ls 输出详细信息
+find /home -name pattern -exec ls -l {} \;
+\end{shell}
+
+wget 用于下载
+\begin{shell}
+## 辖扎
+\end{shell}
+
 
 在终端使用powerline, tmux, 可以美化终端. 首先由dnf安装powerline, 
 然后在.bashrc文件中添加
 \begin{shell}
-	if [ -f `which powerline-daemon` ]; then
-		powerline-daemon -q
-		POWERLINE_BASH_CONTINUATION=1
-		POWERLINE_BASH_SELECT=1
-		. /usr/share/powerline/bash/powerline.sh
-	fi
+if [ -f `which powerline-daemon` ]; then
+  powerline-daemon -q
+  POWERLINE_BASH_CONTINUATION=1
+  POWERLINE_BASH_SELECT=1
+  . /usr/share/powerline/bash/powerline.sh
+fi
 \end{shell}
+用dnf安装tmux-powerline, 然后编辑\cmd{~/.tmux.conf}添加一行
+\begin{shell}
+ source "/usr/share/tmux/powerline.conf"
+\end{shell}
+
+安装\cmd{vim-plugin-powerline}可以美化vim编辑器的状态栏.
 
 \section{Linux C}
 

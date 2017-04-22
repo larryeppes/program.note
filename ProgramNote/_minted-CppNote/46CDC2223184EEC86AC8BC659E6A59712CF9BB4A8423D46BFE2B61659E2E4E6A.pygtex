@@ -1,0 +1,6 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+\PYG{c+c1}{\PYGZsh{}\PYGZsh{} 下载文件并重命名为 newname.md}
+wget \PYGZhy{}O newname.md url
+\PYG{c+c1}{\PYGZsh{}\PYGZsh{} 下载 url 并开启断点续传}
+wget \PYGZhy{}c url
+\end{Verbatim}

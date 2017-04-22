@@ -1,0 +1,6 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+\PYG{c+c1}{\PYGZsh{}\PYGZsh{} 当前目录查找符合 pattern 的文件}
+find . \PYGZhy{}name pattern
+\PYG{c+c1}{\PYGZsh{}\PYGZsh{} 从 home 目录查找所有符合 pattern 的文件, 并交由 ls 输出详细信息}
+find /home \PYGZhy{}name pattern \PYGZhy{}exec ls \PYGZhy{}l \PYG{o}{\PYGZob{}}\PYG{o}{\PYGZcb{}} \PYG{l+s+se}{\PYGZbs{};}
+\end{Verbatim}

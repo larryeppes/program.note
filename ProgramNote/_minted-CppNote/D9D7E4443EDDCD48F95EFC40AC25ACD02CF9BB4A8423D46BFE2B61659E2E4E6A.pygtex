@@ -1,0 +1,12 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+\PYG{c+c1}{\PYGZsh{}\PYGZsh{} \PYGZhy{}m 创建 home 目录}
+\PYG{c+c1}{\PYGZsh{}\PYGZsh{} \PYGZhy{}g 所属的主组}
+\PYG{c+c1}{\PYGZsh{}\PYGZsh{} \PYGZhy{}G 指定用户在哪些附加组}
+\PYG{c+c1}{\PYGZsh{}\PYGZsh{} \PYGZhy{}s 设定默认的 shell}
+\PYG{c+c1}{\PYGZsh{}\PYGZsh{} newuser 新的用户名}
+useradd \PYGZhy{}m \PYGZhy{}g users \PYGZhy{}G audio \PYGZhy{}s /usr/bin/bash newuser
+\PYG{c+c1}{\PYGZsh{}\PYGZsh{} 不带参数更改当前用户密码}
+passwd
+\PYG{c+c1}{\PYGZsh{}\PYGZsh{} 更改 newuser 的用户密码}
+passwd newuser
+\end{Verbatim}
