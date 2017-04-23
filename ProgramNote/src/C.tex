@@ -1,4 +1,9 @@
 \chapter{C}
+\section{文件读写}
+文件指针: FILE* pf; 写文本文件: fprintf(pf, ``格式控制字符串", 输出变量列表);
+读文本文件: fscanf(pf, ``格式控制字符串", 地址列表);
+\inputcode[C]{code/file001.c}
+
 \section{可变参数}
 C语言中有一种长度不确定的参数, 主要用在参数个数不确定的函数中. 首先解释代码需求:
 
