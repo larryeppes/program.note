@@ -3,6 +3,41 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+chroot 在多 Linux 系统下, 在指定根目录下运行指令.
+\begin{shell}
+sudo mount -t ext3 /dev/sdb1/mnt/
+cd /mnt
+sudo chroot /mnt/
+\end{shell}
+
+arch: 打印当前硬件架构.
+
+df -T: 显示文件系统类型.
+
+info emacs buffers -o info-out.txt: 将 emacs 中 buffers 节点信息存入文件.
+
+bc file: 计算 file 中的任务.
+
+lp: 用于打印文件或修改排队的打印任务. lp (选项) (参数)
+\begin{itemize}
+ \item[-E:] 打印时强制加密
+ \item[-d:] 接收打印任务的目标打印机
+ \item[-i:] 指定存在的打印任务号
+ \item[-m:] 打印完发e-mail
+ \item[-n:] 指定打印份数
+ \item[-p:] 打印页码
+\end{itemize}
+
+ifconfig: 配置和显示 linux 网络接口的网络参数.
+\begin{shell}
+## 为网络接口 eth0 设 IP 和掩码
+ifconfig eth0 192.168.0.2 netmask 255.255.255.224
+\end{shell}
+
+elinks: 文本界面访问 web 页面. elinks (选项) (参数)
+\begin{shell}
+elinks -dump: html 文档以文本方式到输出流.
+\end{shell}
 
 tar 主要用于创建和解压归档文件, 其本身没有压缩功能, 但可以调用 gzip, bzip2 进行压缩处理.
 参数解释:
