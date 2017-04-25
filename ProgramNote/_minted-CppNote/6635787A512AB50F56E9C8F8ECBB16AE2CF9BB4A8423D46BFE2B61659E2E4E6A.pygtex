@@ -1,0 +1,3 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+elinks \PYGZhy{}dump: html 文档以文本方式到输出流.
+\end{Verbatim}

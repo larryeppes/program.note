@@ -1,0 +1,6 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+sudo dump \PYGZhy{}f boot\PYGZhy{}dum.bak /boot/
+sudo rm \PYGZhy{}fr /boot/*
+\PYG{n+nb}{cd} /boot
+sudo restore \PYGZhy{}tf boot\PYGZhy{}dump.bak
+\end{Verbatim}

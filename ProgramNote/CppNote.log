@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2016/dev) (preloaded format=pdflatex 2017.1.5)  22 APR 2017 23:31
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2016/dev) (preloaded format=pdflatex 2017.1.5)  26 APR 2017 00:10
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -1637,13 +1637,59 @@ File: c70gbsn.fdx 2015/04/18 4.8.4
 
 
 (./_minted-CppNote/emacs.pygstyle)
-(./_minted-CppNote/D9D7E4443EDDCD48F95EFC40AC25ACD02CF9BB4A8423D46BFE2B61659E2E
+(./_minted-CppNote/DDAB65E8100AD0A27F51D776BD4CDD162CF9BB4A8423D46BFE2B61659E2E
+4E6A.pygtex)
+\openout4 = `CppNote.listing'.
+
+
+(./_minted-CppNote/464016433D1484E8FE139B407D1F012C2CF9BB4A8423D46BFE2B61659E2E
 4E6A.pygtex
 
 LaTeX Font Warning: Font shape `C70/gbsn/m/it' undefined
 (Font)              using `C70/gbsn/m/n' instead on input line 2.
 
 )
+\openout4 = `CppNote.listing'.
+
+
+(./_minted-CppNote/6635787A512AB50F56E9C8F8ECBB16AE2CF9BB4A8423D46BFE2B61659E2E
+4E6A.pygtex)
+\openout4 = `CppNote.listing'.
+
+runsystem(python -c "import sys; import textwrap; from io import open; f = open
+(\"CppNote.listing\", \"r\", encoding=\"UTF8\"); t = f.read(); f.close(); f = o
+pen(\"CppNote.pyg\", \"w\", encoding=\"UTF8\"); f.write(textwrap.dedent(t)); f.
+close();")...executed.
+
+runsystem(pygmentize -l sh -f latex -P commandprefix=PYG -F tokenmerge -P "esca
+peinside=||" -o "_minted-CppNote/46BE3260C65AA1CBDF163B7030587ADB2CF9BB4A8423D4
+6BFE2B61659E2E4E6A.pygtex" "CppNote.pyg" )...executed.
+
+
+(./_minted-CppNote/46BE3260C65AA1CBDF163B7030587ADB2CF9BB4A8423D46BFE2B61659E2E
+4E6A.pygtex) [1
+
+
+{/usr/share/texlive/texmf-dist/fonts/map/pdftex/updmap/pdftex.map}]
+\openout4 = `CppNote.listing'.
+
+runsystem(python -c "import sys; import textwrap; from io import open; f = open
+(\"CppNote.listing\", \"r\", encoding=\"UTF8\"); t = f.read(); f.close(); f = o
+pen(\"CppNote.pyg\", \"w\", encoding=\"UTF8\"); f.write(textwrap.dedent(t)); f.
+close();")...executed.
+
+runsystem(pygmentize -l sh -f latex -P commandprefix=PYG -F tokenmerge -P "esca
+peinside=||" -o "_minted-CppNote/55E3521FA7DB81E6CBB41896ED6A79742CF9BB4A8423D4
+6BFE2B61659E2E4E6A.pygtex" "CppNote.pyg" )...executed.
+
+
+(./_minted-CppNote/55E3521FA7DB81E6CBB41896ED6A79742CF9BB4A8423D46BFE2B61659E2E
+4E6A.pygtex)
+\openout4 = `CppNote.listing'.
+
+
+(./_minted-CppNote/D9D7E4443EDDCD48F95EFC40AC25ACD02CF9BB4A8423D46BFE2B61659E2E
+4E6A.pygtex)
 \openout4 = `CppNote.listing'.
 
 
@@ -1661,10 +1707,12 @@ LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <9> not available
 
 
 (./_minted-CppNote/46CDC2223184EEC86AC8BC659E6A59712CF9BB4A8423D46BFE2B61659E2E
-4E6A.pygtex) [1
+4E6A.pygtex)
 
+LaTeX Font Warning: Font shape `C70/gbsn/m/sl' undefined
+(Font)              using `C70/gbsn/m/n' instead on input line 119.
 
-{/usr/share/texlive/texmf-dist/fonts/map/pdftex/updmap/pdftex.map}]
+[2]
 \openout4 = `CppNote.listing'.
 
 
@@ -1672,12 +1720,12 @@ LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <9> not available
 4E6A.pygtex) (/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2015/06/04 1.6 listings language file
 )
-LaTeX Font Info:    Try loading font information for U+msa on input line 69.
+LaTeX Font Info:    Try loading font information for U+msa on input line 132.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 69.
+LaTeX Font Info:    Try loading font information for U+msb on input line 132.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -1691,21 +1739,16 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 
 
 (./_minted-CppNote/9EF4E14D069C09C71339AED647062A7A2CF9BB4A8423D46BFE2B61659E2E
-4E6A.pygtex)
-
-LaTeX Font Warning: Font shape `C70/gbsn/m/sl' undefined
-(Font)              using `C70/gbsn/m/n' instead on input line 146.
-
-[2pdfTeX warning (ext4): destination with the same identifier (name{table.1.1})
- has been already used, duplicate ignored
+4E6A.pygtex) [3pdfTeX warning (ext4): destination with the same identifier (nam
+e{table.1.1}) has been already used, duplicate ignored
 
 \@EveryShipout@Output ...@Org@Shipout \box \@cclv 
                                                   
-l.146 
+l.209 
       ]
 LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <10> not available
-(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 151.
-LaTeX Font Info:    Try loading font information for TS1+cmtt on input line 151
+(Font)              Font shape `OT1/cmtt/m/n' tried instead on input line 214.
+LaTeX Font Info:    Try loading font information for TS1+cmtt on input line 214
 .
  (/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmtt.fd
 File: ts1cmtt.fd 2014/09/29 v2.5h Standard LaTeX font definitions
@@ -1713,7 +1756,7 @@ File: ts1cmtt.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 
 LaTeX Font Warning: Font shape `TS1/cmtt/bx/n' undefined
 (Font)              using `TS1/cmtt/m/n' instead
-(Font)              for symbol `textdollar' on input line 151.
+(Font)              for symbol `textdollar' on input line 214.
 
 \openout4 = `CppNote.listing'.
 
@@ -1724,20 +1767,22 @@ LaTeX Font Warning: Font shape `TS1/cmtt/bx/n' undefined
 
 
 (./_minted-CppNote/1EA0840EA0F1D784A021A0E97CD76C922CF9BB4A8423D46BFE2B61659E2E
-4E6A.pygtex) [3pdfTeX warning (ext4): destination with the same identifier (nam
+4E6A.pygtex) [4pdfTeX warning (ext4): destination with the same identifier (nam
 e{table.1.2}) has been already used, duplicate ignored
 
 \@EveryShipout@Output ...@Org@Shipout \box \@cclv 
                                                   
-l.210 \begin{verbatim}
-                      ]) (./src/BPNN.tex [4pdfTeX warning (ext4): destination w
+l.273 \begin{verbatim}
+                      ]) (./src/BPNN.tex [5pdfTeX warning (ext4): destination w
 ith the same identifier (name{table.1.3}) has been already used, duplicate igno
 red
 
 \@EveryShipout@Output ...@Org@Shipout \box \@cclv 
                                                   
 l.1 \chapter
-            {BPNN}]
+            {BPNN}] [6
+
+]
 Chapter 2.
 
 Overfull \hbox (8.99062pt too wide) in paragraph at lines 2--5
@@ -1754,9 +1799,7 @@ it/10 X[] \OT1/cmr/m/n/10 = (\OML/cmm/m/it/10 x[]; x[]; []  ; x[]\OT1/cmr/m/n/1
 0 )$\C70/gbsn/m/n/10/66 /
  []
 
-[5
-
-] [6]
+[7] [8]
 Chapter 3.
 
 LaTeX Warning: Command \textlangle invalid in math mode on input line 90.
@@ -1782,35 +1825,25 @@ LaTeX Warning: Command \textrangle invalid in math mode on input line 90.
 
 LaTeX Warning: Command \textrangle invalid in math mode on input line 90.
 
-) (./src/C.tex [7
+) (./src/C.tex [9
 
-] [8
+] [10
 
 ]
 Chapter 4.
 (./_minted-CppNote/friendly.pygstyle)
-runsystem(python -c "import sys; import textwrap; from io import open; f = open
-(\"code/file001.c\", \"r\", encoding=\"UTF8\"); t = f.read(); f.close(); f = op
-en(\"CppNote.pyg\", \"w\", encoding=\"UTF8\"); f.write(textwrap.dedent(t)); f.c
-lose();")...executed.
-
-runsystem(pygmentize -l C -f latex -P commandprefix=PYG -F tokenmerge -P "escap
-einside=||" -o "_minted-CppNote/6B2127B5D11130789909CE9B2284466622D189FB9C9FBED
-3D194F1FDED17690F.pygtex" "CppNote.pyg" )...executed.
-
-
 (./_minted-CppNote/6B2127B5D11130789909CE9B2284466622D189FB9C9FBED3D194F1FDED17
-690F.pygtex) [9]
+690F.pygtex) [11]
 (./_minted-CppNote/BF8791C8E99B2F018E435AF39D24203922D189FB9C9FBED3D194F1FDED17
 690F.pygtex)
 (./_minted-CppNote/B151C09EDC3C21D469E3A591B5F5B48422D189FB9C9FBED3D194F1FDED17
-690F.pygtex) [10]
+690F.pygtex) [12]
 (./_minted-CppNote/21FDD322025421F15BD4BB9C049E14E722D189FB9C9FBED3D194F1FDED17
 690F.pygtex)
 (./_minted-CppNote/2B8DD51F77DF6A3A4E65193A15E0DC9A22D189FB9C9FBED3D194F1FDED17
-690F.pygtex) [11]
+690F.pygtex) [13]
 (./_minted-CppNote/18DF8F1A50581E336CA819DB5DC1A3D322D189FB9C9FBED3D194F1FDED17
-690F.pygtex) [12]) (./src/CPP.tex [13] [14
+690F.pygtex) [14]) (./src/CPP.tex [15] [16
 
 ]
 Chapter 5.
@@ -1836,37 +1869,37 @@ gbsn/m/n/10/88 Å\OT1/cmr/m/n/10 CodeViz: []. \C70/gbsn/m/sl/10/4e  \C70/gbsn/m
 r/m/n/10 : [],
  []
 
-[15]
+[17]
 (./_minted-CppNote/AFFAA31F502B838754A39746E99AF7E922D189FB9C9FBED3D194F1FDED17
-690F.pygtex) [16] [17] [18]
+690F.pygtex) [18] [19] [20]
 (./_minted-CppNote/76A56549ACA23B47D0D9D48E1B10990F22D189FB9C9FBED3D194F1FDED17
-690F.pygtex) [19]
+690F.pygtex) [21]
 (./_minted-CppNote/7D9C405DD88B5E81F64879114AB3033F22D189FB9C9FBED3D194F1FDED17
-690F.pygtex) [20] [21]
+690F.pygtex) [22] [23]
 (./_minted-CppNote/CDACCCD9800F8BDF270EB7557434FCD322D189FB9C9FBED3D194F1FDED17
-690F.pygtex) [22] [23] [24] [25] [26] [27] [28]
+690F.pygtex) [24] [25] [26] [27] [28] [29] [30]
 (./_minted-CppNote/6680EB2983869D40AED47C740E6A427122D189FB9C9FBED3D194F1FDED17
 690F.pygtex)
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [29]
+ [31]
 (./_minted-CppNote/EE161B5432BF97AD756A2AF6FBCB961C22D189FB9C9FBED3D194F1FDED17
 690F.pygtex)
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [30]
+ [32]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [31]
-[32] [33]) (./src/JAVA.tex [34
+ [33]
+[34] [35]) (./src/JAVA.tex [36
 
 ]
 Chapter 6.
 
 (./_minted-CppNote/2472F188636F4C4F076A474C5D2D8A199A6EA4767D09CC1879368D01867B
-6A3A.pygtex) [35]
+6A3A.pygtex) [37]
 (./_minted-CppNote/E8141EF40117C5974C9C5E1F3ADBD9FB9A6EA4767D09CC1879368D01867B
-6A3A.pygtex) [36] [37]) [38] (./CppNote.ind [39
+6A3A.pygtex) [38] [39]) [40] (./CppNote.ind [41
 
 
 ])
@@ -1877,118 +1910,109 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 20.
  (./CppNote.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 20.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 20.
+Package rerunfilecheck Info: File `CppNote.out' has not changed.
+(rerunfilecheck)             Checksum: 2CFC051B9F10D5B9CD9C0B4CF2106B44;3104.
 
-
-Package rerunfilecheck Warning: File `CppNote.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `CppNote.out':
-(rerunfilecheck)             Before: 28160A134AB3AC7DD2EC0FE3080C834C;3017
-(rerunfilecheck)             After:  2CFC051B9F10D5B9CD9C0B4CF2106B44;3104.
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
  ) 
 Here is how much of TeX's memory you used:
- 38816 strings out of 493096
- 722741 string characters out of 6137368
- 903972 words of memory out of 5000000
- 41236 multiletter control sequences out of 15000+600000
+ 38875 strings out of 493096
+ 724937 string characters out of 6137368
+ 904666 words of memory out of 5000000
+ 41278 multiletter control sequences out of 15000+600000
  66376 words of font info for 241 fonts, out of 8000000 for 9000
  1137 hyphenation exceptions out of 8191
- 56i,12n,83p,10536b,2313s stack positions out of 5000i,500n,10000p,200000b,80000s
-pdfTeX warning (dest): name{subsection.4.1.1} has been referenced but does no
-t exist, replaced by a fixed one
-
-{/usr/share/texlive/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}</usr/
-share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/
-texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texliv
-e/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmitt10.pfb></usr/share/texlive/texmf-dis
-t/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/font
-s/type1/public/amsfonts/cm/cmmi5.pfb></usr/share/texlive/texmf-dist/fonts/type1
-/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public
-/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfon
-ts/cm/cmr5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cm
-r7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb><
-/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsl10.pfb></usr/s
-hare/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/share/t
-exlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmss9.pfb></usr/share/texlive/
-texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-
-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/share/texlive/texmf-dist/fo
-nts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/typ
-e1/public/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/pub
-lic/amsfonts/cm/cmtt10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/am
-sfonts/cm/cmtt9.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbs
-nu4e.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu4f.pfb></
-usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu50.pfb></usr/share/t
-exlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu51.pfb></usr/share/texlive/texm
-f-dist/fonts/type1/arphic/gbsnu/gbsnu52.pfb></usr/share/texlive/texmf-dist/font
-s/type1/arphic/gbsnu/gbsnu53.pfb></usr/share/texlive/texmf-dist/fonts/type1/arp
-hic/gbsnu/gbsnu54.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/g
-bsnu55.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu56.pfb>
-</usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu57.pfb></usr/share
-/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu58.pfb></usr/share/texlive/te
-xmf-dist/fonts/type1/arphic/gbsnu/gbsnu59.pfb></usr/share/texlive/texmf-dist/fo
-nts/type1/arphic/gbsnu/gbsnu5b.pfb></usr/share/texlive/texmf-dist/fonts/type1/a
-rphic/gbsnu/gbsnu5c.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu
-/gbsnu5d.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu5e.pf
-b></usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu5f.pfb></usr/sha
-re/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu60.pfb></usr/share/texlive/
-texmf-dist/fonts/type1/arphic/gbsnu/gbsnu61.pfb></usr/share/texlive/texmf-dist/
-fonts/type1/arphic/gbsnu/gbsnu62.pfb></usr/share/texlive/texmf-dist/fonts/type1
-/arphic/gbsnu/gbsnu63.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/gbs
-nu/gbsnu64.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu65.
-pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu66.pfb></usr/s
-hare/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu67.pfb></usr/share/texliv
-e/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu68.pfb></usr/share/texlive/texmf-dis
-t/fonts/type1/arphic/gbsnu/gbsnu6a.pfb></usr/share/texlive/texmf-dist/fonts/typ
-e1/arphic/gbsnu/gbsnu6b.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/g
-bsnu/gbsnu6c.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu6
-d.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu6e.pfb></usr
-/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu6f.pfb></usr/share/texl
-ive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu70.pfb></usr/share/texlive/texmf-d
-ist/fonts/type1/arphic/gbsnu/gbsnu71.pfb></usr/share/texlive/texmf-dist/fonts/t
-ype1/arphic/gbsnu/gbsnu72.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic
-/gbsnu/gbsnu73.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsn
-u74.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu75.pfb></u
-sr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu76.pfb></usr/share/te
-xlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu77.pfb></usr/share/texlive/texmf
--dist/fonts/type1/arphic/gbsnu/gbsnu78.pfb></usr/share/texlive/texmf-dist/fonts
-/type1/arphic/gbsnu/gbsnu79.pfb></usr/share/texlive/texmf-dist/fonts/type1/arph
-ic/gbsnu/gbsnu7a.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gb
-snu7b.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu7c.pfb><
-/usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu7d.pfb></usr/share/
-texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu7e.pfb></usr/share/texlive/tex
-mf-dist/fonts/type1/arphic/gbsnu/gbsnu7f.pfb></usr/share/texlive/texmf-dist/fon
-ts/type1/arphic/gbsnu/gbsnu80.pfb></usr/share/texlive/texmf-dist/fonts/type1/ar
-phic/gbsnu/gbsnu81.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/
-gbsnu82.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu83.pfb
-></usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu85.pfb></usr/shar
-e/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu86.pfb></usr/share/texlive/t
-exmf-dist/fonts/type1/arphic/gbsnu/gbsnu88.pfb></usr/share/texlive/texmf-dist/f
-onts/type1/arphic/gbsnu/gbsnu89.pfb></usr/share/texlive/texmf-dist/fonts/type1/
-arphic/gbsnu/gbsnu8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsn
-u/gbsnu8b.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu8c.p
-fb></usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu8d.pfb></usr/sh
-are/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu8e.pfb></usr/share/texlive
-/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu8f.pfb></usr/share/texlive/texmf-dist
-/fonts/type1/arphic/gbsnu/gbsnu90.pfb></usr/share/texlive/texmf-dist/fonts/type
-1/arphic/gbsnu/gbsnu91.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/gb
-snu/gbsnu94.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu95
-.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu96.pfb></usr/
-share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu97.pfb></usr/share/texli
-ve/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu98.pfb></usr/share/texlive/texmf-di
-st/fonts/type1/arphic/gbsnu/gbsnu99.pfb></usr/share/texlive/texmf-dist/fonts/ty
-pe1/arphic/gbsnu/gbsnu9a.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/
-gbsnu/gbsnu9e.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/sy
-mbols/msbm10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/cm-super/sft
-t1000.pfb>
-Output written on CppNote.pdf (39 pages, 751123 bytes).
+ 56i,12n,83p,10536b,2324s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/share/texlive/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}</us
+r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/shar
+e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texl
+ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmitt10.pfb></usr/share/texlive/texmf-d
+ist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fo
+nts/type1/public/amsfonts/cm/cmmi5.pfb></usr/share/texlive/texmf-dist/fonts/typ
+e1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/publ
+ic/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsf
+onts/cm/cmr5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/
+cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb
+></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsl10.pfb></usr
+/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/share
+/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmss9.pfb></usr/share/texliv
+e/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/share/texlive/texmf-dist/
+fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/t
+ype1/public/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/p
+ublic/amsfonts/cm/cmtt10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/
+amsfonts/cm/cmtt9.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/g
+bsnu4e.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu4f.pfb>
+</usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu50.pfb></usr/share
+/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu51.pfb></usr/share/texlive/te
+xmf-dist/fonts/type1/arphic/gbsnu/gbsnu52.pfb></usr/share/texlive/texmf-dist/fo
+nts/type1/arphic/gbsnu/gbsnu53.pfb></usr/share/texlive/texmf-dist/fonts/type1/a
+rphic/gbsnu/gbsnu54.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu
+/gbsnu55.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu56.pf
+b></usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu57.pfb></usr/sha
+re/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu58.pfb></usr/share/texlive/
+texmf-dist/fonts/type1/arphic/gbsnu/gbsnu59.pfb></usr/share/texlive/texmf-dist/
+fonts/type1/arphic/gbsnu/gbsnu5b.pfb></usr/share/texlive/texmf-dist/fonts/type1
+/arphic/gbsnu/gbsnu5c.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/gbs
+nu/gbsnu5d.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu5e.
+pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu5f.pfb></usr/s
+hare/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu60.pfb></usr/share/texliv
+e/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu61.pfb></usr/share/texlive/texmf-dis
+t/fonts/type1/arphic/gbsnu/gbsnu62.pfb></usr/share/texlive/texmf-dist/fonts/typ
+e1/arphic/gbsnu/gbsnu63.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/g
+bsnu/gbsnu64.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu6
+5.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu66.pfb></usr
+/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu67.pfb></usr/share/texl
+ive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu68.pfb></usr/share/texlive/texmf-d
+ist/fonts/type1/arphic/gbsnu/gbsnu6a.pfb></usr/share/texlive/texmf-dist/fonts/t
+ype1/arphic/gbsnu/gbsnu6b.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic
+/gbsnu/gbsnu6c.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsn
+u6d.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu6e.pfb></u
+sr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu6f.pfb></usr/share/te
+xlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu70.pfb></usr/share/texlive/texmf
+-dist/fonts/type1/arphic/gbsnu/gbsnu71.pfb></usr/share/texlive/texmf-dist/fonts
+/type1/arphic/gbsnu/gbsnu72.pfb></usr/share/texlive/texmf-dist/fonts/type1/arph
+ic/gbsnu/gbsnu73.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gb
+snu74.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu75.pfb><
+/usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu76.pfb></usr/share/
+texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu77.pfb></usr/share/texlive/tex
+mf-dist/fonts/type1/arphic/gbsnu/gbsnu78.pfb></usr/share/texlive/texmf-dist/fon
+ts/type1/arphic/gbsnu/gbsnu79.pfb></usr/share/texlive/texmf-dist/fonts/type1/ar
+phic/gbsnu/gbsnu7a.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/
+gbsnu7b.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu7c.pfb
+></usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu7d.pfb></usr/shar
+e/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu7e.pfb></usr/share/texlive/t
+exmf-dist/fonts/type1/arphic/gbsnu/gbsnu7f.pfb></usr/share/texlive/texmf-dist/f
+onts/type1/arphic/gbsnu/gbsnu80.pfb></usr/share/texlive/texmf-dist/fonts/type1/
+arphic/gbsnu/gbsnu81.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsn
+u/gbsnu82.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu83.p
+fb></usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu85.pfb></usr/sh
+are/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu86.pfb></usr/share/texlive
+/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu88.pfb></usr/share/texlive/texmf-dist
+/fonts/type1/arphic/gbsnu/gbsnu89.pfb></usr/share/texlive/texmf-dist/fonts/type
+1/arphic/gbsnu/gbsnu8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/gb
+snu/gbsnu8b.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu8c
+.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu8d.pfb></usr/
+share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu8e.pfb></usr/share/texli
+ve/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu8f.pfb></usr/share/texlive/texmf-di
+st/fonts/type1/arphic/gbsnu/gbsnu90.pfb></usr/share/texlive/texmf-dist/fonts/ty
+pe1/arphic/gbsnu/gbsnu91.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/
+gbsnu/gbsnu94.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu
+95.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu96.pfb></us
+r/share/texlive/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu97.pfb></usr/share/tex
+live/texmf-dist/fonts/type1/arphic/gbsnu/gbsnu98.pfb></usr/share/texlive/texmf-
+dist/fonts/type1/arphic/gbsnu/gbsnu99.pfb></usr/share/texlive/texmf-dist/fonts/
+type1/arphic/gbsnu/gbsnu9a.pfb></usr/share/texlive/texmf-dist/fonts/type1/arphi
+c/gbsnu/gbsnu9e.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
+symbols/msbm10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/cm-super/s
+ftt1000.pfb>
+Output written on CppNote.pdf (41 pages, 762642 bytes).
 PDF statistics:
- 781 PDF objects out of 1000 (max. 8388607)
- 568 compressed objects within 6 object streams
- 81 named destinations out of 1000 (max. 500000)
- 533 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 791 PDF objects out of 1000 (max. 8388607)
+ 576 compressed objects within 6 object streams
+ 82 named destinations out of 1000 (max. 500000)
+ 541 words of extra memory for PDF output out of 10000 (max. 10000000)
 

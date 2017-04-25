@@ -39,6 +39,34 @@ elinks: 文本界面访问 web 页面. elinks (选项) (参数)
 elinks -dump: html 文档以文本方式到输出流.
 \end{shell}
 
+emacs (选项) (参数): 参数指定文本文件, 选项有
+\begin{itemize}
+ \item[+<行号>] 启动 emacs, 光标到行号处
+ \item[-q] 不加载初始文件启动 emacs
+ \item[u <用户>] 加载指定用户初始化文件启动文件
+ \item[-t <文件>] 指定文件作终端启动 emacs, 不适用 stdin 和 stdout
+ \item[-f <函数>] 执行指定 lisp (广泛用于人工智能邻域的编程语言) 函数
+ \item[-l <lisp 代码文件>] 加载指定 lisp 文件
+ \item[-batch] 批处理模式运行 emacs
+\end{itemize}
+
+scp: 以加密方式在本地/远程主机和远程/本地主机之间复制文件.
+
+dump: 用于备份 ext2/ext3 文件系统
+
+restore 命令与 dump 互逆, 用于还原备份文件.
+\begin{shell}
+sudo dump -f boot-dum.bak /boot/
+sudo rm -fr /boot/*
+cd /boot
+sudo restore -tf boot-dump.bak
+\end{shell}
+
+cpio: 复制文件到归档包中或从归档包中复制文件.
+\begin{shell}
+find /etc -print | cpio -o > etc.bak
+\end{shell}
+
 tar 主要用于创建和解压归档文件, 其本身没有压缩功能, 但可以调用 gzip, bzip2 进行压缩处理.
 参数解释:
 \begin{itemize}

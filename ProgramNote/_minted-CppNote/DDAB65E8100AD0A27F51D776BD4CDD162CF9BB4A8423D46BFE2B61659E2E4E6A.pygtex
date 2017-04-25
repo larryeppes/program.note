@@ -1,0 +1,5 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+sudo mount \PYGZhy{}t ext3 /dev/sdb1/mnt/
+\PYG{n+nb}{cd} /mnt
+sudo chroot /mnt/
+\end{Verbatim}
