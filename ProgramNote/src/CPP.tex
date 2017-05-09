@@ -1,4 +1,24 @@
 \chapter{C++}
+\section{ACM}
+ACM-ICPC: 在线评测系统, Online Judge, OJ
+
+PKU: http://poj.org
+
+USACO: 美国信息学奥林匹克, C, C++, Java, Python, http://train.usaco.org/usacogate
+
+CII: 2500道
+
+SGU: http://acm.sgu.ru
+
+SPOJ: 波兰, http://www.spoj.pl/
+
+网上比赛: GCJ: http://code.google.com/codejam
+
+TopCoder: (TOC/TCHS)
+
+Code forces
+
+SCL: 相对较难实现的常用算法的代码整理, Standard Code Library, 标准代码库.
 \section{线程池}
 这里给出的线程池具有动态伸缩性, 能根据执行任务的轻重自动调整线程池中线程的数量.
 
@@ -17,6 +37,22 @@
 这里得线程池框架由五个重要部分组成 CThreadManage, CThreadPool, CThread, CJob, 
 CWorkThread, 此外还有线程同步使用的类 CThreadMutex 和 CCondition.
 CThreadMutex 用于线程间的互斥, CCondition 是条件变量的封装, 用于线程间的同步.
+\section{排序算法}
+\subsection{插入排序}
+对待排序数组$a[0...n-1]$排序.
+\inputcode[C]{code/sort/insert.c}
+最差和平均时间复杂度是$O(n^2)$, 最优复杂度$O(n)$. 例如数组(5,1,4,2,8)经过插入排序的过程是
+\begin{enumerate}[1). ]
+ \item 插入1, (1,5,4,2,8)
+ \item 插入4, (1,4,5,2,8)
+ \item 插入2, (1,2,4,5,8)
+ \item 插入8, (1,2,4,5,8)
+\end{enumerate}
+\subsection{冒泡排序}
+对待排序数组$a[0...n-1]$排序.
+\inputcode[C]{code/sort/buble.c}
+时间复杂度$O(n^2)$, 每次排序选出一个最大值, 每两相邻的排序.
+
 \section{使用CodeViz生成C/C++函数调用关系图}
 首先安装 graphviz: 
 \cmd*{sudo dnf install graphviz graphviz-devel graphviz-doc}

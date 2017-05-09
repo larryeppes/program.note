@@ -41,12 +41,12 @@ elinks -dump: html 文档以文本方式到输出流.
 
 emacs (选项) (参数): 参数指定文本文件, 选项有
 \begin{itemize}
- \item[+<行号>] 启动 emacs, 光标到行号处
+ \item[+\textlangle 行号\textrangle] 启动 emacs, 光标到行号处
  \item[-q] 不加载初始文件启动 emacs
- \item[u <用户>] 加载指定用户初始化文件启动文件
- \item[-t <文件>] 指定文件作终端启动 emacs, 不适用 stdin 和 stdout
- \item[-f <函数>] 执行指定 lisp (广泛用于人工智能邻域的编程语言) 函数
- \item[-l <lisp 代码文件>] 加载指定 lisp 文件
+ \item[u \textlangle用户\textrangle] 加载指定用户初始化文件启动文件
+ \item[-t \textlangle文件\textrangle] 指定文件作终端启动 emacs, 不适用 stdin 和 stdout
+ \item[-f \textlangle函数\textrangle] 执行指定 lisp (广泛用于人工智能邻域的编程语言) 函数
+ \item[-l \textlangle lisp 代码文件\textrangle] 加载指定 lisp 文件
  \item[-batch] 批处理模式运行 emacs
 \end{itemize}
 
@@ -62,7 +62,10 @@ cd /boot
 sudo restore -tf boot-dump.bak
 \end{shell}
 
-cpio: 复制文件到归档包中或从中
+cpio: 复制文件到归档包中或从归档包中复制文件.
+\begin{shell}
+find /etc -print | cpio -o > etc.bak
+\end{shell}
 
 tar 主要用于创建和解压归档文件, 其本身没有压缩功能, 但可以调用 gzip, bzip2 进行压缩处理.
 参数解释:
@@ -132,6 +135,49 @@ fi
 \end{shell}
 
 安装\cmd{vim-plugin-powerline}可以美化vim编辑器的状态栏.
+
+\subsection{Markdown工具}
+Markdown是一款文本标记语言, 易写易读. 
+\begin{verbatim}
+*强调*
+# This is an H1
+## This is an H2
+###### This is an H6
+\end{verbatim}
+首行的\#字数量决定标题的级别. 无序列表使用星号, 加号, 减号.
+\begin{verbatim}
+* Red
+* Green
+* Blue
++ Red
++ Green
++ Blue
+- Red
+- Green
+- Blue
+\end{verbatim}
+在列表项目内放进引用, 那>就要缩进.
+\begin{verbatim}
+A list item with a blockquote:
+> This is a blockquote
+> inside a list item.
+\end{verbatim}
+代码区块, 只要缩进4个空格或一个制表符即可.
+
+分割线: 一行中用三个以上的星号, 减号, 底线建立, 行内不能有任何其他东西, 星号或减号中间可以插入空格.
+
+用反引号\textasciigrave包起来标记一小段代码.
+\begin{itemize}
+ \item 语法
+ \begin{itemize}
+  \item 行内HTML
+  \item 特殊字符转换
+ \end{itemize}
+  \item 区块元素
+  \item 区段元素
+  \item 其他
+\end{itemize}
+
 
 \section{Linux C}
 
