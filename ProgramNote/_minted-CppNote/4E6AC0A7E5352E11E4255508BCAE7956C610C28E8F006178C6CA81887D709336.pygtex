@@ -1,8 +1,8 @@
 \begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
 \PYG{k}{if} \PYG{o}{[} \PYGZhy{}f \PYG{l+s+sb}{`}which powerline\PYGZhy{}daemon\PYG{l+s+sb}{`} \PYG{o}{]}\PYG{p}{;} \PYG{k}{then}
   powerline\PYGZhy{}daemon \PYGZhy{}q
-  \PYG{n+nv}{POWERLINE\PYGZus{}BASH\PYGZus{}CONTINUATION}\PYG{o}{=}1
-  \PYG{n+nv}{POWERLINE\PYGZus{}BASH\PYGZus{}SELECT}\PYG{o}{=}1
+  \PYG{n+nv}{POWERLINE\PYGZus{}BASH\PYGZus{}CONTINUATION}\PYG{o}{=}\PYG{l+m}{1}
+  \PYG{n+nv}{POWERLINE\PYGZus{}BASH\PYGZus{}SELECT}\PYG{o}{=}\PYG{l+m}{1}
   . /usr/share/powerline/bash/powerline.sh
 \PYG{k}{fi}
 \end{Verbatim}

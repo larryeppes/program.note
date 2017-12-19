@@ -41,7 +41,7 @@
                 \PYG{n}{putchar}\PYG{p}{(}\PYG{n}{str}\PYG{p}{[}\PYG{n}{sha1}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{\PYGZgt{}}\PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{4}\PYG{p}{]}\PYG{p}{)}\PYG{p}{;}
                 \PYG{n}{putchar}\PYG{p}{(}\PYG{n}{str}\PYG{p}{[}\PYG{n}{sha1}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{\PYGZam{}} \PYG{l+m+mh}{0xf}\PYG{p}{]}\PYG{p}{)}\PYG{p}{;}
         \PYG{p}{\PYGZcb{}}
-        \PYG{n}{putchar}\PYG{p}{(}\PYG{l+s+sc}{\PYGZsq{}\PYGZbs{}n\PYGZsq{}}\PYG{p}{)}\PYG{p}{;}
+        \PYG{n}{putchar}\PYG{p}{(}\PYG{l+s+sc}{\PYGZsq{}}\PYG{l+s+sc}{\PYGZbs{}n}\PYG{l+s+sc}{\PYGZsq{}}\PYG{p}{)}\PYG{p}{;}
 \PYG{c+cp}{\PYGZsh{}}\PYG{c+cp}{endif}
 \PYG{p}{\PYGZcb{}}
 

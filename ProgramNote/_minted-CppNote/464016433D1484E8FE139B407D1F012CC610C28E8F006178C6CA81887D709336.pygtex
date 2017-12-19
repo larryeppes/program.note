@@ -1,4 +1,4 @@
 \begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
 \PYG{c+c1}{\PYGZsh{}\PYGZsh{} 为网络接口 eth0 设 IP 和掩码}
-ifconfig eth0 192.168.0.2 netmask 255.255.255.224
+ifconfig eth0 \PYG{l+m}{192}.168.0.2 netmask \PYG{l+m}{255}.255.255.224
 \end{Verbatim}

@@ -30,7 +30,7 @@
 
 	\PYG{c+c1}{// allocate storage for format string:}
 	\PYG{n}{buffer} \PYG{o}{=} \PYG{p}{(}\PYG{k+kt}{char}\PYG{o}{*}\PYG{p}{)} \PYG{n}{malloc}\PYG{p}{(}\PYG{n}{strlen}\PYG{p}{(}\PYG{n}{format}\PYG{p}{)}\PYG{o}{*}\PYG{n}{count}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{p}{;}
-	\PYG{n}{buffer}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{o}{=}\PYG{l+s+sc}{\PYGZsq{}\PYGZbs{}0\PYGZsq{}}\PYG{p}{;}
+	\PYG{n}{buffer}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{o}{=}\PYG{l+s+sc}{\PYGZsq{}}\PYG{l+s+sc}{\PYGZbs{}0}\PYG{l+s+sc}{\PYGZsq{}}\PYG{p}{;}
 
 	\PYG{c+c1}{// generate format string:}
 	\PYG{k}{for}\PYG{p}{(}\PYG{p}{;}\PYG{n}{count}\PYG{o}{\PYGZgt{}}\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{o}{\PYGZhy{}}\PYG{o}{\PYGZhy{}}\PYG{n}{count}\PYG{p}{)} \PYG{p}{\PYGZob{}}
